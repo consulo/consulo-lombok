@@ -16,13 +16,13 @@
 
 package org.consulo.lombok.module.extension;
 
-import javax.swing.Icon;
-
+import com.intellij.openapi.module.Module;
 import org.consulo.lombok.LombokIcons;
 import org.consulo.module.extension.ModuleExtensionProvider;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import com.intellij.openapi.module.Module;
+
+import javax.swing.*;
 
 /**
  * @author VISTALL
@@ -48,7 +48,7 @@ public class LombokModuleExtensionProvider implements ModuleExtensionProvider<Lo
 
   @Override
   public LombokModuleExtension createImmutable(@NotNull String s, @NotNull Module module) {
-    return null;
+    return new LombokModuleExtension(s, module);
   }
 
   @Override

@@ -16,12 +16,12 @@
 
 package org.consulo.lombok.module.extension;
 
-import javax.swing.JComponent;
-
+import com.intellij.openapi.module.Module;
 import org.consulo.module.extension.MutableModuleExtension;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import com.intellij.openapi.module.Module;
+
+import javax.swing.*;
 
 /**
  * @author VISTALL
@@ -59,6 +59,6 @@ public class LombokMutableModuleExtension extends LombokModuleExtension implemen
 
   @Override
   public void commit() {
-    myModuleExtension.commit(myModuleExtension);
+    myModuleExtension.commit(this);
   }
 }

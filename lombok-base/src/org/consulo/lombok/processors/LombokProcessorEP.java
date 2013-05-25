@@ -15,6 +15,7 @@
  */
 package org.consulo.lombok.processors;
 
+import com.intellij.openapi.extensions.AbstractExtensionPointBean;
 import com.intellij.openapi.extensions.ExtensionPointName;
 import com.intellij.util.xmlb.annotations.Attribute;
 
@@ -22,8 +23,8 @@ import com.intellij.util.xmlb.annotations.Attribute;
  * @author VISTALL
  * @since 18:45/29.03.13
  */
-public class LombokProcessorEP {
-  public static final ExtensionPointName<LombokProcessorEP> EP_NAME = ExtensionPointName.create("com.intellij.lombok.processor");
+public class LombokProcessorEP extends AbstractExtensionPointBean{
+  public static final ExtensionPointName<LombokProcessorEP> EP_NAME = ExtensionPointName.create("org.consulo.lombok.processor");
 
   @Attribute("annotationClass")
   public String annotationClass;
@@ -36,7 +37,7 @@ public class LombokProcessorEP {
   public LombokProcessor getInstance() {
     if(myInstance == null) {
       try {
-        final Class<LombokProcessor> aClass = (Class<LombokProcessor>)Class.forName(implementationClass);
+        final Class<LombokProcessor> aClass = findClass(implementationClass);
 
         if(LombokAnnotationOwnerProcessor.class.isAssignableFrom(aClass)) {
           myInstance = aClass.getConstructor(String.class).newInstance(annotationClass);
