@@ -1,0 +1,21 @@
+<component name="ArtifactManager">
+  <artifact name="lombok-dist">
+    <output-path>$PROJECT_DIR$/out/artifacts/lombok_dist</output-path>
+    <root id="root">
+      <element id="directory" name="lombok">
+        <element id="directory" name="lib">
+          <element id="archive" name="lombok.jar">
+            <element id="module-output" name="lombok-base" />
+          </element>
+        </element>
+      </element>
+      <element id="directory" name="lombok-pg">
+        <element id="directory" name="lib">
+          <element id="archive" name="lombok-pg.jar">
+            <element id="module-output" name="lombok-pg" />
+          </element>
+        </element>
+      </element>
+    </root>
+  </artifact>
+</component>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/consulo-lombok.cxmf" filepath="$PROJECT_DIR$/consulo-lombok.cxmf" />
+      <module fileurl="file://$PROJECT_DIR$/lombok-base/lombok-base.cxmf" filepath="$PROJECT_DIR$/lombok-base/lombok-base.cxmf" />
+      <module fileurl="file://$PROJECT_DIR$/lombok-pg/lombok-pg.cxmf" filepath="$PROJECT_DIR$/lombok-pg/lombok-pg.cxmf" />
+    </modules>
+  </component>
+</project>
+
