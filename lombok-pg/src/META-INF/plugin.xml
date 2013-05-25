@@ -20,6 +20,10 @@
   <vendor>Consulo</vendor>
   <depends>org.consulo.lombok</depends>
 
+  <extensions defaultExtensionNs="com.intellij">
+    <moduleExtensionProvider key="lombok-pg" parent-key="lombok" implementationClass="org.consulo.lombok.pg.module.extension.LombokPgModuleExtensionProvider" />
+  </extensions>
+
   <extensions defaultExtensionNs="org.consulo.lombok">
     <processor annotationClass="lombok.AutoGenMethodStub" implementationClass="org.consulo.lombok.pg.processors.impl.AutoGenMethodStubProcessor" />
     <processor annotationClass="lombok.ListenerSupport" implementationClass="org.consulo.lombok.pg.processors.impl.ListenerSupportAnnotationProcessor" />

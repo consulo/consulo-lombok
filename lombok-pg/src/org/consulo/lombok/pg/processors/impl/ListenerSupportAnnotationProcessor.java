@@ -15,14 +15,14 @@
  */
 package org.consulo.lombok.pg.processors.impl;
 
-import org.consulo.lombok.processors.LombokSelfClassProcessor;
-import org.consulo.lombok.processors.util.LombokClassUtil;
 import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.psi.*;
 import com.intellij.psi.impl.light.LightMethodBuilder;
 import com.intellij.psi.impl.light.LightParameter;
 import com.intellij.psi.impl.source.PsiImmediateClassType;
 import com.intellij.util.containers.MultiMap;
+import org.consulo.lombok.pg.processors.LombokPgSelfClassProcessor;
+import org.consulo.lombok.processors.util.LombokClassUtil;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -31,7 +31,7 @@ import java.util.List;
  * @author VISTALL
  * @since 22:36/30.03.13
  */
-public class ListenerSupportAnnotationProcessor extends LombokSelfClassProcessor {
+public class ListenerSupportAnnotationProcessor extends LombokPgSelfClassProcessor {
   private static final String[] ourCollectionMethodsPrefix = {"add", "remove"};
 
   public ListenerSupportAnnotationProcessor(String annotationClass) {

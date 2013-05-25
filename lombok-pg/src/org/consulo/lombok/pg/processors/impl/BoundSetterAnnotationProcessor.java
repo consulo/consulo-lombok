@@ -15,10 +15,10 @@
  */
 package org.consulo.lombok.pg.processors.impl;
 
-import org.consulo.lombok.processors.LombokFieldProcessor;
-import org.consulo.lombok.processors.impl.SetterAnnotationProcessor;
 import com.intellij.psi.*;
 import com.intellij.psi.impl.light.LightMethodBuilder;
+import org.consulo.lombok.pg.processors.LombokPgFieldProcessor;
+import org.consulo.lombok.processors.impl.SetterAnnotationProcessor;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -27,7 +27,7 @@ import java.util.List;
  * @author VISTALL
  * @since 12:39/31.03.13
  */
-public class BoundSetterAnnotationProcessor extends LombokFieldProcessor {
+public class BoundSetterAnnotationProcessor extends LombokPgFieldProcessor {
   private static final String[] ourListenerNames = {"addPropertyChangeListener", "removePropertyChangeListener"};
   private static final String JAVA_BEAN_PROPERTY_CHANGE_LISTENER = "java.beans.PropertyChangeListener";
 

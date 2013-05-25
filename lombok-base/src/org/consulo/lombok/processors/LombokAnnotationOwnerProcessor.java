@@ -21,6 +21,8 @@ import com.intellij.psi.PsiAnnotation;
 import com.intellij.psi.PsiClass;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiModifierListOwner;
+import org.consulo.lombok.module.extension.LombokModuleExtension;
+import org.consulo.module.extension.ModuleExtension;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -68,6 +70,10 @@ public abstract class LombokAnnotationOwnerProcessor<E extends PsiModifierListOw
 
   public boolean canBeProcessed(@NotNull E e) {
     return true;
+  }
+
+  public Class<? extends ModuleExtension> getModuleExtensionClass() {
+    return LombokModuleExtension.class;
   }
 
   public void collectInspectionsForElement(@NotNull E element, @NotNull ProblemsHolder problemsHolder) {

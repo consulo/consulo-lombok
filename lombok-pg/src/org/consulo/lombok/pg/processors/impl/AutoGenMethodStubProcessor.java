@@ -15,31 +15,26 @@
  */
 package org.consulo.lombok.pg.processors.impl;
 
+import com.intellij.codeInsight.generation.OverrideImplementExploreUtil;
+import com.intellij.codeInsight.generation.OverrideImplementUtil;
+import com.intellij.psi.*;
+import com.intellij.psi.impl.light.LightMethodBuilder;
+import com.intellij.psi.impl.light.LightTypeParameter;
+import com.intellij.psi.infos.CandidateInfo;
+import com.intellij.psi.util.MethodSignature;
+import org.consulo.lombok.pg.processors.LombokPgSelfClassProcessor;
+import org.jetbrains.annotations.NotNull;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import org.consulo.lombok.processors.LombokSelfClassProcessor;
-import org.jetbrains.annotations.NotNull;
-import com.intellij.codeInsight.generation.OverrideImplementExploreUtil;
-import com.intellij.codeInsight.generation.OverrideImplementUtil;
-import com.intellij.psi.PsiClass;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiMethod;
-import com.intellij.psi.PsiModifier;
-import com.intellij.psi.PsiParameter;
-import com.intellij.psi.PsiTypeParameter;
-import com.intellij.psi.impl.light.LightMethodBuilder;
-import com.intellij.psi.impl.light.LightTypeParameter;
-import com.intellij.psi.infos.CandidateInfo;
-import com.intellij.psi.util.MethodSignature;
-
 /**
  * @author VISTALL
  * @since 15:55/30.03.13
  */
-public class AutoGenMethodStubProcessor extends LombokSelfClassProcessor {
+public class AutoGenMethodStubProcessor extends LombokPgSelfClassProcessor {
   public AutoGenMethodStubProcessor(String annotationClass) {
     super(annotationClass);
   }

@@ -33,7 +33,7 @@ import java.util.List;
 public class LombokExtraExceptionHandler implements ExtraExceptionHandler {
   @Override
   public boolean isHandled(@NotNull PsiClassType type, @NotNull PsiElement element) {
-    if(!LombokUtil.isLombokExtensionEnabled(element)) {
+    if(!LombokUtil.isExtensionEnabled(element)) {
       return false;
     }
     PsiMethod parent = PsiTreeUtil.getParentOfType(element, PsiMethod.class);

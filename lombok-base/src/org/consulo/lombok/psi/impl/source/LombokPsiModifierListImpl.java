@@ -44,7 +44,7 @@ public class LombokPsiModifierListImpl extends PsiModifierListImpl {
       return true;
     }
 
-    if(!LombokUtil.isLombokExtensionEnabled(this)) {
+    if(!LombokUtil.isExtensionEnabled(this)) {
       return false;
     }
 

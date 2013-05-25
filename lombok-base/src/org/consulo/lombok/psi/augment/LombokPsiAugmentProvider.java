@@ -15,16 +15,15 @@
  */
 package org.consulo.lombok.psi.augment;
 
-import org.consulo.lombok.processors.LombokProcessor;
-import org.consulo.lombok.processors.LombokProcessorEP;
 import com.intellij.psi.PsiClass;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.augment.PsiAugmentProvider;
+import org.consulo.lombok.processors.LombokProcessor;
+import org.consulo.lombok.processors.LombokProcessorEP;
 import org.consulo.lombok.processors.util.LombokUtil;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -35,13 +34,13 @@ public class LombokPsiAugmentProvider extends PsiAugmentProvider {
   @NotNull
   @Override
   public <Psi extends PsiElement> List<Psi> getAugments(@NotNull PsiElement element, @NotNull Class<Psi> type) {
-    if(!LombokUtil.isLombokExtensionEnabled(element)) {
-      return Collections.emptyList();
-    }
     List<Psi> list = new ArrayList<Psi>();
 
     for(LombokProcessorEP ep : LombokProcessorEP.EP_NAME.getExtensions()) {
       final LombokProcessor instance = ep.getInstance();
+      if(!LombokUtil.isExtensionEnabled(element, instance.getModuleExtensionClass())) {
+        continue;
+      }
 
       if(instance.getCollectorPsiElementClass() == type) {
         instance.process((PsiClass)element, (List<PsiElement>)list);

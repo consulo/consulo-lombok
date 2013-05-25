@@ -18,6 +18,7 @@ package org.consulo.lombok.processors;
 import com.intellij.codeInspection.ProblemsHolder;
 import com.intellij.psi.PsiClass;
 import com.intellij.psi.PsiElement;
+import org.consulo.module.extension.ModuleExtension;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -34,4 +35,7 @@ public interface LombokProcessor {
 
   @NotNull
   Class<? extends PsiElement> getCollectorPsiElementClass();
+
+  @NotNull
+  Class<? extends ModuleExtension> getModuleExtensionClass();
 }

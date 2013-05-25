@@ -21,6 +21,7 @@ import com.intellij.openapi.module.ModuleUtilCore;
 import com.intellij.psi.*;
 import com.intellij.psi.impl.light.LightMethodBuilder;
 import org.consulo.lombok.module.extension.LombokModuleExtension;
+import org.consulo.module.extension.ModuleExtension;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -28,12 +29,16 @@ import org.jetbrains.annotations.NotNull;
  * @since 19:45/29.03.13
  */
 public class LombokUtil {
-  public static boolean isLombokExtensionEnabled(@NotNull PsiElement element) {
+  public static boolean isExtensionEnabled(@NotNull PsiElement element) {
+    return isExtensionEnabled(element, LombokModuleExtension.class);
+  }
+
+  public static boolean isExtensionEnabled(@NotNull PsiElement element, @NotNull Class<? extends ModuleExtension > extensionClass) {
     Module moduleForPsiElement = ModuleUtilCore.findModuleForPsiElement(element);
     if(moduleForPsiElement == null) {
       return false;
     }
-    return ModuleUtil.getExtension(moduleForPsiElement, LombokModuleExtension.class) != null;
+    return ModuleUtil.getExtension(moduleForPsiElement, extensionClass) != null;
   }
 
   public static void copyAccessModifierFromOriginal(PsiModifierListOwner from, LightMethodBuilder to) {

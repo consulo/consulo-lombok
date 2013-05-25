@@ -53,7 +53,7 @@ public class LombokPsiLocalVariableImpl extends PsiLocalVariableImpl implements 
   @Override
   @Nullable
   public PsiType findRightTypeIfCan() {
-    if(!LombokUtil.isLombokExtensionEnabled(this)) {
+    if(!LombokUtil.isExtensionEnabled(this)) {
       return null;
     }
     final PsiClass resolve = PsiTypesUtil.getPsiClass(super.getType());

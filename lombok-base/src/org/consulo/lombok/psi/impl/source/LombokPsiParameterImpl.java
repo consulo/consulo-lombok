@@ -47,7 +47,7 @@ public class LombokPsiParameterImpl extends PsiParameterImpl implements LombokVa
   @Override
   @Nullable
   public PsiType findRightTypeIfCan() {
-    if(!LombokUtil.isLombokExtensionEnabled(this)) {
+    if(!LombokUtil.isExtensionEnabled(this)) {
       return null;
     }
     final PsiElement parent = getParent();

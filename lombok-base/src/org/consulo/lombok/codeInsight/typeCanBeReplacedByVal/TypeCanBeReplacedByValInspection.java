@@ -65,7 +65,7 @@ public class TypeCanBeReplacedByValInspection extends LocalInspectionTool {
   @NotNull
   @Override
   public PsiElementVisitor buildVisitor(@NotNull final ProblemsHolder holder, boolean isOnTheFly) {
-    if(!LombokUtil.isLombokExtensionEnabled(holder.getFile())) {
+    if(!LombokUtil.isExtensionEnabled(holder.getFile())) {
       return new JavaElementVisitor() {};
     }
 
