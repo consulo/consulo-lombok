@@ -17,6 +17,7 @@
 package org.consulo.lombok.module.extension;
 
 import com.intellij.openapi.module.Module;
+import com.intellij.openapi.roots.ModifiableRootModel;
 import org.consulo.module.extension.MutableModuleExtension;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -38,7 +39,7 @@ public class LombokMutableModuleExtension extends LombokModuleExtension implemen
 
   @Nullable
   @Override
-  public JComponent createConfigurablePanel(@Nullable Runnable runnable) {
+  public JComponent createConfigurablePanel(@NotNull ModifiableRootModel modifiableRootModel, @Nullable Runnable runnable) {
     return null;
   }
 
@@ -49,13 +50,8 @@ public class LombokMutableModuleExtension extends LombokModuleExtension implemen
 
   @Override
   public boolean isModified() {
-    if(myIsEnabled != myModuleExtension.isEnabled()) {
-      return true;
-    }
-
-    return false;
+    return myIsEnabled != myModuleExtension.isEnabled();
   }
-
 
   @Override
   public void commit() {
