@@ -28,8 +28,6 @@ import java.util.List;
  * @since 15:10/30.03.13
  */
 public abstract class AbstractLoggerAnnotationProcessor extends LombokSelfClassProcessor {
-  private static final String FIELD_NAME = "log";
-
   protected AbstractLoggerAnnotationProcessor(String annotationClass) {
     super(annotationClass);
   }
@@ -38,20 +36,26 @@ public abstract class AbstractLoggerAnnotationProcessor extends LombokSelfClassP
 
   @Override
   public void processElement(@NotNull final PsiClass parent, @NotNull PsiClass psiClass, @NotNull List<PsiElement> result) {
+    final String fieldName = getFieldName();
     for (PsiField field : LombokClassUtil.getOwnFields(psiClass)) {
-      if (FIELD_NAME.equals(field.getName())) {
+      if (fieldName.equals(field.getName())) {
         return;
       }
     }
 
     PsiAnnotation annotation = getAffectedAnnotation(psiClass);
 
-    LightFieldBuilder builder = new LightFieldBuilder("log", getLoggerClass(), annotation);
+    LightFieldBuilder builder = new LightFieldBuilder(fieldName, getLoggerClass(), annotation);
     builder.setContainingClass(parent);
     //builder.getModifierList().addAnnotation("org.jetbrains.annotations.NotNull"); no annotation support
     builder.setModifiers(PsiModifier.PRIVATE, PsiModifier.FINAL, PsiModifier.STATIC);
 
     result.add(builder);
+  }
+
+  @NotNull
+  protected String getFieldName() {
+    return "log";
   }
 
   @NotNull
