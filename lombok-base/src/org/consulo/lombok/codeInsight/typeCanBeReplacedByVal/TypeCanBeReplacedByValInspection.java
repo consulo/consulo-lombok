@@ -20,8 +20,13 @@ import com.intellij.codeInspection.LocalInspectionTool;
 import com.intellij.codeInspection.LocalQuickFix;
 import com.intellij.codeInspection.ProblemDescriptor;
 import com.intellij.codeInspection.ProblemsHolder;
+import com.intellij.lang.ASTNode;
+import com.intellij.openapi.module.ModuleUtilCore;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.*;
+import com.intellij.psi.codeStyle.CodeStyleManager;
+import com.intellij.psi.codeStyle.JavaCodeStyleManager;
+import com.intellij.psi.search.GlobalSearchScope;
 import org.consulo.lombok.LombokClassNames;
 import org.consulo.lombok.processors.util.LombokUtil;
 import org.consulo.lombok.psi.impl.source.LombokValOwner;
@@ -44,7 +49,7 @@ public class TypeCanBeReplacedByValInspection extends LocalInspectionTool {
     @NotNull
     @Override
     public String getName() {
-      return "Replace type by 'lombok.val'";
+      return "Replace type by 'val'";
     }
 
     @NotNull
@@ -55,18 +60,39 @@ public class TypeCanBeReplacedByValInspection extends LocalInspectionTool {
 
     @Override
     public void applyFix(@NotNull Project project, @NotNull ProblemDescriptor descriptor) {
-      PsiTypeElement valTypeElement = JavaPsiFacade.getElementFactory(myVariable.getProject())
-        .createTypeElementFromText(LombokClassNames.LOMBOK_VAL, myVariable);
+      PsiFile containingFile = myVariable.getContainingFile();
+      if (!(containingFile instanceof PsiJavaFile)) {
+        return;
+      }
+
+      PsiClass valClass = JavaPsiFacade.getInstance(project).findClass(LombokClassNames.LOMBOK_VAL, GlobalSearchScope
+        .moduleWithDependenciesAndLibrariesScope(ModuleUtilCore.findModuleForPsiElement(myVariable)));
+
+      if (valClass != null) {
+        JavaCodeStyleManager.getInstance(project).addImport((PsiJavaFile)containingFile, valClass);
+      }
+
+      PsiTypeElement valTypeElement =
+        JavaPsiFacade.getElementFactory(myVariable.getProject()).createTypeElementFromText("val", myVariable);
+
+
+      ASTNode childByType = myVariable.getModifierList().getNode().findChildByType(JavaTokenType.FINAL_KEYWORD);
+      if (childByType != null) {
+        childByType.getPsi().delete();
+      }
 
       myTypeElement.replace(valTypeElement);
+
+      CodeStyleManager.getInstance(project).reformat(myVariable);
     }
   }
 
   @NotNull
   @Override
   public PsiElementVisitor buildVisitor(@NotNull final ProblemsHolder holder, boolean isOnTheFly) {
-    if(!LombokUtil.isExtensionEnabled(holder.getFile())) {
-      return new JavaElementVisitor() {};
+    if (!LombokUtil.isExtensionEnabled(holder.getFile())) {
+      return new JavaElementVisitor() {
+      };
     }
 
     return new JavaElementVisitor() {
@@ -85,11 +111,18 @@ public class TypeCanBeReplacedByValInspection extends LocalInspectionTool {
   }
 
   private static void registerProblem(@NotNull PsiVariable variable, @NotNull final ProblemsHolder holder) {
-    if(variable instanceof LombokValOwner) {
+    if (variable instanceof LombokValOwner) {
       PsiType rightTypeIfCan = ((LombokValOwner)variable).findRightTypeIfCan();
       if (rightTypeIfCan == null) {
         final PsiTypeElement typeElement = variable.getTypeElement();
         if (typeElement == null || !variable.hasModifierProperty(PsiModifier.FINAL)) {
+          return;
+        }
+
+        PsiClass valClass = JavaPsiFacade.getInstance(holder.getProject()).findClass(LombokClassNames.LOMBOK_VAL, GlobalSearchScope
+          .moduleWithDependenciesAndLibrariesScope(ModuleUtilCore.findModuleForPsiElement(variable)));
+
+        if (valClass == null) {
           return;
         }
         holder.registerProblem(typeElement, "Type can replaced by 'lombok.val'", new MyLocalQuickFix(variable, typeElement));
