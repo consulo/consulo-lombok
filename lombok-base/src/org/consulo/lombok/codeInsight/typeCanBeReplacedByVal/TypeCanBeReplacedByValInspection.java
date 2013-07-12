@@ -16,15 +16,15 @@
 
 package org.consulo.lombok.codeInsight.typeCanBeReplacedByVal;
 
-import org.consulo.lombok.LombokClassNames;
-import org.consulo.lombok.processors.util.LombokUtil;
-import org.consulo.lombok.psi.impl.source.LombokValOwner;
 import com.intellij.codeInspection.LocalInspectionTool;
 import com.intellij.codeInspection.LocalQuickFix;
 import com.intellij.codeInspection.ProblemDescriptor;
 import com.intellij.codeInspection.ProblemsHolder;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.*;
+import org.consulo.lombok.LombokClassNames;
+import org.consulo.lombok.processors.util.LombokUtil;
+import org.consulo.lombok.psi.impl.source.LombokValOwner;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -89,7 +89,7 @@ public class TypeCanBeReplacedByValInspection extends LocalInspectionTool {
       PsiType rightTypeIfCan = ((LombokValOwner)variable).findRightTypeIfCan();
       if (rightTypeIfCan == null) {
         final PsiTypeElement typeElement = variable.getTypeElement();
-        if (typeElement == null) {
+        if (typeElement == null || !variable.hasModifierProperty(PsiModifier.FINAL)) {
           return;
         }
         holder.registerProblem(typeElement, "Type can replaced by 'lombok.val'", new MyLocalQuickFix(variable, typeElement));
