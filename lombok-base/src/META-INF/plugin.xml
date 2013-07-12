@@ -23,6 +23,8 @@
   <depends>org.consulo.java</depends>
   <depends>org.consulo.java.platform</depends>
 
+  <depends optional="true" config-file="org.jetbrains.idea.maven.xml">org.jetbrains.idea.maven</depends>
+
   <extensionPoints>
     <extensionPoint name="processor" beanClass="org.consulo.lombok.processors.LombokProcessorEP" >
       <with attribute="implementationClass" implements="org.consulo.lombok.processors.LombokProcessor"/>

@@ -45,6 +45,21 @@
             <SOURCES />
           </library>
         </orderEntry>
+        <orderEntry type="module-library">
+          <library name="consulo:Maven Integration">
+            <CLASSES>
+              <root url="jar://$APPLICATION_HOME_DIR$/plugins/maven/lib/lucene-core-2.4.1.jar!/" />
+              <root url="jar://$APPLICATION_HOME_DIR$/plugins/maven/lib/maven-jps-plugin.jar!/" />
+              <root url="jar://$APPLICATION_HOME_DIR$/plugins/maven/lib/maven-server-api.jar!/" />
+              <root url="jar://$APPLICATION_HOME_DIR$/plugins/maven/lib/maven.jar!/" />
+              <root url="jar://$APPLICATION_HOME_DIR$/plugins/maven/lib/maven2-server-impl.jar!/" />
+              <root url="jar://$APPLICATION_HOME_DIR$/plugins/maven/lib/maven3-server-impl.jar!/" />
+              <root url="jar://$APPLICATION_HOME_DIR$/plugins/maven/lib/wadl-core.jar!/" />
+            </CLASSES>
+            <JAVADOC />
+            <SOURCES />
+          </library>
+        </orderEntry>
       </module>
       <module name="lombok-pg" dirurl="file://$PROJECT_DIR$/lombok-pg">
         <extension id="java" sdk-module-name="consulo-lombok" sdk-name="" language-level-module-name="consulo-lombok" language-level-name="" special-dir-location="SOURCE_DIR" />
@@ -77,6 +92,21 @@
               <root url="jar://$APPLICATION_HOME_DIR$/plugins/java/lib/java-debugger-impl.jar!/" />
               <root url="jar://$APPLICATION_HOME_DIR$/plugins/java/lib/java-intellilang.jar!/" />
               <root url="jar://$APPLICATION_HOME_DIR$/plugins/java/lib/java.jar!/" />
+            </CLASSES>
+            <JAVADOC />
+            <SOURCES />
+          </library>
+        </orderEntry>
+        <orderEntry type="module-library">
+          <library name="consulo:Maven Integration">
+            <CLASSES>
+              <root url="jar://$APPLICATION_HOME_DIR$/plugins/maven/lib/lucene-core-2.4.1.jar!/" />
+              <root url="jar://$APPLICATION_HOME_DIR$/plugins/maven/lib/maven-jps-plugin.jar!/" />
+              <root url="jar://$APPLICATION_HOME_DIR$/plugins/maven/lib/maven-server-api.jar!/" />
+              <root url="jar://$APPLICATION_HOME_DIR$/plugins/maven/lib/maven.jar!/" />
+              <root url="jar://$APPLICATION_HOME_DIR$/plugins/maven/lib/maven2-server-impl.jar!/" />
+              <root url="jar://$APPLICATION_HOME_DIR$/plugins/maven/lib/maven3-server-impl.jar!/" />
+              <root url="jar://$APPLICATION_HOME_DIR$/plugins/maven/lib/wadl-core.jar!/" />
             </CLASSES>
             <JAVADOC />
             <SOURCES />

@@ -19,6 +19,7 @@
   <description>TODO</description>
   <vendor>Consulo</vendor>
   <depends>org.consulo.lombok</depends>
+  <depends optional="true" config-file="org.jetbrains.idea.maven.xml">org.jetbrains.idea.maven</depends>
 
   <extensions defaultExtensionNs="com.intellij">
     <moduleExtensionProvider key="lombok-pg" parent-key="lombok" implementationClass="org.consulo.lombok.pg.module.extension.LombokPgModuleExtensionProvider" />
