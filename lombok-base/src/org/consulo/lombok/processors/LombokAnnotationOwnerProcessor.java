@@ -72,6 +72,7 @@ public abstract class LombokAnnotationOwnerProcessor<E extends PsiModifierListOw
     return true;
   }
 
+  @NotNull
   public Class<? extends ModuleExtension> getModuleExtensionClass() {
     return LombokModuleExtension.class;
   }

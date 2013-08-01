@@ -3,6 +3,7 @@ package org.consulo.lombok.pg.processors;
 import org.consulo.lombok.pg.module.extension.LombokPgModuleExtension;
 import org.consulo.lombok.processors.LombokSelfClassProcessor;
 import org.consulo.module.extension.ModuleExtension;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * @author VISTALL
@@ -13,6 +14,7 @@ public abstract class LombokPgSelfClassProcessor extends LombokSelfClassProcesso
     super(annotationClass);
   }
 
+  @NotNull
   @Override
   public Class<? extends ModuleExtension> getModuleExtensionClass() {
     return LombokPgModuleExtension.class;

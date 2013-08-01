@@ -25,6 +25,10 @@
     <moduleExtensionProvider key="lombok-pg" parent-key="lombok" implementationClass="org.consulo.lombok.pg.module.extension.LombokPgModuleExtensionProvider" />
   </extensions>
 
+  <extensions defaultExtensionNs="org.consulo.java.platform">
+    <augmentProvider implementation="org.consulo.lombok.pg.psi.augment.LombokPgPsiAugmentProvider" />
+  </extensions>
+
   <extensions defaultExtensionNs="org.consulo.lombok">
     <processor annotationClass="lombok.AutoGenMethodStub" implementationClass="org.consulo.lombok.pg.processors.impl.AutoGenMethodStubProcessor" />
     <processor annotationClass="lombok.ListenerSupport" implementationClass="org.consulo.lombok.pg.processors.impl.ListenerSupportAnnotationProcessor" />

@@ -28,7 +28,7 @@
               <root url="jar://$APPLICATION_HOME_DIR$/plugins/java-platform/lib/java-rt.jar!/" />
               <root url="jar://$APPLICATION_HOME_DIR$/plugins/java-platform/lib/jdk-annotations.jar!/" />
             </CLASSES>
-            <JAVADOC />
+            <DOCUMENTATION />
             <SOURCES />
           </library>
         </orderEntry>
@@ -41,7 +41,7 @@
               <root url="jar://$APPLICATION_HOME_DIR$/plugins/java/lib/java-intellilang.jar!/" />
               <root url="jar://$APPLICATION_HOME_DIR$/plugins/java/lib/java.jar!/" />
             </CLASSES>
-            <JAVADOC />
+            <DOCUMENTATION />
             <SOURCES />
           </library>
         </orderEntry>
@@ -56,7 +56,7 @@
               <root url="jar://$APPLICATION_HOME_DIR$/plugins/maven/lib/maven3-server-impl.jar!/" />
               <root url="jar://$APPLICATION_HOME_DIR$/plugins/maven/lib/wadl-core.jar!/" />
             </CLASSES>
-            <JAVADOC />
+            <DOCUMENTATION />
             <SOURCES />
           </library>
         </orderEntry>
@@ -80,7 +80,7 @@
               <root url="jar://$APPLICATION_HOME_DIR$/plugins/java-platform/lib/java-rt.jar!/" />
               <root url="jar://$APPLICATION_HOME_DIR$/plugins/java-platform/lib/jdk-annotations.jar!/" />
             </CLASSES>
-            <JAVADOC />
+            <DOCUMENTATION />
             <SOURCES />
           </library>
         </orderEntry>
@@ -93,7 +93,7 @@
               <root url="jar://$APPLICATION_HOME_DIR$/plugins/java/lib/java-intellilang.jar!/" />
               <root url="jar://$APPLICATION_HOME_DIR$/plugins/java/lib/java.jar!/" />
             </CLASSES>
-            <JAVADOC />
+            <DOCUMENTATION />
             <SOURCES />
           </library>
         </orderEntry>
@@ -108,7 +108,7 @@
               <root url="jar://$APPLICATION_HOME_DIR$/plugins/maven/lib/maven3-server-impl.jar!/" />
               <root url="jar://$APPLICATION_HOME_DIR$/plugins/maven/lib/wadl-core.jar!/" />
             </CLASSES>
-            <JAVADOC />
+            <DOCUMENTATION />
             <SOURCES />
           </library>
         </orderEntry>
