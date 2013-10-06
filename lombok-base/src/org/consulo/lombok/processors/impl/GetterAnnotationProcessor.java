@@ -15,11 +15,11 @@
  */
 package org.consulo.lombok.processors.impl;
 
-import org.consulo.lombok.processors.LombokFieldProcessor;
-import org.consulo.lombok.processors.util.LombokUtil;
 import com.intellij.psi.*;
 import com.intellij.psi.impl.light.LightMethodBuilder;
 import com.intellij.psi.util.PropertyUtil;
+import org.consulo.lombok.processors.LombokFieldProcessor;
+import org.consulo.lombok.processors.util.LombokUtil;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -35,12 +35,13 @@ public class GetterAnnotationProcessor extends LombokFieldProcessor {
 
   @Override
   public void processElement(@NotNull PsiClass parent, @NotNull PsiField psiField, @NotNull List<PsiElement> result) {
-    LightMethodBuilder builder = new LightMethodBuilder(parent.getManager(), parent.getLanguage(), PropertyUtil.suggestGetterName(parent.getProject(), psiField));
+    LightMethodBuilder builder =
+      new LightMethodBuilder(parent.getManager(), parent.getLanguage(), PropertyUtil.suggestGetterName(psiField));
     builder.setMethodReturnType(psiField.getType());
     builder.setContainingClass(parent);
     builder.setNavigationElement(psiField);
 
-    if(psiField.hasModifierProperty(PsiModifier.STATIC)) {
+    if (psiField.hasModifierProperty(PsiModifier.STATIC)) {
       builder.addModifier(PsiModifier.STATIC);
     }
 

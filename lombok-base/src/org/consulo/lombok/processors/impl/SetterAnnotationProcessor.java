@@ -39,7 +39,7 @@ public class SetterAnnotationProcessor extends LombokFieldProcessor {
   @Override
   public void processElement(@NotNull PsiClass parent, @NotNull PsiField psiField, @NotNull List<PsiElement> result) {
     LightMethodBuilder builder = new LightMethodBuilder(parent.getManager(), parent.getLanguage(), PropertyUtil
-      .suggestSetterName(parent.getProject(), psiField));
+      .suggestSetterName(psiField));
     builder.setMethodReturnType(PsiType.VOID);
     builder.setContainingClass(parent);
     builder.setNavigationElement(psiField);

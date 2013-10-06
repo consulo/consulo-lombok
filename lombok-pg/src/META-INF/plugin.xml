@@ -16,8 +16,9 @@
 <idea-plugin version="2">
   <id>org.consulo.lombokpg</id>
   <name>Lombok-Pg Support</name>
-  <description>TODO</description>
   <vendor>Consulo</vendor>
+  <category>Language Extensions</category>
+  <version>1.0</version>
   <depends>org.consulo.lombok</depends>
   <depends optional="true" config-file="org.jetbrains.idea.maven.xml">org.jetbrains.idea.maven</depends>
 

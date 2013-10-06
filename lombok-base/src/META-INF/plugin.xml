@@ -17,11 +17,11 @@
 <idea-plugin version="2">
   <id>org.consulo.lombok</id>
   <name>Lombok Support</name>
-  <description>TODO</description>
   <vendor>Consulo</vendor>
+  <category>Language Extensions</category>
+  <version>1.0</version>
   <resource-bundle>messages.LombokBaseBundle</resource-bundle>
   <depends>org.consulo.java</depends>
-  <depends>org.consulo.java.platform</depends>
 
   <depends optional="true" config-file="org.jetbrains.idea.maven.xml">org.jetbrains.idea.maven</depends>
 

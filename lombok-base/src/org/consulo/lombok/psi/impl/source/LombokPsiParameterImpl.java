@@ -15,13 +15,13 @@
  */
 package org.consulo.lombok.psi.impl.source;
 
-import org.consulo.lombok.LombokClassNames;
-import com.intellij.codeInsight.daemon.impl.analysis.GenericsHighlightUtil;
+import com.intellij.codeInsight.daemon.impl.analysis.JavaGenericsUtil;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.*;
 import com.intellij.psi.impl.source.PsiParameterImpl;
 import com.intellij.psi.util.PsiTypesUtil;
 import com.intellij.util.ArrayUtil;
+import org.consulo.lombok.LombokClassNames;
 import org.consulo.lombok.processors.util.LombokUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -61,7 +61,7 @@ public class LombokPsiParameterImpl extends PsiParameterImpl implements LombokVa
       if (expression == null) {
         return null;
       }
-      final PsiType collectionItemType = GenericsHighlightUtil.getCollectionItemType(expression);
+      final PsiType collectionItemType = JavaGenericsUtil.getCollectionItemType(expression);
       return collectionItemType == null ? null : collectionItemType;
     }
     return null;
