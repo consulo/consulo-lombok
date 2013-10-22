@@ -6,6 +6,7 @@
         <element id="directory" name="lib">
           <element id="zip-archive" name="lombok-base.jar">
             <element id="module-output" name="lombok-base" />
+            <element id="module-production-resource-output" name="lombok-base" />
           </element>
         </element>
       </element>
@@ -13,6 +14,7 @@
         <element id="directory" name="lib">
           <element id="zip-archive" name="lombok-pg.jar">
             <element id="module-output" name="lombok-pg" />
+            <element id="module-production-resource-output" name="lombok-pg" />
           </element>
         </element>
       </element>

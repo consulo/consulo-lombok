@@ -26,7 +26,7 @@
     <moduleExtensionProvider key="lombok-pg" parent-key="lombok" implementationClass="org.consulo.lombok.pg.module.extension.LombokPgModuleExtensionProvider" />
   </extensions>
 
-  <extensions defaultExtensionNs="org.consulo.java.platform">
+  <extensions defaultExtensionNs="org.consulo.java">
     <augmentProvider implementation="org.consulo.lombok.pg.psi.augment.LombokPgPsiAugmentProvider" />
   </extensions>
 
