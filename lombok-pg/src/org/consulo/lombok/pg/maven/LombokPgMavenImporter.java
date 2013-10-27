@@ -1,6 +1,7 @@
 package org.consulo.lombok.pg.maven;
 
 import com.intellij.openapi.module.Module;
+import org.consulo.lombok.pg.module.extension.LombokPgModuleExtension;
 import org.jetbrains.idea.maven.importing.MavenImporterFromDependency;
 import org.jetbrains.idea.maven.importing.MavenModifiableModelsProvider;
 import org.jetbrains.idea.maven.importing.MavenRootModelAdapter;
@@ -38,6 +39,6 @@ public class LombokPgMavenImporter extends MavenImporterFromDependency {
                       MavenProjectChanges mavenProjectChanges,
                       Map<MavenProject, String> mavenProjectStringMap,
                       List<MavenProjectsProcessorTask> mavenProjectsProcessorTasks) {
-
+    enableModuleExtension(module, mavenModifiableModelsProvider, LombokPgModuleExtension.class);
   }
 }

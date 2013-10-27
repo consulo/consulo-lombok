@@ -12,7 +12,7 @@
       </module>
       <module name="lombok-base" dirurl="file://$PROJECT_DIR$/lombok-base">
         <extension id="java" sdk-module-name="consulo-lombok" sdk-name="" language-level-module-name="consulo-lombok" language-level-name="" special-dir-location="SOURCE_DIR" />
-        <extension id="consulo-plugin" sdk-module-name="consulo-lombok" sdk-name="" />
+        <extension id="consulo-plugin" sdk-module-name="consulo-lombok" sdk-name="" custom-plugin-dir-url="file://$MODULE_DIR$/../dep" />
         <content url="file://$MODULE_DIR$">
           <content-folder type="PRODUCTION" url="file://$MODULE_DIR$/src" />
           <content-folder type="PRODUCTION_RESOURCE" url="file://$MODULE_DIR$/resources" />
@@ -23,14 +23,10 @@
         <orderEntry type="module-library">
           <library name="consulo:Java">
             <CLASSES>
-              <root url="jar://$APPLICATION_HOME_DIR$/plugins/java/lib/java-compiler-artifact-impl.jar!/" />
-              <root url="jar://$APPLICATION_HOME_DIR$/plugins/java/lib/java-debugger-api.jar!/" />
-              <root url="jar://$APPLICATION_HOME_DIR$/plugins/java/lib/java-debugger-impl.jar!/" />
-              <root url="jar://$APPLICATION_HOME_DIR$/plugins/java/lib/java-intellilang.jar!/" />
-              <root url="jar://$APPLICATION_HOME_DIR$/plugins/java/lib/java-platform.jar!/" />
-              <root url="jar://$APPLICATION_HOME_DIR$/plugins/java/lib/java-rt.jar!/" />
-              <root url="jar://$APPLICATION_HOME_DIR$/plugins/java/lib/java.jar!/" />
-              <root url="jar://$APPLICATION_HOME_DIR$/plugins/java/lib/jdk-annotations.jar!/" />
+              <root url="jar://$MODULE_DIR$/../dep/java/lib/java-manifest.jar!/" />
+              <root url="jar://$MODULE_DIR$/../dep/java/lib/java-rt.jar!/" />
+              <root url="jar://$MODULE_DIR$/../dep/java/lib/java.jar!/" />
+              <root url="jar://$MODULE_DIR$/../dep/java/lib/jdk-annotations.jar!/" />
             </CLASSES>
             <DOCUMENTATION />
             <SOURCES />
@@ -39,12 +35,13 @@
         <orderEntry type="module-library">
           <library name="consulo:Maven Integration">
             <CLASSES>
-              <root url="jar://$APPLICATION_HOME_DIR$/plugins/maven/lib/lucene-core-2.4.1.jar!/" />
-              <root url="jar://$APPLICATION_HOME_DIR$/plugins/maven/lib/maven-server-api.jar!/" />
-              <root url="jar://$APPLICATION_HOME_DIR$/plugins/maven/lib/maven.jar!/" />
-              <root url="jar://$APPLICATION_HOME_DIR$/plugins/maven/lib/maven2-server-impl.jar!/" />
-              <root url="jar://$APPLICATION_HOME_DIR$/plugins/maven/lib/maven3-server-impl.jar!/" />
-              <root url="jar://$APPLICATION_HOME_DIR$/plugins/maven/lib/wadl-core.jar!/" />
+              <root url="jar://$MODULE_DIR$/../dep/maven/lib/lucene-core-2.4.1.jar!/" />
+              <root url="jar://$MODULE_DIR$/../dep/maven/lib/maven-server-api.jar!/" />
+              <root url="jar://$MODULE_DIR$/../dep/maven/lib/maven.jar!/" />
+              <root url="jar://$MODULE_DIR$/../dep/maven/lib/maven2-server-impl.jar!/" />
+              <root url="jar://$MODULE_DIR$/../dep/maven/lib/maven3-server-impl.jar!/" />
+              <root url="jar://$MODULE_DIR$/../dep/maven/lib/plexus-utils-2.0.6.jar!/" />
+              <root url="jar://$MODULE_DIR$/../dep/maven/lib/wadl-core.jar!/" />
             </CLASSES>
             <DOCUMENTATION />
             <SOURCES />
@@ -53,7 +50,7 @@
       </module>
       <module name="lombok-pg" dirurl="file://$PROJECT_DIR$/lombok-pg">
         <extension id="java" sdk-module-name="consulo-lombok" sdk-name="" language-level-module-name="consulo-lombok" language-level-name="" special-dir-location="SOURCE_DIR" />
-        <extension id="consulo-plugin" sdk-module-name="consulo-lombok" sdk-name="" />
+        <extension id="consulo-plugin" sdk-module-name="consulo-lombok" sdk-name="" custom-plugin-dir-url="file://$MODULE_DIR$/../dep" />
         <content url="file://$MODULE_DIR$">
           <content-folder type="PRODUCTION" url="file://$MODULE_DIR$/src" />
           <content-folder type="PRODUCTION_RESOURCE" url="file://$MODULE_DIR$/resources" />
@@ -63,30 +60,27 @@
         <orderEntry type="sourceFolder" forTests="false" />
         <orderEntry type="module" module-name="lombok-base" />
         <orderEntry type="module-library">
-          <library name="consulo:Java">
+          <library name="consulo:Maven Integration">
             <CLASSES>
-              <root url="jar://$APPLICATION_HOME_DIR$/plugins/java/lib/java-compiler-artifact-impl.jar!/" />
-              <root url="jar://$APPLICATION_HOME_DIR$/plugins/java/lib/java-debugger-api.jar!/" />
-              <root url="jar://$APPLICATION_HOME_DIR$/plugins/java/lib/java-debugger-impl.jar!/" />
-              <root url="jar://$APPLICATION_HOME_DIR$/plugins/java/lib/java-intellilang.jar!/" />
-              <root url="jar://$APPLICATION_HOME_DIR$/plugins/java/lib/java-platform.jar!/" />
-              <root url="jar://$APPLICATION_HOME_DIR$/plugins/java/lib/java-rt.jar!/" />
-              <root url="jar://$APPLICATION_HOME_DIR$/plugins/java/lib/java.jar!/" />
-              <root url="jar://$APPLICATION_HOME_DIR$/plugins/java/lib/jdk-annotations.jar!/" />
+              <root url="jar://$MODULE_DIR$/../dep/maven/lib/lucene-core-2.4.1.jar!/" />
+              <root url="jar://$MODULE_DIR$/../dep/maven/lib/maven-server-api.jar!/" />
+              <root url="jar://$MODULE_DIR$/../dep/maven/lib/maven.jar!/" />
+              <root url="jar://$MODULE_DIR$/../dep/maven/lib/maven2-server-impl.jar!/" />
+              <root url="jar://$MODULE_DIR$/../dep/maven/lib/maven3-server-impl.jar!/" />
+              <root url="jar://$MODULE_DIR$/../dep/maven/lib/plexus-utils-2.0.6.jar!/" />
+              <root url="jar://$MODULE_DIR$/../dep/maven/lib/wadl-core.jar!/" />
             </CLASSES>
             <DOCUMENTATION />
             <SOURCES />
           </library>
         </orderEntry>
         <orderEntry type="module-library">
-          <library name="consulo:Maven Integration">
+          <library name="consulo:Java">
             <CLASSES>
-              <root url="jar://$APPLICATION_HOME_DIR$/plugins/maven/lib/lucene-core-2.4.1.jar!/" />
-              <root url="jar://$APPLICATION_HOME_DIR$/plugins/maven/lib/maven-server-api.jar!/" />
-              <root url="jar://$APPLICATION_HOME_DIR$/plugins/maven/lib/maven.jar!/" />
-              <root url="jar://$APPLICATION_HOME_DIR$/plugins/maven/lib/maven2-server-impl.jar!/" />
-              <root url="jar://$APPLICATION_HOME_DIR$/plugins/maven/lib/maven3-server-impl.jar!/" />
-              <root url="jar://$APPLICATION_HOME_DIR$/plugins/maven/lib/wadl-core.jar!/" />
+              <root url="jar://$MODULE_DIR$/../dep/java/lib/java-manifest.jar!/" />
+              <root url="jar://$MODULE_DIR$/../dep/java/lib/java-rt.jar!/" />
+              <root url="jar://$MODULE_DIR$/../dep/java/lib/java.jar!/" />
+              <root url="jar://$MODULE_DIR$/../dep/java/lib/jdk-annotations.jar!/" />
             </CLASSES>
             <DOCUMENTATION />
             <SOURCES />
