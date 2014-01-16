@@ -42,11 +42,6 @@ public class LombokModuleExtensionProvider implements ModuleExtensionProvider<Lo
   }
 
   @Override
-  public Class<LombokModuleExtension> getImmutableClass() {
-    return LombokModuleExtension.class;
-  }
-
-  @Override
   public LombokModuleExtension createImmutable(@NotNull String s, @NotNull Module module) {
     return new LombokModuleExtension(s, module);
   }

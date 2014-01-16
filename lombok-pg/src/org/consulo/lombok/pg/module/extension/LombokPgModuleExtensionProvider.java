@@ -40,12 +40,6 @@ public class LombokPgModuleExtensionProvider implements ModuleExtensionProvider<
   public String getName() {
     return "Lombok-pg";
   }
-
-  @Override
-  public Class<LombokPgModuleExtension> getImmutableClass() {
-    return LombokPgModuleExtension.class;
-  }
-
   @Override
   public LombokPgModuleExtension createImmutable(@NotNull String s, @NotNull Module module) {
     return new LombokPgModuleExtension(s, module);
