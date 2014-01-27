@@ -29,12 +29,9 @@ import javax.swing.*;
  * @since 25.05.13
  */
 public class LombokMutableModuleExtension extends LombokModuleExtension implements MutableModuleExtension<LombokModuleExtension> {
-  private LombokModuleExtension myModuleExtension;
 
-  public LombokMutableModuleExtension(@NotNull String id, @NotNull Module module, @NotNull LombokModuleExtension moduleExtension) {
+  public LombokMutableModuleExtension(@NotNull String id, @NotNull Module module) {
     super(id, module);
-    myModuleExtension = moduleExtension;
-    commit(moduleExtension);
   }
 
   @Nullable
@@ -49,12 +46,7 @@ public class LombokMutableModuleExtension extends LombokModuleExtension implemen
   }
 
   @Override
-  public boolean isModified() {
-    return myIsEnabled != myModuleExtension.isEnabled();
-  }
-
-  @Override
-  public void commit() {
-    myModuleExtension.commit(this);
+  public boolean isModified(@NotNull LombokModuleExtension extension) {
+    return myIsEnabled != extension.isEnabled();
   }
 }

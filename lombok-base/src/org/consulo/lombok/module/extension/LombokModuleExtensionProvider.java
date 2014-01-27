@@ -41,15 +41,15 @@ public class LombokModuleExtensionProvider implements ModuleExtensionProvider<Lo
     return "Lombok";
   }
 
+  @NotNull
   @Override
   public LombokModuleExtension createImmutable(@NotNull String s, @NotNull Module module) {
     return new LombokModuleExtension(s, module);
   }
 
+  @NotNull
   @Override
-  public LombokMutableModuleExtension createMutable(@NotNull String s,
-                                                    @NotNull Module module,
-                                                    @NotNull LombokModuleExtension lombokModuleExtension) {
-    return new LombokMutableModuleExtension(s, module, lombokModuleExtension);
+  public LombokMutableModuleExtension createMutable(@NotNull String s, @NotNull Module module) {
+    return new LombokMutableModuleExtension(s, module);
   }
 }
