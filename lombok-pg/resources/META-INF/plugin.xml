@@ -14,25 +14,31 @@
   ~ limitations under the License.
   -->
 <idea-plugin version="2">
-  <id>org.consulo.lombokpg</id>
-  <name>Lombok-Pg Support</name>
-  <vendor>Consulo</vendor>
-  <category>Language Extensions</category>
-  <version>1.0</version>
-  <depends>org.consulo.lombok</depends>
-  <depends optional="true" config-file="org.jetbrains.idea.maven.xml">org.jetbrains.idea.maven</depends>
+	<id>org.consulo.lombokpg</id>
+	<name>Lombok-Pg Support</name>
+	<vendor>Consulo</vendor>
+	<category>Language Extensions</category>
+	<version>1.0</version>
+	<depends>org.consulo.lombok</depends>
+	<depends optional="true" config-file="org.jetbrains.idea.maven.xml">org.jetbrains.idea.maven</depends>
 
-  <extensions defaultExtensionNs="com.intellij">
-    <moduleExtensionProvider key="lombok-pg" parent-key="lombok" implementationClass="org.consulo.lombok.pg.module.extension.LombokPgModuleExtensionProvider" />
-  </extensions>
+	<extensions defaultExtensionNs="com.intellij">
+		<moduleExtensionProvider key="lombok-pg"
+								 parentKey="lombok"
+								 name="Lombok-pg"
+								 icon="/org/consulo/lombok/pg/icons/lombok.png"
+								 immutableClass="org.consulo.lombok.pg.module.extension.LombokPgModuleExtension"
+								 mutableClass="org.consulo.lombok.pg.module.extension.LombokPgMutableModuleExtension"/>
+	</extensions>
 
-  <extensions defaultExtensionNs="org.consulo.java">
-    <augmentProvider implementation="org.consulo.lombok.pg.psi.augment.LombokPgPsiAugmentProvider" />
-  </extensions>
+	<extensions defaultExtensionNs="org.consulo.java">
+		<augmentProvider implementation="org.consulo.lombok.pg.psi.augment.LombokPgPsiAugmentProvider"/>
+	</extensions>
 
-  <extensions defaultExtensionNs="org.consulo.lombok">
-    <processor annotationClass="lombok.AutoGenMethodStub" implementationClass="org.consulo.lombok.pg.processors.impl.AutoGenMethodStubProcessor" />
-    <processor annotationClass="lombok.ListenerSupport" implementationClass="org.consulo.lombok.pg.processors.impl.ListenerSupportAnnotationProcessor" />
-    <processor annotationClass="lombok.BoundSetter" implementationClass="org.consulo.lombok.pg.processors.impl.BoundSetterAnnotationProcessor" />
-  </extensions>
+	<extensions defaultExtensionNs="org.consulo.lombok">
+		<processor annotationClass="lombok.AutoGenMethodStub" implementationClass="org.consulo.lombok.pg.processors.impl.AutoGenMethodStubProcessor"/>
+		<processor annotationClass="lombok.ListenerSupport"
+				   implementationClass="org.consulo.lombok.pg.processors.impl.ListenerSupportAnnotationProcessor"/>
+		<processor annotationClass="lombok.BoundSetter" implementationClass="org.consulo.lombok.pg.processors.impl.BoundSetterAnnotationProcessor"/>
+	</extensions>
 </idea-plugin>

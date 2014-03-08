@@ -16,36 +16,40 @@
 
 package org.consulo.lombok.pg.module.extension;
 
-import com.intellij.openapi.module.Module;
-import com.intellij.openapi.roots.ModifiableRootModel;
+import javax.swing.JComponent;
+
 import org.consulo.module.extension.MutableModuleExtension;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
-import javax.swing.*;
+import com.intellij.openapi.roots.ModifiableRootModel;
 
 /**
  * @author VISTALL
  * @since 25.05.13
  */
-public class LombokPgMutableModuleExtension extends LombokPgModuleExtension implements MutableModuleExtension<LombokPgModuleExtension> {
-  public LombokPgMutableModuleExtension(@NotNull String id, @NotNull Module module) {
-    super(id, module);
-  }
+public class LombokPgMutableModuleExtension extends LombokPgModuleExtension implements MutableModuleExtension<LombokPgModuleExtension>
+{
+	public LombokPgMutableModuleExtension(@NotNull String id, @NotNull ModifiableRootModel module)
+	{
+		super(id, module);
+	}
 
-  @Nullable
-  @Override
-  public JComponent createConfigurablePanel(@NotNull ModifiableRootModel modifiableRootModel, @Nullable Runnable runnable) {
-    return null;
-  }
+	@Nullable
+	@Override
+	public JComponent createConfigurablePanel(@Nullable Runnable runnable)
+	{
+		return null;
+	}
 
-  @Override
-  public void setEnabled(boolean b) {
-    myIsEnabled = b;
-  }
+	@Override
+	public void setEnabled(boolean b)
+	{
+		myIsEnabled = b;
+	}
 
-  @Override
-  public boolean isModified(@NotNull LombokPgModuleExtension extension) {
-    return myIsEnabled != extension.isEnabled();
-  }
+	@Override
+	public boolean isModified(@NotNull LombokPgModuleExtension extension)
+	{
+		return myIsEnabled != extension.isEnabled();
+	}
 }

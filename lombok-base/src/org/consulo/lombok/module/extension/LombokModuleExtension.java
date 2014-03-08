@@ -18,14 +18,16 @@ package org.consulo.lombok.module.extension;
 
 import org.consulo.module.extension.impl.ModuleExtensionImpl;
 import org.jetbrains.annotations.NotNull;
-import com.intellij.openapi.module.Module;
+import com.intellij.openapi.roots.ModifiableRootModel;
 
 /**
  * @author VISTALL
  * @since 24.05.13
  */
-public class LombokModuleExtension extends ModuleExtensionImpl<LombokModuleExtension> {
-  public LombokModuleExtension(@NotNull String id, @NotNull Module module) {
-    super(id, module);
-  }
+public class LombokModuleExtension extends ModuleExtensionImpl<LombokModuleExtension>
+{
+	public LombokModuleExtension(@NotNull String id, @NotNull ModifiableRootModel module)
+	{
+		super(id, module);
+	}
 }
