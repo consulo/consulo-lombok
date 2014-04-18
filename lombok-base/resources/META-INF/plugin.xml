@@ -19,7 +19,7 @@
 	<name>Lombok Support</name>
 	<vendor>Consulo</vendor>
 	<category>Language Extensions</category>
-	<version>1.0</version>
+	<version>SNAPSHOT</version>
 	<resource-bundle>messages.LombokBaseBundle</resource-bundle>
 	<depends>org.consulo.java</depends>
 
@@ -40,13 +40,14 @@
 	</extensions>
 
 	<extensions defaultExtensionNs="com.intellij">
+		<intentionAction>
+			<className>org.consulo.lombok.intentions.TypeCanBeReplacedByValIntention</className>
+			<categoryKey>intention.category.annotations</categoryKey>
+		</intentionAction>
 
 		<!--Inspections-->
 		<localInspection implementationClass="org.consulo.lombok.codeInsight.LombokLocalInspection" displayName="Lombok Errors"
 						 groupKey="inspection.group.name" enabledByDefault="true" level="ERROR"/>
-		<localInspection implementationClass="org.consulo.lombok.codeInsight.typeCanBeReplacedByVal.TypeCanBeReplacedByValInspection"
-						 displayName="Type can be replaced by 'lombok.val'" groupKey="inspection.group.name" enabledByDefault="true"
-						 level="INFORMATION"/>
 
 		<lang.psi.elementFactory implementation="org.consulo.lombok.psi.LombokPsiElementFactory"/>
 		<lang.ast.compositeFactory implementation="org.consulo.lombok.psi.LombokASTCompositeFactory"/>

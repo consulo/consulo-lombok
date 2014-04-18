@@ -18,7 +18,7 @@
 	<name>Lombok-Pg Support</name>
 	<vendor>Consulo</vendor>
 	<category>Language Extensions</category>
-	<version>1.0</version>
+	<version>SNAPSHOT</version>
 	<depends>org.consulo.lombok</depends>
 	<depends optional="true" config-file="org.jetbrains.idea.maven.xml">org.jetbrains.idea.maven</depends>
 
