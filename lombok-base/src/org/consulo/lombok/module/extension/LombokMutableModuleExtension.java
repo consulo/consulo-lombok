@@ -21,7 +21,7 @@ import javax.swing.JComponent;
 import org.consulo.module.extension.MutableModuleExtension;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import com.intellij.openapi.roots.ModifiableRootModel;
+import com.intellij.openapi.roots.ModuleRootLayer;
 
 /**
  * @author VISTALL
@@ -29,9 +29,9 @@ import com.intellij.openapi.roots.ModifiableRootModel;
  */
 public class LombokMutableModuleExtension extends LombokModuleExtension implements MutableModuleExtension<LombokModuleExtension>
 {
-	public LombokMutableModuleExtension(@NotNull String id, @NotNull ModifiableRootModel module)
+	public LombokMutableModuleExtension(@NotNull String id, @NotNull ModuleRootLayer moduleRootLayer)
 	{
-		super(id, module);
+		super(id, moduleRootLayer);
 	}
 
 	@Nullable

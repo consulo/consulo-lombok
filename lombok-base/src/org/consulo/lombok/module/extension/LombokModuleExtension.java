@@ -18,7 +18,7 @@ package org.consulo.lombok.module.extension;
 
 import org.consulo.module.extension.impl.ModuleExtensionImpl;
 import org.jetbrains.annotations.NotNull;
-import com.intellij.openapi.roots.ModifiableRootModel;
+import com.intellij.openapi.roots.ModuleRootLayer;
 
 /**
  * @author VISTALL
@@ -26,8 +26,8 @@ import com.intellij.openapi.roots.ModifiableRootModel;
  */
 public class LombokModuleExtension extends ModuleExtensionImpl<LombokModuleExtension>
 {
-	public LombokModuleExtension(@NotNull String id, @NotNull ModifiableRootModel module)
+	public LombokModuleExtension(@NotNull String id, @NotNull ModuleRootLayer moduleRootLayer)
 	{
-		super(id, module);
+		super(id, moduleRootLayer);
 	}
 }
