@@ -16,6 +16,11 @@
 package org.consulo.lombok.psi.impl.source;
 
 import org.consulo.lombok.LombokClassNames;
+import org.consulo.lombok.processors.util.LombokUtil;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import com.intellij.openapi.util.NullableComputable;
+import com.intellij.openapi.util.RecursionManager;
 import com.intellij.psi.PsiClass;
 import com.intellij.psi.PsiExpression;
 import com.intellij.psi.PsiModifier;
@@ -24,52 +29,66 @@ import com.intellij.psi.impl.source.tree.java.PsiLocalVariableImpl;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.psi.util.PsiTypesUtil;
 import com.intellij.util.ArrayUtil;
-import org.consulo.lombok.processors.util.LombokUtil;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 /**
  * @author VISTALL
  * @since 18:08/30.03.13
  */
-public class LombokPsiLocalVariableImpl extends PsiLocalVariableImpl implements LombokValOwner {
-  private static final String[] ourAdditionalModifiers = new String[]{PsiModifier.FINAL};
+public class LombokPsiLocalVariableImpl extends PsiLocalVariableImpl implements LombokValOwner
+{
+	private static final String[] ourAdditionalModifiers = new String[]{PsiModifier.FINAL};
 
-  public LombokPsiLocalVariableImpl() {
-    this(LOCAL_VARIABLE);
-  }
+	public LombokPsiLocalVariableImpl()
+	{
+		this(LOCAL_VARIABLE);
+	}
 
-  protected LombokPsiLocalVariableImpl(final IElementType type) {
-    super(type);
-  }
+	protected LombokPsiLocalVariableImpl(final IElementType type)
+	{
+		super(type);
+	}
 
-  @NotNull
-  @Override
-  public PsiType getType() {
-    final PsiType type = findRightTypeIfCan();
-    return type == null ? super.getType() : type;
-  }
+	@NotNull
+	@Override
+	public PsiType getType()
+	{
+		final PsiType type = findRightTypeIfCan();
+		return type == null ? super.getType() : type;
+	}
 
-  @Override
-  @Nullable
-  public PsiType findRightTypeIfCan() {
-    if(!LombokUtil.isExtensionEnabled(this)) {
-      return null;
-    }
-    final PsiClass resolve = PsiTypesUtil.getPsiClass(super.getType());
-    if (resolve == null || !LombokClassNames.LOMBOK_VAL.equals(resolve.getQualifiedName())) {
-      return null;
-    }
-    final PsiExpression expression = getInitializer();
-    if (expression == null) {
-      return null;
-    }
-    final PsiType expressionType = expression.getType();
-    return expressionType == null ? null : expressionType;
-  }
+	@Override
+	@Nullable
+	public PsiType findRightTypeIfCan()
+	{
+		return RecursionManager.doPreventingRecursion(this, false, new NullableComputable<PsiType>()
+		{
+			@Nullable
+			@Override
+			public PsiType compute()
+			{
+				if(!LombokUtil.isExtensionEnabled(LombokPsiLocalVariableImpl.this))
+				{
+					return null;
+				}
+				final PsiClass resolve = PsiTypesUtil.getPsiClass(LombokPsiLocalVariableImpl.super.getType());
+				if(resolve == null || !LombokClassNames.LOMBOK_VAL.equals(resolve.getQualifiedName()))
+				{
+					return null;
+				}
+				final PsiExpression expression = getInitializer();
+				if(expression == null)
+				{
+					return null;
+				}
+				final PsiType expressionType = expression.getType();
+				return expressionType == null ? null : expressionType;
+			}
+		});
+	}
 
-  @Override
-  public String[] getAdditionalModifiers() {
-    return findRightTypeIfCan() == null ? ArrayUtil.EMPTY_STRING_ARRAY : ourAdditionalModifiers;
-  }
+	@Override
+	public String[] getAdditionalModifiers()
+	{
+		return findRightTypeIfCan() == null ? ArrayUtil.EMPTY_STRING_ARRAY : ourAdditionalModifiers;
+	}
 }
