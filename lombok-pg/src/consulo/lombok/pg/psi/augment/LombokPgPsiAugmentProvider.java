@@ -14,25 +14,22 @@
  * limitations under the License.
  */
 
-package org.consulo.lombok.pg.processors.util;
+package consulo.lombok.pg.psi.augment;
 
+import consulo.lombok.pg.module.extension.LombokPgModuleExtension;
 import org.jetbrains.annotations.NotNull;
-import com.intellij.openapi.module.Module;
-import com.intellij.openapi.module.ModuleUtil;
-import com.intellij.openapi.module.ModuleUtilCore;
-import com.intellij.psi.PsiElement;
-import consulo.lombok.module.extension.LombokModuleExtension;
+import consulo.lombok.psi.augment.LombokPsiAugmentProvider;
+import consulo.module.extension.ModuleExtension;
 
 /**
  * @author VISTALL
- * @since 18:48/25.05.13
+ * @since 01.08.13.
  */
-public class LombokPgUtil {
-  public static boolean isLombokPgExtensionEnabled(@NotNull PsiElement element) {
-    Module moduleForPsiElement = ModuleUtilCore.findModuleForPsiElement(element);
-    if(moduleForPsiElement == null) {
-      return false;
-    }
-    return ModuleUtil.getExtension(moduleForPsiElement, LombokModuleExtension.class) != null;
+public class LombokPgPsiAugmentProvider extends LombokPsiAugmentProvider
+{
+	@NotNull
+  @Override
+  protected Class<? extends ModuleExtension> getModuleExtensionClass() {
+    return LombokPgModuleExtension.class;
   }
 }

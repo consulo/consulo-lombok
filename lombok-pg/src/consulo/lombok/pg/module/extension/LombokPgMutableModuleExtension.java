@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.consulo.lombok.pg.module.extension;
+package consulo.lombok.pg.module.extension;
 
 import javax.swing.JComponent;
 

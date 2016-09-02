@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.consulo.lombok.pg.processors.impl;
+package consulo.lombok.pg.processors.impl;
 
 import com.intellij.codeInsight.generation.OverrideImplementExploreUtil;
 import com.intellij.codeInsight.generation.OverrideImplementUtil;
@@ -22,7 +22,7 @@ import com.intellij.psi.impl.light.LightMethodBuilder;
 import com.intellij.psi.impl.light.LightTypeParameter;
 import com.intellij.psi.infos.CandidateInfo;
 import com.intellij.psi.util.MethodSignature;
-import org.consulo.lombok.pg.processors.LombokPgSelfClassProcessor;
+import consulo.lombok.pg.processors.LombokPgSelfClassProcessor;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;

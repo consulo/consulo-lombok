@@ -14,22 +14,26 @@
  * limitations under the License.
  */
 
-package org.consulo.lombok.pg.psi.augment;
+package consulo.lombok.pg.processors;
 
-import org.consulo.lombok.pg.module.extension.LombokPgModuleExtension;
+import consulo.lombok.pg.module.extension.LombokPgModuleExtension;
 import org.jetbrains.annotations.NotNull;
-import consulo.lombok.psi.augment.LombokPsiAugmentProvider;
+import consulo.lombok.processors.LombokSelfClassProcessor;
 import consulo.module.extension.ModuleExtension;
 
 /**
  * @author VISTALL
- * @since 01.08.13.
+ * @since 18:56/25.05.13
  */
-public class LombokPgPsiAugmentProvider extends LombokPsiAugmentProvider
+public abstract class LombokPgSelfClassProcessor extends LombokSelfClassProcessor
 {
-	@NotNull
+  public LombokPgSelfClassProcessor(String annotationClass) {
+    super(annotationClass);
+  }
+
+  @NotNull
   @Override
-  protected Class<? extends ModuleExtension> getModuleExtensionClass() {
+  public Class<? extends ModuleExtension> getModuleExtensionClass() {
     return LombokPgModuleExtension.class;
   }
 }

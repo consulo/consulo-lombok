@@ -27,18 +27,18 @@
 								 parentKey="lombok"
 								 name="Lombok-pg"
 								 icon="/consulo/lombok/pg/icons/lombok.png"
-								 immutableClass="org.consulo.lombok.pg.module.extension.LombokPgModuleExtension"
-								 mutableClass="org.consulo.lombok.pg.module.extension.LombokPgMutableModuleExtension"/>
+								 immutableClass="consulo.lombok.pg.module.extension.LombokPgModuleExtension"
+								 mutableClass="consulo.lombok.pg.module.extension.LombokPgMutableModuleExtension"/>
 	</extensions>
 
 	<extensions defaultExtensionNs="org.consulo.java">
-		<augmentProvider implementation="org.consulo.lombok.pg.psi.augment.LombokPgPsiAugmentProvider"/>
+		<augmentProvider implementation="consulo.lombok.pg.psi.augment.LombokPgPsiAugmentProvider"/>
 	</extensions>
 
 	<extensions defaultExtensionNs="consulo.lombok">
-		<processor annotationClass="lombok.AutoGenMethodStub" implementationClass="org.consulo.lombok.pg.processors.impl.AutoGenMethodStubProcessor"/>
+		<processor annotationClass="lombok.AutoGenMethodStub" implementationClass="consulo.lombok.pg.processors.impl.AutoGenMethodStubProcessor"/>
 		<processor annotationClass="lombok.ListenerSupport"
-				   implementationClass="org.consulo.lombok.pg.processors.impl.ListenerSupportAnnotationProcessor"/>
-		<processor annotationClass="lombok.BoundSetter" implementationClass="org.consulo.lombok.pg.processors.impl.BoundSetterAnnotationProcessor"/>
+				   implementationClass="consulo.lombok.pg.processors.impl.ListenerSupportAnnotationProcessor"/>
+		<processor annotationClass="lombok.BoundSetter" implementationClass="consulo.lombok.pg.processors.impl.BoundSetterAnnotationProcessor"/>
 	</extensions>
 </idea-plugin>

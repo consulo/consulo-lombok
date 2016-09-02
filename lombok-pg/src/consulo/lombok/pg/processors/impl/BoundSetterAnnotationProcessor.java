@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.consulo.lombok.pg.processors.impl;
+package consulo.lombok.pg.processors.impl;
 
 import java.util.List;
 
-import org.consulo.lombok.pg.processors.LombokPgFieldProcessor;
+import consulo.lombok.pg.processors.LombokPgFieldProcessor;
 import org.jetbrains.annotations.NotNull;
 import com.intellij.psi.JavaPsiFacade;
 import com.intellij.psi.PsiAnnotation;

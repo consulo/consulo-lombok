@@ -14,26 +14,20 @@
  * limitations under the License.
  */
 
-package org.consulo.lombok.pg.processors;
+package consulo.lombok.pg.module.extension;
 
-import org.consulo.lombok.pg.module.extension.LombokPgModuleExtension;
 import org.jetbrains.annotations.NotNull;
-import consulo.lombok.processors.LombokFieldProcessor;
-import consulo.module.extension.ModuleExtension;
+import consulo.extension.impl.ModuleExtensionImpl;
+import consulo.roots.ModuleRootLayer;
 
 /**
  * @author VISTALL
- * @since 18:56/25.05.13
+ * @since 24.05.13
  */
-public abstract class LombokPgFieldProcessor extends LombokFieldProcessor
+public class LombokPgModuleExtension extends ModuleExtensionImpl<LombokPgModuleExtension>
 {
-  public LombokPgFieldProcessor(String annotationClass) {
-    super(annotationClass);
-  }
-
-  @NotNull
-  @Override
-  public Class<? extends ModuleExtension> getModuleExtensionClass() {
-    return LombokPgModuleExtension.class;
-  }
+	public LombokPgModuleExtension(@NotNull String id, @NotNull ModuleRootLayer moduleRootLayer)
+	{
+		super(id, moduleRootLayer);
+	}
 }
