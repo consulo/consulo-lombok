@@ -15,14 +15,20 @@
  */
 package org.consulo.lombok.processors.util;
 
+import org.consulo.lombok.module.extension.LombokModuleExtension;
+import org.jetbrains.annotations.NotNull;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.module.ModuleUtil;
 import com.intellij.openapi.module.ModuleUtilCore;
-import com.intellij.psi.*;
+import com.intellij.psi.PsiAnnotation;
+import com.intellij.psi.PsiAnnotationMemberValue;
+import com.intellij.psi.PsiElement;
+import com.intellij.psi.PsiEnumConstant;
+import com.intellij.psi.PsiModifier;
+import com.intellij.psi.PsiModifierListOwner;
+import com.intellij.psi.PsiReference;
 import com.intellij.psi.impl.light.LightMethodBuilder;
-import org.consulo.lombok.module.extension.LombokModuleExtension;
-import org.consulo.module.extension.ModuleExtension;
-import org.jetbrains.annotations.NotNull;
+import consulo.module.extension.ModuleExtension;
 
 /**
  * @author VISTALL
@@ -33,7 +39,7 @@ public class LombokUtil {
     return isExtensionEnabled(element, LombokModuleExtension.class);
   }
 
-  public static boolean isExtensionEnabled(@NotNull PsiElement element, @NotNull Class<? extends ModuleExtension > extensionClass) {
+  public static boolean isExtensionEnabled(@NotNull PsiElement element, @NotNull Class<? extends ModuleExtension> extensionClass) {
     Module moduleForPsiElement = ModuleUtilCore.findModuleForPsiElement(element);
     if(moduleForPsiElement == null) {
       return false;

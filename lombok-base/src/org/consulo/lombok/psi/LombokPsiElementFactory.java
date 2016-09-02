@@ -15,21 +15,22 @@
  */
 package org.consulo.lombok.psi;
 
-import com.intellij.lang.ASTNode;
-import com.intellij.lang.PsiElementFactory;
 import org.consulo.lombok.psi.impl.source.LombokPsiModifierListImpl;
 import org.consulo.lombok.psi.impl.source.LombokPsiParameterImpl;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.impl.java.stubs.JavaStubElementTypes;
 import com.intellij.psi.tree.IElementType;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import consulo.psi.tree.PsiElementFactory;
 
 /**
  * @author VISTALL
  * @since 17:43/30.03.13
  */
-public class LombokPsiElementFactory implements PsiElementFactory {
+public class LombokPsiElementFactory implements PsiElementFactory
+{
   @Nullable
   @Override
   public PsiElement createElement(@NotNull ASTNode node) {

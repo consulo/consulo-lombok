@@ -15,13 +15,13 @@
  */
 package org.consulo.lombok.processors;
 
+import java.util.List;
+
+import org.jetbrains.annotations.NotNull;
 import com.intellij.codeInspection.ProblemsHolder;
 import com.intellij.psi.PsiClass;
 import com.intellij.psi.PsiElement;
-import org.consulo.module.extension.ModuleExtension;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.List;
+import consulo.module.extension.ModuleExtension;
 
 /**
  * @author VISTALL

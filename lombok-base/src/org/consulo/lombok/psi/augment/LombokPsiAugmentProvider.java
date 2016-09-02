@@ -15,19 +15,19 @@
  */
 package org.consulo.lombok.psi.augment;
 
-import com.intellij.psi.PsiClass;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.augment.PsiAugmentProvider;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import org.consulo.lombok.module.extension.LombokModuleExtension;
 import org.consulo.lombok.processors.LombokProcessor;
 import org.consulo.lombok.processors.LombokProcessorEP;
 import org.consulo.lombok.processors.util.LombokUtil;
-import org.consulo.module.extension.ModuleExtension;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import com.intellij.psi.PsiClass;
+import com.intellij.psi.PsiElement;
+import com.intellij.psi.augment.PsiAugmentProvider;
+import consulo.module.extension.ModuleExtension;
 
 /**
  * @author VISTALL
@@ -56,7 +56,7 @@ public class LombokPsiAugmentProvider extends PsiAugmentProvider {
     return list;
   }
 
-  @NotNull
+	@NotNull
   protected Class<? extends ModuleExtension> getModuleExtensionClass() {
     return LombokModuleExtension.class;
   }

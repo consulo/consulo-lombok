@@ -15,17 +15,17 @@
  */
 package org.consulo.lombok.processors;
 
+import java.util.List;
+
+import org.consulo.lombok.module.extension.LombokModuleExtension;
+import org.jetbrains.annotations.NotNull;
 import com.intellij.codeInsight.AnnotationUtil;
 import com.intellij.codeInspection.ProblemsHolder;
 import com.intellij.psi.PsiAnnotation;
 import com.intellij.psi.PsiClass;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiModifierListOwner;
-import org.consulo.lombok.module.extension.LombokModuleExtension;
-import org.consulo.module.extension.ModuleExtension;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.List;
+import consulo.module.extension.ModuleExtension;
 
 /**
  * @author VISTALL

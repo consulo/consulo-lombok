@@ -16,18 +16,19 @@
 package org.consulo.lombok.psi;
 
 import org.consulo.lombok.psi.impl.source.LombokPsiLocalVariableImpl;
-import com.intellij.lang.ASTCompositeFactory;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import com.intellij.psi.impl.source.tree.CompositeElement;
 import com.intellij.psi.impl.source.tree.JavaElementType;
 import com.intellij.psi.tree.IElementType;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import consulo.psi.tree.ASTCompositeFactory;
 
 /**
  * @author VISTALL
  * @since 19:10/30.03.13
  */
-public class LombokASTCompositeFactory implements ASTCompositeFactory {
+public class LombokASTCompositeFactory implements ASTCompositeFactory
+{
   @Override
   @NotNull
   public CompositeElement createComposite(IElementType type) {
