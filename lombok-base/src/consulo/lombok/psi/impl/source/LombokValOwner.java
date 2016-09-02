@@ -14,22 +14,18 @@
  * limitations under the License.
  */
 
-package org.consulo.lombok.pg.psi.augment;
+package consulo.lombok.psi.impl.source;
 
-import org.consulo.lombok.pg.module.extension.LombokPgModuleExtension;
-import org.jetbrains.annotations.NotNull;
-import consulo.lombok.psi.augment.LombokPsiAugmentProvider;
-import consulo.module.extension.ModuleExtension;
+import org.jetbrains.annotations.Nullable;
+import com.intellij.psi.PsiType;
+import consulo.lombok.psi.LombokElementWithAdditionalModifiers;
 
 /**
  * @author VISTALL
- * @since 01.08.13.
+ * @since 20:30/02.05.13
  */
-public class LombokPgPsiAugmentProvider extends LombokPsiAugmentProvider
+public interface LombokValOwner extends LombokElementWithAdditionalModifiers
 {
-	@NotNull
-  @Override
-  protected Class<? extends ModuleExtension> getModuleExtensionClass() {
-    return LombokPgModuleExtension.class;
-  }
+  @Nullable
+  PsiType findRightTypeIfCan();
 }

@@ -14,19 +14,19 @@
   ~ limitations under the License.
   -->
 <idea-plugin version="2">
-	<id>org.consulo.lombokpg</id>
+	<id>consulo.lombokpg</id>
 	<name>Lombok-Pg Support</name>
-	<vendor>Consulo</vendor>
+	<vendor>MustBe.org</vendor>
 	<category>Language Extensions</category>
 	<version>SNAPSHOT</version>
-	<depends>org.consulo.lombok</depends>
+	<depends>consulo.lombok</depends>
 	<depends optional="true" config-file="org.jetbrains.idea.maven.xml">org.jetbrains.idea.maven</depends>
 
 	<extensions defaultExtensionNs="com.intellij">
 		<moduleExtensionProvider key="lombok-pg"
 								 parentKey="lombok"
 								 name="Lombok-pg"
-								 icon="/org/consulo/lombok/pg/icons/lombok.png"
+								 icon="/consulo/lombok/pg/icons/lombok.png"
 								 immutableClass="org.consulo.lombok.pg.module.extension.LombokPgModuleExtension"
 								 mutableClass="org.consulo.lombok.pg.module.extension.LombokPgMutableModuleExtension"/>
 	</extensions>
@@ -35,7 +35,7 @@
 		<augmentProvider implementation="org.consulo.lombok.pg.psi.augment.LombokPgPsiAugmentProvider"/>
 	</extensions>
 
-	<extensions defaultExtensionNs="org.consulo.lombok">
+	<extensions defaultExtensionNs="consulo.lombok">
 		<processor annotationClass="lombok.AutoGenMethodStub" implementationClass="org.consulo.lombok.pg.processors.impl.AutoGenMethodStubProcessor"/>
 		<processor annotationClass="lombok.ListenerSupport"
 				   implementationClass="org.consulo.lombok.pg.processors.impl.ListenerSupportAnnotationProcessor"/>

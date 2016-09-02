@@ -15,17 +15,25 @@
  */
 package org.consulo.lombok.pg.processors.impl;
 
+import java.util.List;
+
+import org.consulo.lombok.pg.processors.LombokPgSelfClassProcessor;
+import org.jetbrains.annotations.NotNull;
 import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.psi.*;
+import com.intellij.psi.PsiAnnotation;
+import com.intellij.psi.PsiAnnotationMemberValue;
+import com.intellij.psi.PsiClass;
+import com.intellij.psi.PsiElement;
+import com.intellij.psi.PsiMethod;
+import com.intellij.psi.PsiModifier;
+import com.intellij.psi.PsiParameter;
+import com.intellij.psi.PsiSubstitutor;
+import com.intellij.psi.PsiType;
 import com.intellij.psi.impl.light.LightMethodBuilder;
 import com.intellij.psi.impl.light.LightParameter;
 import com.intellij.psi.impl.source.PsiImmediateClassType;
 import com.intellij.util.containers.MultiMap;
-import org.consulo.lombok.pg.processors.LombokPgSelfClassProcessor;
-import org.consulo.lombok.processors.util.LombokClassUtil;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.List;
+import consulo.lombok.processors.util.LombokClassUtil;
 
 /**
  * @author VISTALL

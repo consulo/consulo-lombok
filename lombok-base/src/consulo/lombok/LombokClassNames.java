@@ -13,23 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-package org.consulo.lombok.pg.psi.augment;
-
-import org.consulo.lombok.pg.module.extension.LombokPgModuleExtension;
-import org.jetbrains.annotations.NotNull;
-import consulo.lombok.psi.augment.LombokPsiAugmentProvider;
-import consulo.module.extension.ModuleExtension;
+package consulo.lombok;
 
 /**
  * @author VISTALL
- * @since 01.08.13.
+ * @since 17:52/30.03.13
  */
-public class LombokPgPsiAugmentProvider extends LombokPsiAugmentProvider
-{
-	@NotNull
-  @Override
-  protected Class<? extends ModuleExtension> getModuleExtensionClass() {
-    return LombokPgModuleExtension.class;
-  }
+public interface LombokClassNames {
+  String LOMBOK_VAL = "lombok.val";
+
+  String LOMBOK_SNEAKY_THROWS = "lombok.SneakyThrows";
+
+  String LOMBOK_NON_NULL = "lombok.NonNull";
+
+  String LOMBOK_SETTER = "lombok.Setter";
+
+  String LOMBOK_GETTER = "lombok.Getter";
 }

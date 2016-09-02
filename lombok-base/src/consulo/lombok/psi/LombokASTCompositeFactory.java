@@ -13,23 +13,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package consulo.lombok.psi;
 
-package org.consulo.lombok.pg.psi.augment;
-
-import org.consulo.lombok.pg.module.extension.LombokPgModuleExtension;
 import org.jetbrains.annotations.NotNull;
-import consulo.lombok.psi.augment.LombokPsiAugmentProvider;
-import consulo.module.extension.ModuleExtension;
+import org.jetbrains.annotations.Nullable;
+import com.intellij.psi.impl.source.tree.CompositeElement;
+import com.intellij.psi.impl.source.tree.JavaElementType;
+import com.intellij.psi.tree.IElementType;
+import consulo.lombok.psi.impl.source.LombokPsiLocalVariableImpl;
+import consulo.psi.tree.ASTCompositeFactory;
 
 /**
  * @author VISTALL
- * @since 01.08.13.
+ * @since 19:10/30.03.13
  */
-public class LombokPgPsiAugmentProvider extends LombokPsiAugmentProvider
+public class LombokASTCompositeFactory implements ASTCompositeFactory
 {
-	@NotNull
   @Override
-  protected Class<? extends ModuleExtension> getModuleExtensionClass() {
-    return LombokPgModuleExtension.class;
+  @NotNull
+  public CompositeElement createComposite(IElementType type) {
+    return new LombokPsiLocalVariableImpl();
+  }
+
+  @Override
+  public boolean apply(@Nullable IElementType input) {
+    return input == JavaElementType.LOCAL_VARIABLE;
   }
 }

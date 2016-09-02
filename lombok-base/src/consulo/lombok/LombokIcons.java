@@ -14,22 +14,16 @@
  * limitations under the License.
  */
 
-package org.consulo.lombok.pg.psi.augment;
+package consulo.lombok;
 
-import org.consulo.lombok.pg.module.extension.LombokPgModuleExtension;
-import org.jetbrains.annotations.NotNull;
-import consulo.lombok.psi.augment.LombokPsiAugmentProvider;
-import consulo.module.extension.ModuleExtension;
+import com.intellij.openapi.util.IconLoader;
+
+import javax.swing.*;
 
 /**
  * @author VISTALL
- * @since 01.08.13.
+ * @since 25.05.13.
  */
-public class LombokPgPsiAugmentProvider extends LombokPsiAugmentProvider
-{
-	@NotNull
-  @Override
-  protected Class<? extends ModuleExtension> getModuleExtensionClass() {
-    return LombokPgModuleExtension.class;
-  }
+public interface LombokIcons {
+  Icon ICON = IconLoader.findIcon("/consulo/lombok/icons/lombok.png");
 }

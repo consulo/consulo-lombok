@@ -16,12 +16,12 @@
 
 package org.consulo.lombok.pg.processors.util;
 
+import org.jetbrains.annotations.NotNull;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.module.ModuleUtil;
 import com.intellij.openapi.module.ModuleUtilCore;
 import com.intellij.psi.PsiElement;
-import org.consulo.lombok.module.extension.LombokModuleExtension;
-import org.jetbrains.annotations.NotNull;
+import consulo.lombok.module.extension.LombokModuleExtension;
 
 /**
  * @author VISTALL

@@ -13,23 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package consulo.lombok;
 
-package org.consulo.lombok.pg.psi.augment;
-
-import org.consulo.lombok.pg.module.extension.LombokPgModuleExtension;
-import org.jetbrains.annotations.NotNull;
-import consulo.lombok.psi.augment.LombokPsiAugmentProvider;
-import consulo.module.extension.ModuleExtension;
+import com.intellij.AbstractBundle;
 
 /**
  * @author VISTALL
- * @since 01.08.13.
+ * @since 18:20/30.03.13
  */
-public class LombokPgPsiAugmentProvider extends LombokPsiAugmentProvider
-{
-	@NotNull
-  @Override
-  protected Class<? extends ModuleExtension> getModuleExtensionClass() {
-    return LombokPgModuleExtension.class;
+public class LombokBaseBundle extends AbstractBundle {
+  private static final LombokBaseBundle INSTANCE = new LombokBaseBundle();
+
+  private LombokBaseBundle() {
+    super("message.LombokBase");
+  }
+
+  public static String message(String key, Object... arg) {
+    return INSTANCE.getMessage(key, arg);
   }
 }

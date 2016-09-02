@@ -17,15 +17,16 @@
 package org.consulo.lombok.pg.processors;
 
 import org.consulo.lombok.pg.module.extension.LombokPgModuleExtension;
-import org.consulo.lombok.processors.LombokSelfClassProcessor;
 import org.jetbrains.annotations.NotNull;
+import consulo.lombok.processors.LombokSelfClassProcessor;
 import consulo.module.extension.ModuleExtension;
 
 /**
  * @author VISTALL
  * @since 18:56/25.05.13
  */
-public abstract class LombokPgSelfClassProcessor extends LombokSelfClassProcessor {
+public abstract class LombokPgSelfClassProcessor extends LombokSelfClassProcessor
+{
   public LombokPgSelfClassProcessor(String annotationClass) {
     super(annotationClass);
   }

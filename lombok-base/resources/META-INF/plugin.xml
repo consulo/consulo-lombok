@@ -14,8 +14,8 @@
   ~ limitations under the License.
   -->
 
-<idea-plugin version="2">
-	<id>org.consulo.lombok</id>
+<idea-plugin>
+	<id>consulo.lombok</id>
 	<name>Lombok Support</name>
 	<vendor>Consulo</vendor>
 	<category>Language Extensions</category>
@@ -26,66 +26,63 @@
 	<depends optional="true" config-file="org.jetbrains.idea.maven.xml">org.jetbrains.idea.maven</depends>
 
 	<extensionPoints>
-		<extensionPoint name="processor" beanClass="org.consulo.lombok.processors.LombokProcessorEP">
-			<with attribute="implementationClass" implements="org.consulo.lombok.processors.LombokProcessor"/>
+		<extensionPoint name="processor" beanClass="consulo.lombok.processors.LombokProcessorEP">
+			<with attribute="implementationClass" implements="consulo.lombok.processors.LombokProcessor"/>
 		</extensionPoint>
 	</extensionPoints>
 
 	<extensions defaultExtensionNs="org.consulo.java">
-		<extraExceptionHandler implementation="org.consulo.lombok.codeInsight.LombokExtraExceptionHandler"/>
-	</extensions>
-
-	<extensions defaultExtensionNs="org.consulo.java">
-		<augmentProvider implementation="org.consulo.lombok.psi.augment.LombokPsiAugmentProvider"/>
+		<extraExceptionHandler implementation="consulo.lombok.codeInsight.LombokExtraExceptionHandler"/>
+		<augmentProvider implementation="consulo.lombok.psi.augment.LombokPsiAugmentProvider"/>
 	</extensions>
 
 	<extensions defaultExtensionNs="com.intellij">
 		<intentionAction>
-			<className>org.consulo.lombok.intentions.TypeCanBeReplacedByValIntention</className>
+			<className>consulo.lombok.intentions.TypeCanBeReplacedByValIntention</className>
 			<categoryKey>intention.category.annotations</categoryKey>
 		</intentionAction>
 
 		<!--Inspections-->
-		<localInspection implementationClass="org.consulo.lombok.codeInsight.LombokLocalInspection" displayName="Lombok Errors"
+		<localInspection implementationClass="consulo.lombok.codeInsight.LombokLocalInspection" displayName="Lombok Errors"
 						 groupKey="inspection.group.name" enabledByDefault="true" level="ERROR"/>
 
-		<lang.psi.elementFactory implementation="org.consulo.lombok.psi.LombokPsiElementFactory"/>
-		<lang.ast.compositeFactory implementation="org.consulo.lombok.psi.LombokASTCompositeFactory"/>
+		<lang.psi.elementFactory implementation="consulo.lombok.psi.LombokPsiElementFactory"/>
+		<lang.ast.compositeFactory implementation="consulo.lombok.psi.LombokASTCompositeFactory"/>
 
 		<moduleExtensionProvider key="lombok"
 								 parentKey="java"
-								 icon="/org/consulo/lombok/icons/lombok.png"
+								 icon="/consulo/lombok/icons/lombok.png"
 								 name="Lombok"
-								 immutableClass="org.consulo.lombok.module.extension.LombokModuleExtension"
-								 mutableClass="org.consulo.lombok.module.extension.LombokMutableModuleExtension"/>
+								 immutableClass="consulo.lombok.module.extension.LombokModuleExtension"
+								 mutableClass="consulo.lombok.module.extension.LombokMutableModuleExtension"/>
 	</extensions>
 
-	<extensions defaultExtensionNs="org.consulo.lombok">
+	<extensions defaultExtensionNs="consulo.lombok">
 		<!--Accessors-->
-		<processor annotationClass="lombok.Data" implementationClass="org.consulo.lombok.processors.impl.DataAnnotationProcessor"/>
-		<processor annotationClass="lombok.Getter" implementationClass="org.consulo.lombok.processors.impl.GetterAnnotationProcessor"/>
-		<processor annotationClass="lombok.Setter" implementationClass="org.consulo.lombok.processors.impl.SetterAnnotationProcessor"/>
-		<processor annotationClass="lombok.ToString" implementationClass="org.consulo.lombok.processors.impl.ToStringAnnotationProcessor"/>
+		<processor annotationClass="lombok.Data" implementationClass="consulo.lombok.processors.impl.DataAnnotationProcessor"/>
+		<processor annotationClass="lombok.Getter" implementationClass="consulo.lombok.processors.impl.GetterAnnotationProcessor"/>
+		<processor annotationClass="lombok.Setter" implementationClass="consulo.lombok.processors.impl.SetterAnnotationProcessor"/>
+		<processor annotationClass="lombok.ToString" implementationClass="consulo.lombok.processors.impl.ToStringAnnotationProcessor"/>
 		<processor annotationClass="lombok.EqualsAndHashCode"
-				   implementationClass="org.consulo.lombok.processors.impl.EqualsAndHashCodeAnnotationProcessor"/>
+				   implementationClass="consulo.lombok.processors.impl.EqualsAndHashCodeAnnotationProcessor"/>
 
-		<processor annotationClass="lombok.Delegate" implementationClass="org.consulo.lombok.processors.impl.DelegateAnnotationProcessor"/>
+		<processor annotationClass="lombok.Delegate" implementationClass="consulo.lombok.processors.impl.DelegateAnnotationProcessor"/>
 		<!--#ArgsConstructor-->
 		<processor annotationClass="lombok.NoArgsConstructor"
-				   implementationClass="org.consulo.lombok.processors.impl.NoArgsConstructorAnnotationProcessor"/>
+				   implementationClass="consulo.lombok.processors.impl.NoArgsConstructorAnnotationProcessor"/>
 		<processor annotationClass="lombok.AllArgsConstructor"
-				   implementationClass="org.consulo.lombok.processors.impl.AllArgsConstructorAnnotationProcessor"/>
+				   implementationClass="consulo.lombok.processors.impl.AllArgsConstructorAnnotationProcessor"/>
 		<processor annotationClass="lombok.RequiredArgsConstructor"
-				   implementationClass="org.consulo.lombok.processors.impl.RequiredArgsConstructorAnnotationProcessor"/>
+				   implementationClass="consulo.lombok.processors.impl.RequiredArgsConstructorAnnotationProcessor"/>
 		<!--Loggers-->
 		<processor annotationClass="lombok.extern.log4j.Log4j"
-				   implementationClass="org.consulo.lombok.processors.impl.Log4jAnnotationProcessor"/>
-		<processor annotationClass="lombok.extern.java.Log" implementationClass="org.consulo.lombok.processors.impl.LogAnnotationProcessor"/>
+				   implementationClass="consulo.lombok.processors.impl.Log4jAnnotationProcessor"/>
+		<processor annotationClass="lombok.extern.java.Log" implementationClass="consulo.lombok.processors.impl.LogAnnotationProcessor"/>
 		<processor annotationClass="lombok.extern.apachecommons.CommonsLog"
-				   implementationClass="org.consulo.lombok.processors.impl.CommonsLogAnnotationProcessor"/>
+				   implementationClass="consulo.lombok.processors.impl.CommonsLogAnnotationProcessor"/>
 		<processor annotationClass="lombok.extern.slf4j.Slf4j"
-				   implementationClass="org.consulo.lombok.processors.impl.Slf4jAnnotationProcessor"/>
+				   implementationClass="consulo.lombok.processors.impl.Slf4jAnnotationProcessor"/>
 		<processor annotationClass="lombok.extern.slf4j.XSlf4j"
-				   implementationClass="org.consulo.lombok.processors.impl.XSlf4jAnnotationProcessor"/>
+				   implementationClass="consulo.lombok.processors.impl.XSlf4jAnnotationProcessor"/>
 	</extensions>
 </idea-plugin>

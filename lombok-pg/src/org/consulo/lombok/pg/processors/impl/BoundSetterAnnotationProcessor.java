@@ -15,13 +15,20 @@
  */
 package org.consulo.lombok.pg.processors.impl;
 
-import com.intellij.psi.*;
-import com.intellij.psi.impl.light.LightMethodBuilder;
-import org.consulo.lombok.pg.processors.LombokPgFieldProcessor;
-import org.consulo.lombok.processors.impl.SetterAnnotationProcessor;
-import org.jetbrains.annotations.NotNull;
-
 import java.util.List;
+
+import org.consulo.lombok.pg.processors.LombokPgFieldProcessor;
+import org.jetbrains.annotations.NotNull;
+import com.intellij.psi.JavaPsiFacade;
+import com.intellij.psi.PsiAnnotation;
+import com.intellij.psi.PsiClass;
+import com.intellij.psi.PsiElement;
+import com.intellij.psi.PsiField;
+import com.intellij.psi.PsiMethod;
+import com.intellij.psi.PsiModifier;
+import com.intellij.psi.PsiType;
+import com.intellij.psi.impl.light.LightMethodBuilder;
+import consulo.lombok.processors.impl.SetterAnnotationProcessor;
 
 /**
  * @author VISTALL

@@ -13,23 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-package org.consulo.lombok.pg.psi.augment;
-
-import org.consulo.lombok.pg.module.extension.LombokPgModuleExtension;
-import org.jetbrains.annotations.NotNull;
-import consulo.lombok.psi.augment.LombokPsiAugmentProvider;
-import consulo.module.extension.ModuleExtension;
+package consulo.lombok.processors.impl;
 
 /**
  * @author VISTALL
- * @since 01.08.13.
+ * @since 15:21/30.03.13
  */
-public class LombokPgPsiAugmentProvider extends LombokPsiAugmentProvider
-{
-	@NotNull
+public class LogAnnotationProcessor extends AbstractLoggerAnnotationProcessor {
+  public LogAnnotationProcessor(String annotationClass) {
+    super(annotationClass);
+  }
+
   @Override
-  protected Class<? extends ModuleExtension> getModuleExtensionClass() {
-    return LombokPgModuleExtension.class;
+  public String getLoggerClass() {
+    return "java.util.logging.Logger";
   }
 }

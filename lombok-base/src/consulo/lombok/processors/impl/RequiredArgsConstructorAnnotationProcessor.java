@@ -13,23 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package consulo.lombok.processors.impl;
 
-package org.consulo.lombok.pg.psi.augment;
-
-import org.consulo.lombok.pg.module.extension.LombokPgModuleExtension;
 import org.jetbrains.annotations.NotNull;
-import consulo.lombok.psi.augment.LombokPsiAugmentProvider;
-import consulo.module.extension.ModuleExtension;
+import com.intellij.codeInsight.AnnotationUtil;
+import com.intellij.psi.PsiField;
+import consulo.lombok.LombokClassNames;
 
 /**
  * @author VISTALL
- * @since 01.08.13.
+ * @since 18:29/31.03.13
  */
-public class LombokPgPsiAugmentProvider extends LombokPsiAugmentProvider
-{
-	@NotNull
+public class RequiredArgsConstructorAnnotationProcessor extends NArgsConstructorAnnotationProcessor {
+  public RequiredArgsConstructorAnnotationProcessor(String annotationClass) {
+    super(annotationClass);
+  }
+
   @Override
-  protected Class<? extends ModuleExtension> getModuleExtensionClass() {
-    return LombokPgModuleExtension.class;
+  protected boolean isFieldIsApplicable(@NotNull PsiField psiField) {
+    return super.isFieldIsApplicable(psiField) && AnnotationUtil.findAnnotation(psiField, LombokClassNames.LOMBOK_NON_NULL) != null;
   }
 }
