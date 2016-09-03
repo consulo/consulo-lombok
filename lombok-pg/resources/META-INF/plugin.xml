@@ -31,7 +31,7 @@
 								 mutableClass="consulo.lombok.pg.module.extension.LombokPgMutableModuleExtension"/>
 	</extensions>
 
-	<extensions defaultExtensionNs="org.consulo.java">
+	<extensions defaultExtensionNs="consulo.java">
 		<augmentProvider implementation="consulo.lombok.pg.psi.augment.LombokPgPsiAugmentProvider"/>
 	</extensions>
 

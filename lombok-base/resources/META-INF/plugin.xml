@@ -21,7 +21,7 @@
 	<category>Language Extensions</category>
 	<version>SNAPSHOT</version>
 	<resource-bundle>messages.LombokBaseBundle</resource-bundle>
-	<depends>org.consulo.java</depends>
+	<depends>consulo.java</depends>
 
 	<depends optional="true" config-file="org.jetbrains.idea.maven.xml">org.jetbrains.idea.maven</depends>
 
@@ -31,7 +31,7 @@
 		</extensionPoint>
 	</extensionPoints>
 
-	<extensions defaultExtensionNs="org.consulo.java">
+	<extensions defaultExtensionNs="consulo.java">
 		<extraExceptionHandler implementation="consulo.lombok.codeInsight.LombokExtraExceptionHandler"/>
 		<augmentProvider implementation="consulo.lombok.psi.augment.LombokPsiAugmentProvider"/>
 	</extensions>
