@@ -16,18 +16,18 @@
 
 package consulo.lombok.pg.maven;
 
-import com.intellij.openapi.module.Module;
-import consulo.lombok.pg.module.extension.LombokPgModuleExtension;
-import org.jetbrains.idea.maven.importing.MavenImporterFromDependency;
+import java.util.List;
+import java.util.Map;
+
 import org.jetbrains.idea.maven.importing.MavenModifiableModelsProvider;
 import org.jetbrains.idea.maven.importing.MavenRootModelAdapter;
 import org.jetbrains.idea.maven.project.MavenProject;
 import org.jetbrains.idea.maven.project.MavenProjectChanges;
 import org.jetbrains.idea.maven.project.MavenProjectsProcessorTask;
 import org.jetbrains.idea.maven.project.MavenProjectsTree;
-
-import java.util.List;
-import java.util.Map;
+import com.intellij.openapi.module.Module;
+import consulo.lombok.pg.module.extension.LombokPgModuleExtension;
+import consulo.maven.importing.MavenImporterFromDependency;
 
 /**
  * @author VISTALL

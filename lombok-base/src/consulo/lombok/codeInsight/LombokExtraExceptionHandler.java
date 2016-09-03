@@ -20,9 +20,9 @@ import java.util.List;
 
 import org.jetbrains.annotations.NotNull;
 import com.intellij.codeInsight.AnnotationUtil;
-import com.intellij.codeInsight.ExtraExceptionHandler;
 import com.intellij.psi.*;
 import com.intellij.psi.util.PsiTreeUtil;
+import consulo.java.codeInsight.ExtraExceptionHandler;
 import consulo.lombok.LombokClassNames;
 import consulo.lombok.processors.util.LombokUtil;
 
@@ -30,7 +30,8 @@ import consulo.lombok.processors.util.LombokUtil;
  * @author VISTALL
  * @since 23:49/30.03.13
  */
-public class LombokExtraExceptionHandler implements ExtraExceptionHandler {
+public class LombokExtraExceptionHandler implements ExtraExceptionHandler
+{
   @Override
   public boolean isHandled(@NotNull PsiClassType type, @NotNull PsiElement element) {
     if(!LombokUtil.isExtensionEnabled(element)) {

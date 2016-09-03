@@ -19,7 +19,6 @@ package consulo.lombok.maven;
 import java.util.List;
 import java.util.Map;
 
-import org.jetbrains.idea.maven.importing.MavenImporterFromDependency;
 import org.jetbrains.idea.maven.importing.MavenModifiableModelsProvider;
 import org.jetbrains.idea.maven.importing.MavenRootModelAdapter;
 import org.jetbrains.idea.maven.project.MavenProject;
@@ -28,6 +27,7 @@ import org.jetbrains.idea.maven.project.MavenProjectsProcessorTask;
 import org.jetbrains.idea.maven.project.MavenProjectsTree;
 import com.intellij.openapi.module.Module;
 import consulo.lombok.module.extension.LombokModuleExtension;
+import consulo.maven.importing.MavenImporterFromDependency;
 
 /**
  * @author VISTALL
