@@ -2,7 +2,7 @@
   <artifact build-on-make="true" name="dist">
     <output-path>$PROJECT_DIR$/out/artifacts/dist</output-path>
     <root id="root">
-      <element id="directory" name="lombok-base">
+      <element id="directory" name="consulo.lombok">
         <element id="directory" name="lib">
           <element id="zip-archive" name="lombok-base.jar">
             <element id="module-output" name="lombok-base" />
@@ -10,7 +10,7 @@
           </element>
         </element>
       </element>
-      <element id="directory" name="lombok-pg">
+      <element id="directory" name="consulo.lombokpg">
         <element id="directory" name="lib">
           <element id="zip-archive" name="lombok-pg.jar">
             <element id="module-output" name="lombok-pg" />
