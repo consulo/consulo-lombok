@@ -16,6 +16,6 @@
 
 <idea-plugin>
   <extensions defaultExtensionNs="org.jetbrains.idea.maven">
-    <importer implementation="org.consulo.lombok.maven.LombokMavenImporter" />
+    <importer implementation="consulo.lombok.maven.LombokMavenImporter" />
   </extensions>
 </idea-plugin>

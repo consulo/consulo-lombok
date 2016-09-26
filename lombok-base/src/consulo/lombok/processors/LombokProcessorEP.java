@@ -24,7 +24,7 @@ import com.intellij.util.xmlb.annotations.Attribute;
  * @since 18:45/29.03.13
  */
 public class LombokProcessorEP extends AbstractExtensionPointBean{
-  public static final ExtensionPointName<LombokProcessorEP> EP_NAME = ExtensionPointName.create("org.consulo.lombok.processor");
+  public static final ExtensionPointName<LombokProcessorEP> EP_NAME = ExtensionPointName.create("consulo.lombok.processor");
 
   @Attribute("annotationClass")
   public String annotationClass;
