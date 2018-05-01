@@ -15,8 +15,9 @@
  */
 package consulo.lombok.psi.impl.source;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import com.intellij.codeInsight.daemon.impl.analysis.JavaGenericsUtil;
 import com.intellij.lang.ASTNode;
 import com.intellij.openapi.util.NullableComputable;
@@ -42,12 +43,12 @@ public class LombokPsiParameterImpl extends PsiParameterImpl implements LombokVa
 {
 	private static final String[] ourAdditionalModifiers = new String[]{PsiModifier.FINAL};
 
-	public LombokPsiParameterImpl(@NotNull ASTNode node)
+	public LombokPsiParameterImpl(@Nonnull ASTNode node)
 	{
 		super(node);
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public PsiType getType()
 	{

@@ -17,7 +17,8 @@ package consulo.lombok.processors.impl;
 
 import java.util.List;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
+
 import com.intellij.psi.PsiAnnotation;
 import com.intellij.psi.PsiClass;
 import com.intellij.psi.PsiElement;
@@ -49,7 +50,7 @@ public class GetterAnnotationProcessor extends LombokFieldProcessor
 	}
 
 	@Override
-	public void processElement(@NotNull PsiClass parent, @NotNull PsiField psiField, @NotNull List<PsiElement> result)
+	public void processElement(@Nonnull PsiClass parent, @Nonnull PsiField psiField, @Nonnull List<PsiElement> result)
 	{
 		LightMethodBuilder builder = new LightMethodBuilder(parent.getManager(), parent.getLanguage(), PropertyUtil.suggestGetterName(psiField));
 		builder.setMethodReturnType(psiField.getType());
@@ -68,7 +69,7 @@ public class GetterAnnotationProcessor extends LombokFieldProcessor
 		result.add(builder);
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public Class<? extends PsiElement> getCollectorPsiElementClass()
 	{

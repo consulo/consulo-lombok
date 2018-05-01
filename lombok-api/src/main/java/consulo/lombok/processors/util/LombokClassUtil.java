@@ -18,7 +18,8 @@ package consulo.lombok.processors.util;
 import java.util.Collections;
 import java.util.List;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
+
 import com.intellij.psi.PsiAnnotationMemberValue;
 import com.intellij.psi.PsiArrayInitializerMemberValue;
 import com.intellij.psi.PsiClass;
@@ -55,20 +56,20 @@ public class LombokClassUtil {
     }
   }
 
-  @NotNull
-  public static MultiMap<PsiClass, PsiMethod> collectMethods(@NotNull PsiClass parent, @NotNull PsiAnnotationMemberValue value) {
+  @Nonnull
+  public static MultiMap<PsiClass, PsiMethod> collectMethods(@Nonnull PsiClass parent, @Nonnull PsiAnnotationMemberValue value) {
     return collectMethods(parent, value, new MultiMap<PsiClass, PsiMethod>());
   }
 
-  @NotNull
+  @Nonnull
   public static MultiMap<PsiClass, PsiMethod> collectMethodsOfClass(PsiClass parent, PsiType type) {
     MultiMap<PsiClass, PsiMethod> map = new MultiMap<PsiClass, PsiMethod>();
     collectMethodsOfClass(parent, map, type);
     return map;
   }
 
-  private static MultiMap<PsiClass, PsiMethod> collectMethods(@NotNull PsiClass parent,
-                                                              @NotNull PsiAnnotationMemberValue value,
+  private static MultiMap<PsiClass, PsiMethod> collectMethods(@Nonnull PsiClass parent,
+                                                              @Nonnull PsiAnnotationMemberValue value,
                                                               MultiMap<PsiClass, PsiMethod> methods) {
     if (value instanceof PsiArrayInitializerMemberValue) {
       final PsiAnnotationMemberValue[] initializers = ((PsiArrayInitializerMemberValue)value).getInitializers();

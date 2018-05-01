@@ -17,7 +17,8 @@ package consulo.lombok.processors.impl;
 
 import java.util.List;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
+
 import com.intellij.openapi.util.Condition;
 import com.intellij.psi.*;
 import com.intellij.psi.impl.light.LightMethod;
@@ -48,7 +49,7 @@ public abstract class NArgsConstructorAnnotationProcessor extends LombokSelfClas
 	}
 
 	@Override
-	public void processElement(@NotNull PsiClass parent, @NotNull PsiClass psiClass, @NotNull List<PsiElement> result)
+	public void processElement(@Nonnull PsiClass parent, @Nonnull PsiClass psiClass, @Nonnull List<PsiElement> result)
 	{
 		final PsiAnnotation affectedAnnotation = getAffectedAnnotation(psiClass);
 
@@ -125,18 +126,18 @@ public abstract class NArgsConstructorAnnotationProcessor extends LombokSelfClas
 		}
 	}
 
-	protected boolean isFieldIsApplicable(@NotNull PsiField psiField)
+	protected boolean isFieldIsApplicable(@Nonnull PsiField psiField)
 	{
 		return !psiField.hasModifierProperty(PsiModifier.STATIC);
 	}
 
-	@NotNull
+	@Nonnull
 	protected String getStaticConstructorAttributeName()
 	{
 		return "staticName";
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public Class<? extends PsiElement> getCollectorPsiElementClass()
 	{

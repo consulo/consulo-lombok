@@ -16,7 +16,8 @@
 
 package consulo.lombok.pg.module.extension;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
+
 import consulo.module.extension.impl.ModuleExtensionImpl;
 import consulo.roots.ModuleRootLayer;
 
@@ -26,7 +27,7 @@ import consulo.roots.ModuleRootLayer;
  */
 public class LombokPgModuleExtension extends ModuleExtensionImpl<LombokPgModuleExtension>
 {
-	public LombokPgModuleExtension(@NotNull String id, @NotNull ModuleRootLayer moduleRootLayer)
+	public LombokPgModuleExtension(@Nonnull String id, @Nonnull ModuleRootLayer moduleRootLayer)
 	{
 		super(id, moduleRootLayer);
 	}

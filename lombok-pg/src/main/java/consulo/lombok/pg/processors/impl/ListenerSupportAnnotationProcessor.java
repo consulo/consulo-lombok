@@ -17,8 +17,9 @@ package consulo.lombok.pg.processors.impl;
 
 import java.util.List;
 
+import javax.annotation.Nonnull;
+
 import consulo.lombok.pg.processors.LombokPgSelfClassProcessor;
-import org.jetbrains.annotations.NotNull;
 import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.psi.PsiAnnotation;
 import com.intellij.psi.PsiAnnotationMemberValue;
@@ -47,7 +48,7 @@ public class ListenerSupportAnnotationProcessor extends LombokPgSelfClassProcess
   }
 
   @Override
-  public void processElement(@NotNull PsiClass parent, @NotNull PsiClass psiClass, @NotNull List<PsiElement> result) {
+  public void processElement(@Nonnull PsiClass parent, @Nonnull PsiClass psiClass, @Nonnull List<PsiElement> result) {
     final PsiAnnotation affectedAnnotation = getAffectedAnnotation(psiClass);
 
     final PsiAnnotationMemberValue attributeValue = affectedAnnotation.findAttributeValue(PsiAnnotation.DEFAULT_REFERENCED_METHOD_NAME);
@@ -88,7 +89,7 @@ public class ListenerSupportAnnotationProcessor extends LombokPgSelfClassProcess
     }
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public Class<? extends PsiElement> getCollectorPsiElementClass() {
     return PsiMethod.class;

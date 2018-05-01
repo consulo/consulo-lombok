@@ -18,7 +18,8 @@ package consulo.lombok.processors.impl;
 
 import java.util.List;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
+
 import com.intellij.codeInsight.AnnotationUtil;
 import com.intellij.psi.PsiAnnotation;
 import com.intellij.psi.PsiClass;
@@ -50,7 +51,7 @@ public class DataAnnotationProcessor extends LombokSelfClassProcessor
 		super(annotationClass);
 		myConstructorProcessor = new AllArgsConstructorAnnotationProcessor(annotationClass)
 		{
-			@NotNull
+			@Nonnull
 			@Override
 			protected String getStaticConstructorAttributeName()
 			{
@@ -61,7 +62,7 @@ public class DataAnnotationProcessor extends LombokSelfClassProcessor
 		myEqualsAndHashCodeProcessor = new EqualsAndHashCodeAnnotationProcessor(annotationClass);
 		mySetterProcessor = new SetterAnnotationProcessor(annotationClass)
 		{
-			@NotNull
+			@Nonnull
 			@Override
 			public PsiAnnotation getAffectedAnnotation(PsiModifierListOwner owner)
 			{
@@ -70,7 +71,7 @@ public class DataAnnotationProcessor extends LombokSelfClassProcessor
 		};
 		myGetterProcessor = new GetterAnnotationProcessor(annotationClass)
 		{
-			@NotNull
+			@Nonnull
 			@Override
 			public PsiAnnotation getAffectedAnnotation(PsiModifierListOwner owner)
 			{
@@ -80,7 +81,7 @@ public class DataAnnotationProcessor extends LombokSelfClassProcessor
 	}
 
 	@Override
-	public void processElement(@NotNull PsiClass parent, @NotNull PsiClass psiClass, @NotNull List<PsiElement> result)
+	public void processElement(@Nonnull PsiClass parent, @Nonnull PsiClass psiClass, @Nonnull List<PsiElement> result)
 	{
 		myConstructorProcessor.processElement(parent, psiClass, result);
 		myToStringAnnotationProcessor.processElement(parent, psiClass, result);
@@ -111,7 +112,7 @@ public class DataAnnotationProcessor extends LombokSelfClassProcessor
 		return LombokModuleExtension.class;
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public Class<? extends PsiElement> getCollectorPsiElementClass()
 	{

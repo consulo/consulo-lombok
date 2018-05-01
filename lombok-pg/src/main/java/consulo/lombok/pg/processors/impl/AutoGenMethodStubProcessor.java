@@ -23,7 +23,7 @@ import com.intellij.psi.impl.light.LightTypeParameter;
 import com.intellij.psi.infos.CandidateInfo;
 import com.intellij.psi.util.MethodSignature;
 import consulo.lombok.pg.processors.LombokPgSelfClassProcessor;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import java.util.HashMap;
 import java.util.List;
@@ -40,7 +40,7 @@ public class AutoGenMethodStubProcessor extends LombokPgSelfClassProcessor {
   }
 
   @Override
-  public void processElement(@NotNull PsiClass parent, @NotNull PsiClass psiClass, @NotNull List<PsiElement> result) {
+  public void processElement(@Nonnull PsiClass parent, @Nonnull PsiClass psiClass, @Nonnull List<PsiElement> result) {
     // we cant call psiClass.getMethods() - stackoverflow
 
     final Map<MethodSignature, PsiMethod> abstracts = new HashMap<MethodSignature, PsiMethod>();
@@ -84,7 +84,7 @@ public class AutoGenMethodStubProcessor extends LombokPgSelfClassProcessor {
     }
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public Class<? extends PsiElement> getCollectorPsiElementClass() {
     return PsiMethod.class;

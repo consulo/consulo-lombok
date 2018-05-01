@@ -16,7 +16,8 @@
 
 package consulo.lombok.pg.processors.util;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
+
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.module.ModuleUtil;
 import com.intellij.openapi.module.ModuleUtilCore;
@@ -28,7 +29,7 @@ import consulo.lombok.pg.module.extension.LombokPgModuleExtension;
  * @since 18:48/25.05.13
  */
 public class LombokPgUtil {
-  public static boolean isLombokPgExtensionEnabled(@NotNull PsiElement element) {
+  public static boolean isLombokPgExtensionEnabled(@Nonnull PsiElement element) {
     Module moduleForPsiElement = ModuleUtilCore.findModuleForPsiElement(element);
     if(moduleForPsiElement == null) {
       return false;

@@ -17,7 +17,6 @@ package consulo.lombok.processors.util;
 
 import javax.annotation.Nonnull;
 
-import org.jetbrains.annotations.NotNull;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.module.ModuleUtil;
 import com.intellij.openapi.module.ModuleUtilCore;
@@ -37,7 +36,7 @@ import consulo.module.extension.ModuleExtension;
  */
 public class LombokUtil
 {
-	public static boolean isExtensionEnabled(@NotNull PsiElement element, @NotNull Class<? extends ModuleExtension> extensionClass)
+	public static boolean isExtensionEnabled(@Nonnull PsiElement element, @Nonnull Class<? extends ModuleExtension> extensionClass)
 	{
 		Module moduleForPsiElement = ModuleUtilCore.findModuleForPsiElement(element);
 		if(moduleForPsiElement == null)
@@ -63,14 +62,14 @@ public class LombokUtil
 		}
 	}
 
-	public static void setAccessModifierFromAnnotation(@NotNull PsiAnnotation annotation, LightMethodBuilder to, String methodName)
+	public static void setAccessModifierFromAnnotation(@Nonnull PsiAnnotation annotation, LightMethodBuilder to, String methodName)
 	{
 		String modifier = getModifierFromAnnotation(annotation, methodName);
 		to.addModifier(modifier);
 	}
 
-	@NotNull
-	public static String getModifierFromAnnotation(@NotNull PsiAnnotation annotation, String methodName)
+	@Nonnull
+	public static String getModifierFromAnnotation(@Nonnull PsiAnnotation annotation, String methodName)
 	{
 		final PsiAnnotationMemberValue attributeValue = annotation.findAttributeValue(methodName);
 		if(attributeValue instanceof PsiReference)

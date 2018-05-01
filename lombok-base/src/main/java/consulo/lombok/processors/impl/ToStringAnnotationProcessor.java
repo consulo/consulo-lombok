@@ -15,10 +15,11 @@
  */
 package consulo.lombok.processors.impl;
 
+import javax.annotation.Nonnull;
+
 import com.intellij.psi.*;
 import com.intellij.psi.util.MethodSignature;
 import com.intellij.psi.util.MethodSignatureUtil;
-import org.jetbrains.annotations.NotNull;
 
 /**
  * @author VISTALL
@@ -29,7 +30,7 @@ public class ToStringAnnotationProcessor extends MethodCreatorByAnnotationProces
     super(annotationClass);
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public MethodSignature[] getMethodSignatures(PsiClass psiClass) {
     return new MethodSignature[]{
@@ -37,7 +38,7 @@ public class ToStringAnnotationProcessor extends MethodCreatorByAnnotationProces
     };
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public PsiType[] getReturnTypes(PsiClass psiClass) {
     return new PsiType[] {PsiType.getJavaLangString(psiClass.getManager(), psiClass.getResolveScope())};

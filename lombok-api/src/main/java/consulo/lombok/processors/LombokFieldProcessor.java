@@ -15,7 +15,8 @@
  */
 package consulo.lombok.processors;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
+
 import com.intellij.psi.PsiClass;
 import com.intellij.psi.PsiField;
 
@@ -28,9 +29,9 @@ public abstract class LombokFieldProcessor extends LombokAnnotationOwnerProcesso
     super(annotationClass);
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  protected PsiField[] getElements(@NotNull PsiClass psiClass) {
+  protected PsiField[] getElements(@Nonnull PsiClass psiClass) {
     return psiClass.getFields();
   }
 }

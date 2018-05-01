@@ -16,7 +16,8 @@
 
 package consulo.lombok.codeInsight.quickFixes;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
+
 import com.intellij.codeInspection.LocalQuickFix;
 import com.intellij.codeInspection.ProblemDescriptor;
 import com.intellij.openapi.project.Project;
@@ -33,25 +34,25 @@ public class RemoveModifierFix implements LocalQuickFix {
   @PsiModifier.ModifierConstant
   private final String myModifier;
 
-  public RemoveModifierFix(@NotNull PsiModifierListOwner modifierListOwner, @PsiModifier.ModifierConstant String modifier) {
+  public RemoveModifierFix(@Nonnull PsiModifierListOwner modifierListOwner, @PsiModifier.ModifierConstant String modifier) {
     myModifierListOwner = modifierListOwner;
     myModifier = modifier;
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public String getName() {
     return String.format("Remove '%s' modifier", myModifier);
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public String getFamilyName() {
     return "Lombok";
   }
 
   @Override
-  public void applyFix(@NotNull Project project, @NotNull ProblemDescriptor descriptor) {
+  public void applyFix(@Nonnull Project project, @Nonnull ProblemDescriptor descriptor) {
     PsiModifierList modifierList = myModifierListOwner.getModifierList();
     if(modifierList == null) {
       return;

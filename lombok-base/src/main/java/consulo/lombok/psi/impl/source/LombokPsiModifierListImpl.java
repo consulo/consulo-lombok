@@ -15,7 +15,7 @@
  */
 package consulo.lombok.psi.impl.source;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.impl.java.stubs.PsiModifierListStub;
@@ -39,7 +39,7 @@ public class LombokPsiModifierListImpl extends PsiModifierListImpl {
   }
 
   @Override
-  public boolean hasModifierProperty(@NotNull String name) {
+  public boolean hasModifierProperty(@Nonnull String name) {
     boolean val = super.hasModifierProperty(name);
     if(val) {
       return true;

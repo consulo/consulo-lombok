@@ -15,8 +15,8 @@
  */
 package consulo.lombok.psi.impl.source;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import com.intellij.openapi.util.NullableComputable;
 import com.intellij.openapi.util.RecursionManager;
 import com.intellij.psi.PsiClass;
@@ -49,7 +49,7 @@ public class LombokPsiLocalVariableImpl extends PsiLocalVariableImpl implements 
 		super(type);
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public PsiType getType()
 	{

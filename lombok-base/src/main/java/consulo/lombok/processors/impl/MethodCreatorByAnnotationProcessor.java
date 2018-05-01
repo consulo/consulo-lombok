@@ -17,7 +17,8 @@ package consulo.lombok.processors.impl;
 
 import java.util.List;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
+
 import com.intellij.psi.PsiClass;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiMethod;
@@ -48,14 +49,14 @@ public abstract class MethodCreatorByAnnotationProcessor extends LombokSelfClass
 		return LombokModuleExtension.class;
 	}
 
-	@NotNull
+	@Nonnull
 	public abstract MethodSignature[] getMethodSignatures(PsiClass psiClass);
 
-	@NotNull
+	@Nonnull
 	public abstract PsiType[] getReturnTypes(PsiClass psiClass);
 
 	@Override
-	public void processElement(@NotNull PsiClass parent, @NotNull PsiClass psiClass, @NotNull List<PsiElement> result)
+	public void processElement(@Nonnull PsiClass parent, @Nonnull PsiClass psiClass, @Nonnull List<PsiElement> result)
 	{
 		MethodSignature[] methodSignatures = getMethodSignatures(psiClass);
 		PsiType[] returnTypes = getReturnTypes(psiClass);
@@ -95,7 +96,7 @@ public abstract class MethodCreatorByAnnotationProcessor extends LombokSelfClass
 		return true;
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public Class<? extends PsiElement> getCollectorPsiElementClass()
 	{

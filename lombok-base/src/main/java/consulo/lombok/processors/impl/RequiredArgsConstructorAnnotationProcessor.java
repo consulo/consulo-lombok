@@ -15,7 +15,7 @@
  */
 package consulo.lombok.processors.impl;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 import com.intellij.codeInsight.AnnotationUtil;
 import com.intellij.psi.PsiField;
 import consulo.lombok.LombokClassNames;
@@ -30,7 +30,7 @@ public class RequiredArgsConstructorAnnotationProcessor extends NArgsConstructor
   }
 
   @Override
-  protected boolean isFieldIsApplicable(@NotNull PsiField psiField) {
+  protected boolean isFieldIsApplicable(@Nonnull PsiField psiField) {
     return super.isFieldIsApplicable(psiField) && AnnotationUtil.findAnnotation(psiField, LombokClassNames.LOMBOK_NON_NULL) != null;
   }
 }

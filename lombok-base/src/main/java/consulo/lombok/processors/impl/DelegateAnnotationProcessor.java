@@ -18,7 +18,8 @@ package consulo.lombok.processors.impl;
 import java.util.Iterator;
 import java.util.List;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
+
 import com.intellij.psi.PsiAnnotation;
 import com.intellij.psi.PsiAnnotationMemberValue;
 import com.intellij.psi.PsiArrayInitializerMemberValue;
@@ -55,7 +56,7 @@ public class DelegateAnnotationProcessor extends LombokFieldProcessor
 	}
 
 	@Override
-	public void processElement(@NotNull PsiClass parent, @NotNull PsiField psiField, @NotNull List<PsiElement> result)
+	public void processElement(@Nonnull PsiClass parent, @Nonnull PsiField psiField, @Nonnull List<PsiElement> result)
 	{
 		PsiAnnotation affected = getAffectedAnnotation(psiField);
 
@@ -120,7 +121,7 @@ public class DelegateAnnotationProcessor extends LombokFieldProcessor
 		}
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public Class<? extends PsiElement> getCollectorPsiElementClass()
 	{

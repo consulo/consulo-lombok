@@ -19,7 +19,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
+
 import com.intellij.psi.PsiClass;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.augment.PsiAugmentProvider;
@@ -33,9 +34,9 @@ import consulo.module.extension.ModuleExtension;
  * @since 18:56/29.03.13
  */
 public abstract class LombokPsiAugmentProvider extends PsiAugmentProvider {
-  @NotNull
+  @Nonnull
   @Override
-  public <Psi extends PsiElement> List<Psi> getAugments(@NotNull PsiElement element, @NotNull Class<Psi> type) {
+  public <Psi extends PsiElement> List<Psi> getAugments(@Nonnull PsiElement element, @Nonnull Class<Psi> type) {
     if(!LombokUtil.isExtensionEnabled(element, getModuleExtensionClass())) {
       return Collections.emptyList();
     }
@@ -55,6 +56,6 @@ public abstract class LombokPsiAugmentProvider extends PsiAugmentProvider {
     return list;
   }
 
-  @NotNull
+  @Nonnull
   protected abstract Class<? extends ModuleExtension> getModuleExtensionClass();
 }

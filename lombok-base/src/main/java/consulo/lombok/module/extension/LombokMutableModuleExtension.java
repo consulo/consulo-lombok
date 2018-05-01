@@ -16,10 +16,10 @@
 
 package consulo.lombok.module.extension;
 
+import javax.annotation.Nonnull;
 import javax.swing.JComponent;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nullable;
 import consulo.module.extension.MutableModuleExtension;
 import consulo.roots.ModuleRootLayer;
 
@@ -29,7 +29,7 @@ import consulo.roots.ModuleRootLayer;
  */
 public class LombokMutableModuleExtension extends LombokModuleExtension implements MutableModuleExtension<LombokModuleExtension>
 {
-	public LombokMutableModuleExtension(@NotNull String id, @NotNull ModuleRootLayer moduleRootLayer)
+	public LombokMutableModuleExtension(@Nonnull String id, @Nonnull ModuleRootLayer moduleRootLayer)
 	{
 		super(id, moduleRootLayer);
 	}
@@ -48,7 +48,7 @@ public class LombokMutableModuleExtension extends LombokModuleExtension implemen
 	}
 
 	@Override
-	public boolean isModified(@NotNull LombokModuleExtension extension)
+	public boolean isModified(@Nonnull LombokModuleExtension extension)
 	{
 		return myIsEnabled != extension.isEnabled();
 	}

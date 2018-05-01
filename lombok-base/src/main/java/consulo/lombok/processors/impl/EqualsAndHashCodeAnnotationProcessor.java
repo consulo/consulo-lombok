@@ -15,13 +15,14 @@
  */
 package consulo.lombok.processors.impl;
 
+import javax.annotation.Nonnull;
+
 import com.intellij.psi.PsiClass;
 import com.intellij.psi.PsiSubstitutor;
 import com.intellij.psi.PsiType;
 import com.intellij.psi.PsiTypeParameter;
 import com.intellij.psi.util.MethodSignature;
 import com.intellij.psi.util.MethodSignatureUtil;
-import org.jetbrains.annotations.NotNull;
 
 /**
  * @author VISTALL
@@ -32,7 +33,7 @@ public class EqualsAndHashCodeAnnotationProcessor extends MethodCreatorByAnnotat
     super(annotationClass);
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public MethodSignature[] getMethodSignatures(PsiClass psiClass) {
     return new MethodSignature[] {
@@ -41,7 +42,7 @@ public class EqualsAndHashCodeAnnotationProcessor extends MethodCreatorByAnnotat
     };
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public PsiType[] getReturnTypes(PsiClass psiClass) {
     return new PsiType[] {PsiType.INT, PsiType.BOOLEAN};

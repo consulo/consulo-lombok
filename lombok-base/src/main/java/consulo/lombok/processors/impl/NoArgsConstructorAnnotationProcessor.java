@@ -15,7 +15,7 @@
  */
 package consulo.lombok.processors.impl;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 import com.intellij.psi.PsiField;
 
 /**
@@ -28,7 +28,7 @@ public class NoArgsConstructorAnnotationProcessor extends NArgsConstructorAnnota
   }
 
   @Override
-  protected boolean isFieldIsApplicable(@NotNull PsiField psiField) {
+  protected boolean isFieldIsApplicable(@Nonnull PsiField psiField) {
     return false;
   }
 }

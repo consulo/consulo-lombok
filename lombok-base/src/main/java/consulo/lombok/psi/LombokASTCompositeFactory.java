@@ -15,8 +15,9 @@
  */
 package consulo.lombok.psi;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import com.intellij.psi.impl.source.tree.CompositeElement;
 import com.intellij.psi.impl.source.tree.JavaElementType;
 import com.intellij.psi.tree.IElementType;
@@ -30,7 +31,7 @@ import consulo.psi.tree.ASTCompositeFactory;
 public class LombokASTCompositeFactory implements ASTCompositeFactory
 {
   @Override
-  @NotNull
+  @Nonnull
   public CompositeElement createComposite(IElementType type) {
     return new LombokPsiLocalVariableImpl();
   }

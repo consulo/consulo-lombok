@@ -17,7 +17,8 @@ package consulo.lombok.processors.impl;
 
 import java.util.List;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
+
 import com.intellij.psi.PsiAnnotation;
 import com.intellij.psi.PsiClass;
 import com.intellij.psi.PsiElement;
@@ -49,7 +50,7 @@ public abstract class AbstractLoggerAnnotationProcessor extends LombokSelfClassP
 	}
 
 	@Override
-	public void processElement(@NotNull final PsiClass parent, @NotNull PsiClass psiClass, @NotNull List<PsiElement> result)
+	public void processElement(@Nonnull final PsiClass parent, @Nonnull PsiClass psiClass, @Nonnull List<PsiElement> result)
 	{
 		final String fieldName = getFieldName();
 		for(PsiField field : LombokClassUtil.getOwnFields(psiClass))
@@ -70,13 +71,13 @@ public abstract class AbstractLoggerAnnotationProcessor extends LombokSelfClassP
 		result.add(builder);
 	}
 
-	@NotNull
+	@Nonnull
 	protected String getFieldName()
 	{
 		return "log";
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public Class<? extends PsiElement> getCollectorPsiElementClass()
 	{

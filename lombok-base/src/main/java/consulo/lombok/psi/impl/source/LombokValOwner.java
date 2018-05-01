@@ -16,7 +16,7 @@
 
 package consulo.lombok.psi.impl.source;
 
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nullable;
 import com.intellij.psi.PsiType;
 import consulo.lombok.psi.LombokElementWithAdditionalModifiers;
 

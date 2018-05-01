@@ -18,7 +18,8 @@ package consulo.lombok.codeInsight;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
+
 import com.intellij.codeInsight.AnnotationUtil;
 import com.intellij.psi.*;
 import com.intellij.psi.util.PsiTreeUtil;
@@ -34,7 +35,7 @@ import consulo.lombok.processors.util.LombokUtil;
 public class LombokExtraExceptionHandler implements ExtraExceptionHandler
 {
   @Override
-  public boolean isHandled(@NotNull PsiClassType type, @NotNull PsiElement element) {
+  public boolean isHandled(@Nonnull PsiClassType type, @Nonnull PsiElement element) {
     if(!LombokUtil.isExtensionEnabled(element, LombokModuleExtension.class)) {
       return false;
     }
@@ -72,7 +73,7 @@ public class LombokExtraExceptionHandler implements ExtraExceptionHandler
     return false;
   }
 
-  private static void collectClassesFromAnnotationValue(@NotNull PsiAnnotationMemberValue value, List<PsiClass> classes) {
+  private static void collectClassesFromAnnotationValue(@Nonnull PsiAnnotationMemberValue value, List<PsiClass> classes) {
     if(value instanceof PsiArrayInitializerMemberValue) {
       final PsiAnnotationMemberValue[] initializers = ((PsiArrayInitializerMemberValue)value).getInitializers();
       for(PsiAnnotationMemberValue initializer : initializers) {

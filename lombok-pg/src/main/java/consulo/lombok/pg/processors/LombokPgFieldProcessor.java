@@ -17,7 +17,7 @@
 package consulo.lombok.pg.processors;
 
 import consulo.lombok.pg.module.extension.LombokPgModuleExtension;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 import consulo.lombok.processors.LombokFieldProcessor;
 import consulo.module.extension.ModuleExtension;
 
@@ -31,7 +31,7 @@ public abstract class LombokPgFieldProcessor extends LombokFieldProcessor
     super(annotationClass);
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public Class<? extends ModuleExtension> getModuleExtensionClass() {
     return LombokPgModuleExtension.class;

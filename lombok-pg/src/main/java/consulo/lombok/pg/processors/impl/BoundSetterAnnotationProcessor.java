@@ -17,7 +17,7 @@ package consulo.lombok.pg.processors.impl;
 
 import java.util.List;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 import com.intellij.psi.JavaPsiFacade;
 import com.intellij.psi.PsiAnnotation;
 import com.intellij.psi.PsiClass;
@@ -60,7 +60,7 @@ public class BoundSetterAnnotationProcessor extends LombokPgFieldProcessor
 	}
 
 	@Override
-	public void processElement(@NotNull PsiClass parent, @NotNull PsiField psiField, @NotNull List<PsiElement> result)
+	public void processElement(@Nonnull PsiClass parent, @Nonnull PsiField psiField, @Nonnull List<PsiElement> result)
 	{
 		final PsiAnnotation affectedAnnotation = getAffectedAnnotation(psiField);
 
@@ -83,7 +83,7 @@ public class BoundSetterAnnotationProcessor extends LombokPgFieldProcessor
 		mySetterAnnotationProcessor.processElement(parent, psiField, result);
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public Class<? extends PsiElement> getCollectorPsiElementClass()
 	{

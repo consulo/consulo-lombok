@@ -16,7 +16,8 @@
 
 package consulo.lombok.intentions;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
+
 import com.intellij.codeInsight.intention.PsiElementBaseIntentionAction;
 import com.intellij.lang.ASTNode;
 import com.intellij.openapi.editor.Editor;
@@ -37,14 +38,14 @@ import consulo.lombok.psi.impl.source.LombokValOwner;
  */
 public class TypeCanBeReplacedByValIntention extends PsiElementBaseIntentionAction
 {
-	@NotNull
+	@Nonnull
 	@Override
 	public String getText()
 	{
 		return "Replace type by 'val'";
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public String getFamilyName()
 	{
@@ -52,7 +53,7 @@ public class TypeCanBeReplacedByValIntention extends PsiElementBaseIntentionActi
 	}
 
 	@Override
-	public void invoke(@NotNull Project project, Editor editor, @NotNull PsiElement element) throws IncorrectOperationException
+	public void invoke(@Nonnull Project project, Editor editor, @Nonnull PsiElement element) throws IncorrectOperationException
 	{
 		PsiVariable variable = PsiTreeUtil.getParentOfType(element, PsiVariable.class);
 		if(variable == null)
@@ -98,7 +99,7 @@ public class TypeCanBeReplacedByValIntention extends PsiElementBaseIntentionActi
 	}
 
 	@Override
-	public boolean isAvailable(@NotNull Project project, Editor editor, @NotNull PsiElement element)
+	public boolean isAvailable(@Nonnull Project project, Editor editor, @Nonnull PsiElement element)
 	{
 		if(!LombokUtil.isExtensionEnabled(element, LombokModuleExtension.class))
 		{

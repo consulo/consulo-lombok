@@ -17,7 +17,8 @@ package consulo.lombok.processors;
 
 import java.util.List;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
+
 import com.intellij.codeInspection.ProblemsHolder;
 import com.intellij.psi.PsiClass;
 import com.intellij.psi.PsiElement;
@@ -29,13 +30,13 @@ import consulo.module.extension.ModuleExtension;
  */
 public interface LombokProcessor {
 
-  void process(@NotNull PsiClass element, @NotNull List<PsiElement> result);
+  void process(@Nonnull PsiClass element, @Nonnull List<PsiElement> result);
 
-  void collectInspections(@NotNull PsiClass element, @NotNull ProblemsHolder problemsHolder);
+  void collectInspections(@Nonnull PsiClass element, @Nonnull ProblemsHolder problemsHolder);
 
-  @NotNull
+  @Nonnull
   Class<? extends PsiElement> getCollectorPsiElementClass();
 
-  @NotNull
+  @Nonnull
   Class<? extends ModuleExtension> getModuleExtensionClass();
 }

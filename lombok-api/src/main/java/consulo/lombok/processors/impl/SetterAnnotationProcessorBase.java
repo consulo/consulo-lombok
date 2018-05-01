@@ -2,7 +2,8 @@ package consulo.lombok.processors.impl;
 
 import java.util.List;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
+
 import com.intellij.codeInspection.ProblemsHolder;
 import com.intellij.codeInspection.RemoveAnnotationQuickFix;
 import com.intellij.psi.PsiAnnotation;
@@ -30,7 +31,7 @@ public abstract class SetterAnnotationProcessorBase extends LombokFieldProcessor
 	}
 
 	@Override
-	public void processElement(@NotNull PsiClass parent, @NotNull PsiField psiField, @NotNull List<PsiElement> result)
+	public void processElement(@Nonnull PsiClass parent, @Nonnull PsiField psiField, @Nonnull List<PsiElement> result)
 	{
 		LightMethodBuilder builder = new LightMethodBuilder(parent.getManager(), parent.getLanguage(), PropertyUtil.suggestSetterName(psiField));
 		builder.setMethodReturnType(PsiType.VOID);
@@ -52,20 +53,20 @@ public abstract class SetterAnnotationProcessorBase extends LombokFieldProcessor
 	}
 
 	@Override
-	public boolean canBeProcessed(@NotNull PsiField psiField)
+	public boolean canBeProcessed(@Nonnull PsiField psiField)
 	{
 		return !psiField.hasModifierProperty(PsiModifier.FINAL);
 	}
 
 	@Override
-	public void collectInspectionsForElement(@NotNull PsiField element, @NotNull ProblemsHolder problemsHolder)
+	public void collectInspectionsForElement(@Nonnull PsiField element, @Nonnull ProblemsHolder problemsHolder)
 	{
 		PsiAnnotation affectedAnnotation = getAffectedAnnotation(element);
 
 		problemsHolder.registerProblem(affectedAnnotation, "@Setter is invalid for final field", new RemoveAnnotationQuickFix(affectedAnnotation, element), new RemoveModifierFix(element, PsiModifier.FINAL));
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public Class<? extends PsiElement> getCollectorPsiElementClass()
 	{

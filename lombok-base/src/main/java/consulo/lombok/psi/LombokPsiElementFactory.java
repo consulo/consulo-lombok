@@ -15,8 +15,9 @@
  */
 package consulo.lombok.psi;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.impl.java.stubs.JavaStubElementTypes;
@@ -33,7 +34,7 @@ public class LombokPsiElementFactory implements PsiElementFactory
 {
   @Nullable
   @Override
-  public PsiElement createElement(@NotNull ASTNode node) {
+  public PsiElement createElement(@Nonnull ASTNode node) {
     final IElementType elementType = node.getElementType();
     if(elementType == JavaStubElementTypes.PARAMETER) {
       return new LombokPsiParameterImpl(node);
@@ -45,7 +46,7 @@ public class LombokPsiElementFactory implements PsiElementFactory
   }
 
   @Override
-  public boolean apply(@NotNull IElementType type) {
+  public boolean apply(@Nonnull IElementType type) {
     return type == JavaStubElementTypes.PARAMETER || type == JavaStubElementTypes.MODIFIER_LIST;
   }
 }

@@ -17,7 +17,8 @@ package consulo.lombok.processors;
 
 import java.util.List;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
+
 import com.intellij.codeInsight.AnnotationUtil;
 import com.intellij.codeInspection.ProblemsHolder;
 import com.intellij.psi.PsiAnnotation;
@@ -32,12 +33,12 @@ import com.intellij.psi.PsiModifierListOwner;
 public abstract class LombokAnnotationOwnerProcessor<E extends PsiModifierListOwner> implements LombokProcessor {
   protected final String myAnnotationClass;
 
-  public LombokAnnotationOwnerProcessor(@NotNull String annotationClass) {
+  public LombokAnnotationOwnerProcessor(@Nonnull String annotationClass) {
     myAnnotationClass = annotationClass;
   }
 
   @Override
-  public void process(@NotNull PsiClass element, @NotNull List<PsiElement> result) {
+  public void process(@Nonnull PsiClass element, @Nonnull List<PsiElement> result) {
     final E[] elements = getElements(element);
     if(elements.length == 0) {
       return;
@@ -51,7 +52,7 @@ public abstract class LombokAnnotationOwnerProcessor<E extends PsiModifierListOw
   }
 
   @Override
-  public void collectInspections(@NotNull PsiClass element, @NotNull ProblemsHolder problemsHolder) {
+  public void collectInspections(@Nonnull PsiClass element, @Nonnull ProblemsHolder problemsHolder) {
     final E[] elements = getElements(element);
     if(elements.length == 0) {
       return;
@@ -64,20 +65,20 @@ public abstract class LombokAnnotationOwnerProcessor<E extends PsiModifierListOw
     }
   }
 
-  public abstract void processElement(@NotNull PsiClass parent, @NotNull E e, @NotNull List<PsiElement> result);
+  public abstract void processElement(@Nonnull PsiClass parent, @Nonnull E e, @Nonnull List<PsiElement> result);
 
-  public boolean canBeProcessed(@NotNull E e) {
+  public boolean canBeProcessed(@Nonnull E e) {
     return true;
   }
 
-  public void collectInspectionsForElement(@NotNull E element, @NotNull ProblemsHolder problemsHolder) {
+  public void collectInspectionsForElement(@Nonnull E element, @Nonnull ProblemsHolder problemsHolder) {
 
   }
 
-  @NotNull
-  protected abstract E[] getElements(@NotNull PsiClass psiClass);
+  @Nonnull
+  protected abstract E[] getElements(@Nonnull PsiClass psiClass);
 
-  @NotNull
+  @Nonnull
   public PsiAnnotation getAffectedAnnotation(PsiModifierListOwner owner) {
     return AnnotationUtil.findAnnotation(owner, myAnnotationClass);
   }
