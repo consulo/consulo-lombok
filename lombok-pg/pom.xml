@@ -49,8 +49,15 @@
 				<extensions>true</extensions>
 				<configuration>
 					<repositoryChannel>nightly</repositoryChannel>
+					<execution>
+						<pluginDirectories>
+							<pluginDirectory>${project.basedir}/../lombok-base/target/consulo-plugin-extracted</pluginDirectory>
+						</pluginDirectories>
+					</execution>
 					<dependencies>
 						<dependency>consulo.java</dependency>
+						<dependency>com.intellij.xml</dependency>
+						<dependency>com.intellij.properties</dependency>
 						<dependency>org.jetbrains.idea.maven</dependency>
 					</dependencies>
 					<packaging>
