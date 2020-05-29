@@ -43,7 +43,7 @@ public abstract class LombokPsiAugmentProvider extends PsiAugmentProvider {
 
     List<Psi> list = new ArrayList<Psi>();
 
-    for(LombokProcessorEP ep : LombokProcessorEP.EP_NAME.getExtensions()) {
+    for(LombokProcessorEP ep : LombokProcessorEP.EP_NAME.getExtensionList()) {
       final LombokProcessor instance = ep.getInstance();
       if(instance.getModuleExtensionClass() != getModuleExtensionClass()) {
         continue;

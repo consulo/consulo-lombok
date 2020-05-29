@@ -14,7 +14,7 @@
   ~ limitations under the License.
   -->
 
-<idea-plugin>
+<consulo-plugin>
 	<id>consulo.lombok</id>
 	<name>Lombok Support</name>
 	<vendor>consulo.io</vendor>
@@ -85,4 +85,4 @@
 		<processor annotationClass="lombok.extern.slf4j.XSlf4j"
 				   implementationClass="consulo.lombok.processors.impl.XSlf4jAnnotationProcessor"/>
 	</extensions>
-</idea-plugin>
+</consulo-plugin>

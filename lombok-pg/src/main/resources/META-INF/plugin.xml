@@ -13,7 +13,7 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
-<idea-plugin version="2">
+<consulo-plugin>
 	<id>consulo.lombokpg</id>
 	<name>Lombok-Pg Support</name>
 	<vendor>consulo.io</vendor>
@@ -41,4 +41,4 @@
 				   implementationClass="consulo.lombok.pg.processors.impl.ListenerSupportAnnotationProcessor"/>
 		<processor annotationClass="lombok.BoundSetter" implementationClass="consulo.lombok.pg.processors.impl.BoundSetterAnnotationProcessor"/>
 	</extensions>
-</idea-plugin>
+</consulo-plugin>
