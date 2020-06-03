@@ -21,8 +21,11 @@ import javax.swing.JComponent;
 
 import javax.annotation.Nonnull;
 
+import consulo.disposer.Disposable;
 import consulo.module.extension.MutableModuleExtension;
 import consulo.roots.ModuleRootLayer;
+import consulo.ui.Component;
+import consulo.ui.annotation.RequiredUIAccess;
 
 /**
  * @author VISTALL
@@ -35,9 +38,10 @@ public class LombokPgMutableModuleExtension extends LombokPgModuleExtension impl
 		super(id, moduleRootLayer);
 	}
 
+	@RequiredUIAccess
 	@Nullable
 	@Override
-	public JComponent createConfigurablePanel(@Nullable Runnable runnable)
+	public Component createConfigurationComponent(@Nonnull Disposable disposable, @Nonnull Runnable runnable)
 	{
 		return null;
 	}
