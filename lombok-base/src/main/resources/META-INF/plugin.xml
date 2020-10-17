@@ -51,7 +51,7 @@
 
 		<moduleExtensionProvider key="lombok"
 								 parentKey="java"
-								 icon="/consulo/lombok/icons/lombok.png"
+								 icon="consulo.lombok.LombokIconGroup@lombok"
 								 name="Lombok"
 								 immutableClass="consulo.lombok.module.extension.LombokModuleExtension"
 								 mutableClass="consulo.lombok.module.extension.LombokMutableModuleExtension"/>

@@ -26,7 +26,7 @@
 		<moduleExtensionProvider key="lombok-pg"
 								 parentKey="lombok"
 								 name="Lombok-pg"
-								 icon="/consulo/lombok/pg/icons/lombok.png"
+								 icon="consulo.lombok.pg.LombokPgIconGroup@lombok"
 								 immutableClass="consulo.lombok.pg.module.extension.LombokPgModuleExtension"
 								 mutableClass="consulo.lombok.pg.module.extension.LombokPgMutableModuleExtension"/>
 	</extensions>
