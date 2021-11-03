@@ -22,6 +22,10 @@
 	<depends>consulo.lombok</depends>
 	<depends optional="true" config-file="org.jetbrains.idea.maven.xml">org.jetbrains.idea.maven</depends>
 
+	<tags>
+		<tag>language.extension</tag>
+	</tags>
+
 	<extensions defaultExtensionNs="com.intellij">
 		<moduleExtensionProvider key="lombok-pg"
 								 parentKey="lombok"

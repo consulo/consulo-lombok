@@ -23,6 +23,10 @@
 	<resource-bundle>messages.LombokBaseBundle</resource-bundle>
 	<depends>consulo.java</depends>
 
+	<tags>
+		<tag>language.extension</tag>
+	</tags>
+
 	<depends optional="true" config-file="org.jetbrains.idea.maven.xml">org.jetbrains.idea.maven</depends>
 
 	<extensionPoints>
