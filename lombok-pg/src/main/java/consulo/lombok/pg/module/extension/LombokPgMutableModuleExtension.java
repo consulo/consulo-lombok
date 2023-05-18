@@ -16,16 +16,14 @@
 
 package consulo.lombok.pg.module.extension;
 
-import javax.annotation.Nullable;
-import javax.swing.JComponent;
-
-import javax.annotation.Nonnull;
-
 import consulo.disposer.Disposable;
+import consulo.module.content.layer.ModuleRootLayer;
 import consulo.module.extension.MutableModuleExtension;
-import consulo.roots.ModuleRootLayer;
 import consulo.ui.Component;
 import consulo.ui.annotation.RequiredUIAccess;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 /**
  * @author VISTALL

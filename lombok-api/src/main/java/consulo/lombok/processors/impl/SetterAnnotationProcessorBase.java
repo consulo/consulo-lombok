@@ -1,23 +1,17 @@
 package consulo.lombok.processors.impl;
 
-import java.util.List;
-
-import javax.annotation.Nonnull;
-
-import com.intellij.codeInspection.ProblemsHolder;
-import com.intellij.codeInspection.RemoveAnnotationQuickFix;
-import com.intellij.psi.PsiAnnotation;
-import com.intellij.psi.PsiClass;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiField;
-import com.intellij.psi.PsiMethod;
-import com.intellij.psi.PsiModifier;
-import com.intellij.psi.PsiType;
-import com.intellij.psi.impl.light.LightMethodBuilder;
-import com.intellij.psi.util.PropertyUtil;
+import com.intellij.java.analysis.impl.codeInspection.RemoveAnnotationQuickFix;
+import com.intellij.java.language.impl.psi.impl.light.LightMethodBuilder;
+import com.intellij.java.language.psi.*;
+import com.intellij.java.language.psi.util.PropertyUtil;
+import consulo.language.editor.inspection.ProblemsHolder;
+import consulo.language.psi.PsiElement;
 import consulo.lombok.codeInsight.quickFixes.RemoveModifierFix;
 import consulo.lombok.processors.LombokFieldProcessor;
 import consulo.lombok.processors.util.LombokUtil;
+
+import jakarta.annotation.Nonnull;
+import java.util.List;
 
 /**
  * @author VISTALL

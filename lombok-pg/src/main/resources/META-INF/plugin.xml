@@ -20,29 +20,9 @@
 	<category>Language Extensions</category>
 	<version>SNAPSHOT</version>
 	<depends>consulo.lombok</depends>
-	<depends optional="true" config-file="org.jetbrains.idea.maven.xml">org.jetbrains.idea.maven</depends>
+	<depends optional="true">org.jetbrains.idea.maven</depends>
 
 	<tags>
 		<tag>language.extension</tag>
 	</tags>
-
-	<extensions defaultExtensionNs="com.intellij">
-		<moduleExtensionProvider key="lombok-pg"
-								 parentKey="lombok"
-								 name="Lombok-pg"
-								 icon="consulo.lombok.pg.LombokPgIconGroup@lombok"
-								 immutableClass="consulo.lombok.pg.module.extension.LombokPgModuleExtension"
-								 mutableClass="consulo.lombok.pg.module.extension.LombokPgMutableModuleExtension"/>
-	</extensions>
-
-	<extensions defaultExtensionNs="consulo.java">
-		<augmentProvider implementation="consulo.lombok.pg.psi.augment.LombokPgPsiAugmentProvider"/>
-	</extensions>
-
-	<extensions defaultExtensionNs="consulo.lombok">
-		<processor annotationClass="lombok.AutoGenMethodStub" implementationClass="consulo.lombok.pg.processors.impl.AutoGenMethodStubProcessor"/>
-		<processor annotationClass="lombok.ListenerSupport"
-				   implementationClass="consulo.lombok.pg.processors.impl.ListenerSupportAnnotationProcessor"/>
-		<processor annotationClass="lombok.BoundSetter" implementationClass="consulo.lombok.pg.processors.impl.BoundSetterAnnotationProcessor"/>
-	</extensions>
 </consulo-plugin>

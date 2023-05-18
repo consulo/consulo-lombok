@@ -16,21 +16,24 @@
 
 package consulo.lombok.pg.psi.augment;
 
-import javax.annotation.Nonnull;
-
+import consulo.annotation.component.ExtensionImpl;
 import consulo.lombok.pg.module.extension.LombokPgModuleExtension;
 import consulo.lombok.psi.augment.LombokPsiAugmentProvider;
 import consulo.module.extension.ModuleExtension;
+
+import javax.annotation.Nonnull;
 
 /**
  * @author VISTALL
  * @since 01.08.13.
  */
+@ExtensionImpl
 public class LombokPgPsiAugmentProvider extends LombokPsiAugmentProvider
 {
 	@Nonnull
-  @Override
-  protected Class<? extends ModuleExtension> getModuleExtensionClass() {
-    return LombokPgModuleExtension.class;
-  }
+	@Override
+	protected Class<? extends ModuleExtension> getModuleExtensionClass()
+	{
+		return LombokPgModuleExtension.class;
+	}
 }

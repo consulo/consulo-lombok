@@ -15,10 +15,10 @@
  */
 package consulo.lombok.processors;
 
-import javax.annotation.Nonnull;
+import com.intellij.java.language.psi.PsiClass;
+import com.intellij.java.language.psi.PsiField;
 
-import com.intellij.psi.PsiClass;
-import com.intellij.psi.PsiField;
+import jakarta.annotation.Nonnull;
 
 /**
  * @author VISTALL

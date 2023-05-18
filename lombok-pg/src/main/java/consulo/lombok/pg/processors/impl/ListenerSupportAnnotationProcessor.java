@@ -15,36 +15,30 @@
  */
 package consulo.lombok.pg.processors.impl;
 
-import java.util.List;
+import com.intellij.java.language.impl.psi.impl.light.LightMethodBuilder;
+import com.intellij.java.language.impl.psi.impl.light.LightParameter;
+import com.intellij.java.language.impl.psi.impl.source.PsiImmediateClassType;
+import com.intellij.java.language.psi.*;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.language.psi.PsiElement;
+import consulo.lombok.pg.processors.LombokPgSelfClassProcessor;
+import consulo.lombok.processors.util.LombokClassUtil;
+import consulo.util.collection.MultiMap;
+import consulo.util.lang.StringUtil;
 
 import javax.annotation.Nonnull;
-
-import consulo.lombok.pg.processors.LombokPgSelfClassProcessor;
-import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.psi.PsiAnnotation;
-import com.intellij.psi.PsiAnnotationMemberValue;
-import com.intellij.psi.PsiClass;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiMethod;
-import com.intellij.psi.PsiModifier;
-import com.intellij.psi.PsiParameter;
-import com.intellij.psi.PsiSubstitutor;
-import com.intellij.psi.PsiType;
-import com.intellij.psi.impl.light.LightMethodBuilder;
-import com.intellij.psi.impl.light.LightParameter;
-import com.intellij.psi.impl.source.PsiImmediateClassType;
-import com.intellij.util.containers.MultiMap;
-import consulo.lombok.processors.util.LombokClassUtil;
+import java.util.List;
 
 /**
  * @author VISTALL
  * @since 22:36/30.03.13
  */
+@ExtensionImpl
 public class ListenerSupportAnnotationProcessor extends LombokPgSelfClassProcessor {
   private static final String[] ourCollectionMethodsPrefix = {"add", "remove"};
 
-  public ListenerSupportAnnotationProcessor(String annotationClass) {
-    super(annotationClass);
+  public ListenerSupportAnnotationProcessor() {
+    super("lombok.ListenerSupport");
   }
 
   @Override

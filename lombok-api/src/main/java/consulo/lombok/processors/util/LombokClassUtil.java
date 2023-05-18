@@ -15,23 +15,14 @@
  */
 package consulo.lombok.processors.util;
 
+import com.intellij.java.language.impl.psi.impl.source.PsiExtensibleClass;
+import com.intellij.java.language.psi.*;
+import com.intellij.java.language.psi.util.PsiTypesUtil;
+import consulo.util.collection.MultiMap;
+import jakarta.annotation.Nonnull;
+
 import java.util.Collections;
 import java.util.List;
-
-import javax.annotation.Nonnull;
-
-import com.intellij.psi.PsiAnnotationMemberValue;
-import com.intellij.psi.PsiArrayInitializerMemberValue;
-import com.intellij.psi.PsiClass;
-import com.intellij.psi.PsiClassObjectAccessExpression;
-import com.intellij.psi.PsiField;
-import com.intellij.psi.PsiMethod;
-import com.intellij.psi.PsiModifier;
-import com.intellij.psi.PsiType;
-import com.intellij.psi.PsiTypeElement;
-import com.intellij.psi.impl.source.PsiExtensibleClass;
-import com.intellij.psi.util.PsiTypesUtil;
-import com.intellij.util.containers.MultiMap;
 
 /**
  * @author VISTALL

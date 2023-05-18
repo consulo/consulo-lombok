@@ -16,16 +16,16 @@
 
 package consulo.lombok.pg.module.extension;
 
-import javax.annotation.Nonnull;
+import consulo.module.content.layer.ModuleRootLayer;
+import consulo.module.content.layer.extension.ModuleExtensionBase;
 
-import consulo.module.extension.impl.ModuleExtensionImpl;
-import consulo.roots.ModuleRootLayer;
+import javax.annotation.Nonnull;
 
 /**
  * @author VISTALL
  * @since 24.05.13
  */
-public class LombokPgModuleExtension extends ModuleExtensionImpl<LombokPgModuleExtension>
+public class LombokPgModuleExtension extends ModuleExtensionBase<LombokPgModuleExtension>
 {
 	public LombokPgModuleExtension(@Nonnull String id, @Nonnull ModuleRootLayer moduleRootLayer)
 	{

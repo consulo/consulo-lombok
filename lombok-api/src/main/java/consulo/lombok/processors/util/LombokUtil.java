@@ -15,20 +15,15 @@
  */
 package consulo.lombok.processors.util;
 
-import javax.annotation.Nonnull;
-
-import com.intellij.openapi.module.Module;
-import com.intellij.openapi.module.ModuleUtil;
-import com.intellij.openapi.module.ModuleUtilCore;
-import com.intellij.psi.PsiAnnotation;
-import com.intellij.psi.PsiAnnotationMemberValue;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiEnumConstant;
-import com.intellij.psi.PsiModifier;
-import com.intellij.psi.PsiModifierListOwner;
-import com.intellij.psi.PsiReference;
-import com.intellij.psi.impl.light.LightMethodBuilder;
+import com.intellij.java.language.impl.psi.impl.light.LightMethodBuilder;
+import com.intellij.java.language.psi.*;
+import consulo.annotation.access.RequiredReadAction;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.PsiReference;
+import consulo.module.Module;
 import consulo.module.extension.ModuleExtension;
+
+import jakarta.annotation.Nonnull;
 
 /**
  * @author VISTALL
@@ -36,14 +31,15 @@ import consulo.module.extension.ModuleExtension;
  */
 public class LombokUtil
 {
+	@RequiredReadAction
 	public static boolean isExtensionEnabled(@Nonnull PsiElement element, @Nonnull Class<? extends ModuleExtension> extensionClass)
 	{
-		Module moduleForPsiElement = ModuleUtilCore.findModuleForPsiElement(element);
-		if(moduleForPsiElement == null)
+		Module module = element.getModule();
+		if(module == null)
 		{
 			return false;
 		}
-		return ModuleUtil.getExtension(moduleForPsiElement, extensionClass) != null;
+		return module.getExtension(extensionClass) != null;
 	}
 
 	public static void copyAccessModifierFromOriginal(PsiModifierListOwner from, LightMethodBuilder to)

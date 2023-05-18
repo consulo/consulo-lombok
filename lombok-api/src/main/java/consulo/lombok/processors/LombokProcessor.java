@@ -15,19 +15,22 @@
  */
 package consulo.lombok.processors;
 
+import com.intellij.java.language.psi.PsiClass;
+import consulo.annotation.component.ComponentScope;
+import consulo.annotation.component.ExtensionAPI;
+import consulo.language.editor.inspection.ProblemsHolder;
+import consulo.language.psi.PsiElement;
+import consulo.module.extension.ModuleExtension;
+
+import jakarta.annotation.Nonnull;
 import java.util.List;
 
-import javax.annotation.Nonnull;
-
-import com.intellij.codeInspection.ProblemsHolder;
-import com.intellij.psi.PsiClass;
-import com.intellij.psi.PsiElement;
-import consulo.module.extension.ModuleExtension;
 
 /**
  * @author VISTALL
  * @since 18:43/29.03.13
  */
+@ExtensionAPI(ComponentScope.PROJECT)
 public interface LombokProcessor {
 
   void process(@Nonnull PsiClass element, @Nonnull List<PsiElement> result);

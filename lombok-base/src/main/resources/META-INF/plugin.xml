@@ -20,73 +20,12 @@
 	<vendor>consulo.io</vendor>
 	<category>Language Extensions</category>
 	<version>SNAPSHOT</version>
-	<resource-bundle>messages.LombokBaseBundle</resource-bundle>
+	<resource-bundle>consulo.lombok.impl.LombokBaseBundle</resource-bundle>
 	<depends>consulo.java</depends>
 
 	<tags>
 		<tag>language.extension</tag>
 	</tags>
 
-	<depends optional="true" config-file="org.jetbrains.idea.maven.xml">org.jetbrains.idea.maven</depends>
-
-	<extensionPoints>
-		<extensionPoint name="processor" beanClass="consulo.lombok.processors.LombokProcessorEP">
-			<with attribute="implementationClass" implements="consulo.lombok.processors.LombokProcessor"/>
-		</extensionPoint>
-	</extensionPoints>
-
-	<extensions defaultExtensionNs="consulo.java">
-		<extraExceptionHandler implementation="consulo.lombok.codeInsight.LombokExtraExceptionHandler"/>
-		<augmentProvider implementation="consulo.lombok.psi.LombokBasePsiAugmentProvider"/>
-	</extensions>
-
-	<extensions defaultExtensionNs="com.intellij">
-		<intentionAction>
-			<className>consulo.lombok.intentions.TypeCanBeReplacedByValIntention</className>
-			<categoryKey>intention.category.annotations</categoryKey>
-		</intentionAction>
-
-		<!--Inspections-->
-		<localInspection implementationClass="consulo.lombok.codeInsight.LombokLocalInspection" displayName="Lombok Errors"
-						 groupKey="inspection.group.name" enabledByDefault="true" level="ERROR"/>
-
-		<lang.psi.elementFactory implementation="consulo.lombok.psi.LombokPsiElementFactory"/>
-		<lang.ast.compositeFactory implementation="consulo.lombok.psi.LombokASTCompositeFactory"/>
-
-		<moduleExtensionProvider key="lombok"
-								 parentKey="java"
-								 icon="consulo.lombok.LombokIconGroup@lombok"
-								 name="Lombok"
-								 immutableClass="consulo.lombok.module.extension.LombokModuleExtension"
-								 mutableClass="consulo.lombok.module.extension.LombokMutableModuleExtension"/>
-	</extensions>
-
-	<extensions defaultExtensionNs="consulo.lombok">
-		<!--Accessors-->
-		<processor annotationClass="lombok.Data" implementationClass="consulo.lombok.processors.impl.DataAnnotationProcessor"/>
-		<processor annotationClass="lombok.Getter" implementationClass="consulo.lombok.processors.impl.GetterAnnotationProcessor"/>
-		<processor annotationClass="lombok.Setter" implementationClass="consulo.lombok.processors.impl.SetterAnnotationProcessor"/>
-		<processor annotationClass="lombok.ToString" implementationClass="consulo.lombok.processors.impl.ToStringAnnotationProcessor"/>
-		<processor annotationClass="lombok.EqualsAndHashCode"
-				   implementationClass="consulo.lombok.processors.impl.EqualsAndHashCodeAnnotationProcessor"/>
-
-		<processor annotationClass="lombok.Delegate" implementationClass="consulo.lombok.processors.impl.DelegateAnnotationProcessor"/>
-		<!--#ArgsConstructor-->
-		<processor annotationClass="lombok.NoArgsConstructor"
-				   implementationClass="consulo.lombok.processors.impl.NoArgsConstructorAnnotationProcessor"/>
-		<processor annotationClass="lombok.AllArgsConstructor"
-				   implementationClass="consulo.lombok.processors.impl.AllArgsConstructorAnnotationProcessor"/>
-		<processor annotationClass="lombok.RequiredArgsConstructor"
-				   implementationClass="consulo.lombok.processors.impl.RequiredArgsConstructorAnnotationProcessor"/>
-		<!--Loggers-->
-		<processor annotationClass="lombok.extern.log4j.Log4j"
-				   implementationClass="consulo.lombok.processors.impl.Log4jAnnotationProcessor"/>
-		<processor annotationClass="lombok.extern.java.Log" implementationClass="consulo.lombok.processors.impl.LogAnnotationProcessor"/>
-		<processor annotationClass="lombok.extern.apachecommons.CommonsLog"
-				   implementationClass="consulo.lombok.processors.impl.CommonsLogAnnotationProcessor"/>
-		<processor annotationClass="lombok.extern.slf4j.Slf4j"
-				   implementationClass="consulo.lombok.processors.impl.Slf4jAnnotationProcessor"/>
-		<processor annotationClass="lombok.extern.slf4j.XSlf4j"
-				   implementationClass="consulo.lombok.processors.impl.XSlf4jAnnotationProcessor"/>
-	</extensions>
+	<depends optional="true">org.jetbrains.idea.maven</depends>
 </consulo-plugin>

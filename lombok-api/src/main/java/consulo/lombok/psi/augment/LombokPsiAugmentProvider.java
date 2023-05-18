@@ -15,47 +15,54 @@
  */
 package consulo.lombok.psi.augment;
 
+import com.intellij.java.language.psi.PsiClass;
+import com.intellij.java.language.psi.augment.PsiAugmentProvider;
+import consulo.annotation.access.RequiredReadAction;
+import consulo.component.extension.ExtensionPoint;
+import consulo.language.psi.PsiElement;
+import consulo.lombok.processors.LombokProcessor;
+import consulo.lombok.processors.util.LombokUtil;
+import consulo.module.extension.ModuleExtension;
+
+import jakarta.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
-import javax.annotation.Nonnull;
-
-import com.intellij.psi.PsiClass;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.augment.PsiAugmentProvider;
-import consulo.lombok.processors.LombokProcessor;
-import consulo.lombok.processors.LombokProcessorEP;
-import consulo.lombok.processors.util.LombokUtil;
-import consulo.module.extension.ModuleExtension;
 
 /**
  * @author VISTALL
  * @since 18:56/29.03.13
  */
-public abstract class LombokPsiAugmentProvider extends PsiAugmentProvider {
-  @Nonnull
-  @Override
-  public <Psi extends PsiElement> List<Psi> getAugments(@Nonnull PsiElement element, @Nonnull Class<Psi> type) {
-    if(!LombokUtil.isExtensionEnabled(element, getModuleExtensionClass())) {
-      return Collections.emptyList();
-    }
+public abstract class LombokPsiAugmentProvider extends PsiAugmentProvider
+{
+	@Nonnull
+	@Override
+	@RequiredReadAction
+	public <Psi extends PsiElement> List<Psi> getAugments(@Nonnull PsiElement element, @Nonnull Class<Psi> type)
+	{
+		if(!LombokUtil.isExtensionEnabled(element, getModuleExtensionClass()))
+		{
+			return Collections.emptyList();
+		}
 
-    List<Psi> list = new ArrayList<Psi>();
+		List<Psi> list = new ArrayList<Psi>();
 
-    for(LombokProcessorEP ep : LombokProcessorEP.EP_NAME.getExtensionList()) {
-      final LombokProcessor instance = ep.getInstance();
-      if(instance.getModuleExtensionClass() != getModuleExtensionClass()) {
-        continue;
-      }
+		ExtensionPoint<LombokProcessor> point = element.getProject().getExtensionPoint(LombokProcessor.class);
+		point.forEachExtensionSafe(instance ->
+		{
+			if(instance.getModuleExtensionClass() != getModuleExtensionClass())
+			{
+				return;
+			}
 
-      if(instance.getCollectorPsiElementClass() == type) {
-        instance.process((PsiClass)element, (List<PsiElement>)list);
-      }
-    }
-    return list;
-  }
+			if(instance.getCollectorPsiElementClass() == type)
+			{
+				instance.process((PsiClass) element, (List<PsiElement>) list);
+			}
+		});
+		return list;
+	}
 
-  @Nonnull
-  protected abstract Class<? extends ModuleExtension> getModuleExtensionClass();
+	@Nonnull
+	protected abstract Class<? extends ModuleExtension> getModuleExtensionClass();
 }

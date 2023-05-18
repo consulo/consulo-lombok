@@ -15,16 +15,18 @@
  */
 package consulo.lombok.pg.processors.impl;
 
-import com.intellij.codeInsight.generation.OverrideImplementExploreUtil;
-import com.intellij.codeInsight.generation.OverrideImplementUtil;
-import com.intellij.psi.*;
-import com.intellij.psi.impl.light.LightMethodBuilder;
-import com.intellij.psi.impl.light.LightTypeParameter;
-import com.intellij.psi.infos.CandidateInfo;
-import com.intellij.psi.util.MethodSignature;
+import com.intellij.java.impl.codeInsight.generation.OverrideImplementUtil;
+import com.intellij.java.language.impl.codeInsight.generation.OverrideImplementExploreUtil;
+import com.intellij.java.language.impl.psi.impl.light.LightMethodBuilder;
+import com.intellij.java.language.impl.psi.impl.light.LightTypeParameter;
+import com.intellij.java.language.psi.*;
+import com.intellij.java.language.psi.infos.CandidateInfo;
+import com.intellij.java.language.psi.util.MethodSignature;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.language.psi.PsiElement;
 import consulo.lombok.pg.processors.LombokPgSelfClassProcessor;
-import javax.annotation.Nonnull;
 
+import javax.annotation.Nonnull;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,9 +36,10 @@ import java.util.TreeMap;
  * @author VISTALL
  * @since 15:55/30.03.13
  */
+@ExtensionImpl
 public class AutoGenMethodStubProcessor extends LombokPgSelfClassProcessor {
-  public AutoGenMethodStubProcessor(String annotationClass) {
-    super(annotationClass);
+  public AutoGenMethodStubProcessor() {
+    super("lombok.AutoGenMethodStub");
   }
 
   @Override

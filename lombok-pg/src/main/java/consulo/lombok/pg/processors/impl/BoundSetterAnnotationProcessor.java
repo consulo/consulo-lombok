@@ -15,29 +15,27 @@
  */
 package consulo.lombok.pg.processors.impl;
 
-import java.util.List;
-
-import javax.annotation.Nonnull;
-import com.intellij.psi.JavaPsiFacade;
-import com.intellij.psi.PsiAnnotation;
-import com.intellij.psi.PsiClass;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiField;
-import com.intellij.psi.PsiMethod;
-import com.intellij.psi.PsiModifier;
-import com.intellij.psi.PsiType;
-import com.intellij.psi.impl.light.LightMethodBuilder;
+import com.intellij.java.language.impl.psi.impl.light.LightMethodBuilder;
+import com.intellij.java.language.psi.*;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.language.psi.PsiElement;
 import consulo.lombok.pg.module.extension.LombokPgModuleExtension;
 import consulo.lombok.pg.processors.LombokPgFieldProcessor;
 import consulo.lombok.processors.impl.SetterAnnotationProcessorBase;
 import consulo.module.extension.ModuleExtension;
 
+import javax.annotation.Nonnull;
+import java.util.List;
+
 /**
  * @author VISTALL
  * @since 12:39/31.03.13
  */
+@ExtensionImpl
 public class BoundSetterAnnotationProcessor extends LombokPgFieldProcessor
 {
+	private static final String BOUND_SETTER = "lombok.BoundSetter";
+
 	private static final String[] ourListenerNames = {
 			"addPropertyChangeListener",
 			"removePropertyChangeListener"
@@ -46,11 +44,12 @@ public class BoundSetterAnnotationProcessor extends LombokPgFieldProcessor
 
 	private SetterAnnotationProcessorBase mySetterAnnotationProcessor;
 
-	public BoundSetterAnnotationProcessor(String annotationClass)
+	public BoundSetterAnnotationProcessor()
 	{
-		super(annotationClass);
-		mySetterAnnotationProcessor = new SetterAnnotationProcessorBase(annotationClass)
+		super(BOUND_SETTER);
+		mySetterAnnotationProcessor = new SetterAnnotationProcessorBase(BOUND_SETTER)
 		{
+			@Nonnull
 			@Override
 			public Class<? extends ModuleExtension> getModuleExtensionClass()
 			{

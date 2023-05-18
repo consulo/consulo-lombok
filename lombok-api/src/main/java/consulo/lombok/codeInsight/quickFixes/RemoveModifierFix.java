@@ -16,20 +16,21 @@
 
 package consulo.lombok.codeInsight.quickFixes;
 
-import javax.annotation.Nonnull;
+import com.intellij.java.language.psi.PsiModifier;
+import com.intellij.java.language.psi.PsiModifierList;
+import com.intellij.java.language.psi.PsiModifierListOwner;
+import consulo.language.editor.inspection.LocalQuickFix;
+import consulo.language.editor.inspection.ProblemDescriptor;
+import consulo.project.Project;
 
-import com.intellij.codeInspection.LocalQuickFix;
-import com.intellij.codeInspection.ProblemDescriptor;
-import com.intellij.openapi.project.Project;
-import com.intellij.psi.PsiModifier;
-import com.intellij.psi.PsiModifierList;
-import com.intellij.psi.PsiModifierListOwner;
+import jakarta.annotation.Nonnull;
 
 /**
  * @author VISTALL
  * @since 20:02/02.05.13
  */
-public class RemoveModifierFix implements LocalQuickFix {
+public class RemoveModifierFix implements LocalQuickFix
+{
   private final PsiModifierListOwner myModifierListOwner;
   @PsiModifier.ModifierConstant
   private final String myModifier;

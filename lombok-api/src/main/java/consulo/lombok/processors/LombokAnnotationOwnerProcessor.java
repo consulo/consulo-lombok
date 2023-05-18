@@ -15,16 +15,15 @@
  */
 package consulo.lombok.processors;
 
+import com.intellij.java.language.codeInsight.AnnotationUtil;
+import com.intellij.java.language.psi.PsiAnnotation;
+import com.intellij.java.language.psi.PsiClass;
+import com.intellij.java.language.psi.PsiModifierListOwner;
+import consulo.language.editor.inspection.ProblemsHolder;
+import consulo.language.psi.PsiElement;
+
+import jakarta.annotation.Nonnull;
 import java.util.List;
-
-import javax.annotation.Nonnull;
-
-import com.intellij.codeInsight.AnnotationUtil;
-import com.intellij.codeInspection.ProblemsHolder;
-import com.intellij.psi.PsiAnnotation;
-import com.intellij.psi.PsiClass;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiModifierListOwner;
 
 /**
  * @author VISTALL

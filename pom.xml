@@ -21,7 +21,7 @@
 	<parent>
 		<groupId>consulo</groupId>
 		<artifactId>arch.managment</artifactId>
-		<version>2-SNAPSHOT</version>
+		<version>3-SNAPSHOT</version>
 		<relativePath/>
 	</parent>
 
@@ -38,12 +38,14 @@
 
 	<groupId>consulo.plugin</groupId>
 	<artifactId>consulo.lombok-root</artifactId>
-	<version>2-SNAPSHOT</version>
+	<version>3-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<modules>
 		<module>lombok-api</module>
 		<module>lombok-base</module>
+		<module>lombok-base-maven-impl</module>
 		<module>lombok-pg</module>
+		<module>lombok-pg-maven-impl</module>
 	</modules>
 </project>

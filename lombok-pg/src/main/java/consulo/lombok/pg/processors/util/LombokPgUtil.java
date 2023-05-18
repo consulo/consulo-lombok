@@ -16,13 +16,12 @@
 
 package consulo.lombok.pg.processors.util;
 
-import javax.annotation.Nonnull;
-
-import com.intellij.openapi.module.Module;
-import com.intellij.openapi.module.ModuleUtil;
-import com.intellij.openapi.module.ModuleUtilCore;
-import com.intellij.psi.PsiElement;
+import consulo.language.psi.PsiElement;
+import consulo.language.util.ModuleUtilCore;
 import consulo.lombok.pg.module.extension.LombokPgModuleExtension;
+import consulo.module.Module;
+
+import javax.annotation.Nonnull;
 
 /**
  * @author VISTALL
@@ -34,6 +33,6 @@ public class LombokPgUtil {
     if(moduleForPsiElement == null) {
       return false;
     }
-    return ModuleUtil.getExtension(moduleForPsiElement, LombokPgModuleExtension.class) != null;
+    return ModuleUtilCore.getExtension(moduleForPsiElement, LombokPgModuleExtension.class) != null;
   }
 }
