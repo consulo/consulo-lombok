@@ -21,64 +21,83 @@ import com.intellij.java.language.psi.PsiClass;
 import com.intellij.java.language.psi.PsiModifierListOwner;
 import consulo.language.editor.inspection.ProblemsHolder;
 import consulo.language.psi.PsiElement;
-
 import jakarta.annotation.Nonnull;
+
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author VISTALL
  * @since 18:44/29.03.13
  */
-public abstract class LombokAnnotationOwnerProcessor<E extends PsiModifierListOwner> implements LombokProcessor {
-  protected final String myAnnotationClass;
+public abstract class LombokAnnotationOwnerProcessor<E extends PsiModifierListOwner> implements LombokProcessor
+{
+	protected final String myAnnotationClass;
 
-  public LombokAnnotationOwnerProcessor(@Nonnull String annotationClass) {
-    myAnnotationClass = annotationClass;
-  }
+	public LombokAnnotationOwnerProcessor(@Nonnull String annotationClass)
+	{
+		myAnnotationClass = annotationClass;
+	}
 
-  @Override
-  public void process(@Nonnull PsiClass element, @Nonnull List<PsiElement> result) {
-    final E[] elements = getElements(element);
-    if(elements.length == 0) {
-      return;
-    }
+	@Override
+	public void process(@Nonnull PsiClass element, @Nonnull List<PsiElement> result, Set<String> processedAnnotations)
+	{
+		final E[] elements = getElements(element);
+		if(elements.length == 0)
+		{
+			return;
+		}
 
-    for(E e : elements) {
-      if(AnnotationUtil.findAnnotation(e, myAnnotationClass) != null && canBeProcessed(e)) {
-        processElement(element, e, result);
-      }
-    }
-  }
+		for(E e : elements)
+		{
+			if(AnnotationUtil.findAnnotation(e, myAnnotationClass) != null && canBeProcessed(e))
+			{
+				processElement(element, e, result);
+			}
+		}
+	}
 
-  @Override
-  public void collectInspections(@Nonnull PsiClass element, @Nonnull ProblemsHolder problemsHolder) {
-    final E[] elements = getElements(element);
-    if(elements.length == 0) {
-      return;
-    }
+	@Override
+	public void collectInspections(@Nonnull PsiClass element, @Nonnull ProblemsHolder problemsHolder)
+	{
+		final E[] elements = getElements(element);
+		if(elements.length == 0)
+		{
+			return;
+		}
 
-    for(E e : elements) {
-      if(AnnotationUtil.findAnnotation(e, myAnnotationClass) != null && !canBeProcessed(e)) {
-        collectInspectionsForElement(e, problemsHolder);
-      }
-    }
-  }
+		for(E e : elements)
+		{
+			if(AnnotationUtil.findAnnotation(e, myAnnotationClass) != null && !canBeProcessed(e))
+			{
+				collectInspectionsForElement(e, problemsHolder);
+			}
+		}
+	}
 
-  public abstract void processElement(@Nonnull PsiClass parent, @Nonnull E e, @Nonnull List<PsiElement> result);
+	public abstract void processElement(@Nonnull PsiClass parent, @Nonnull E e, @Nonnull List<PsiElement> result);
 
-  public boolean canBeProcessed(@Nonnull E e) {
-    return true;
-  }
+	public boolean canBeProcessed(@Nonnull E e)
+	{
+		return true;
+	}
 
-  public void collectInspectionsForElement(@Nonnull E element, @Nonnull ProblemsHolder problemsHolder) {
+	public void collectInspectionsForElement(@Nonnull E element, @Nonnull ProblemsHolder problemsHolder)
+	{
 
-  }
+	}
 
-  @Nonnull
-  protected abstract E[] getElements(@Nonnull PsiClass psiClass);
+	@Nonnull
+	protected abstract E[] getElements(@Nonnull PsiClass psiClass);
 
-  @Nonnull
-  public PsiAnnotation getAffectedAnnotation(PsiModifierListOwner owner) {
-    return AnnotationUtil.findAnnotation(owner, myAnnotationClass);
-  }
+	@Nonnull
+	public PsiAnnotation getAffectedAnnotation(PsiModifierListOwner owner)
+	{
+		return AnnotationUtil.findAnnotation(owner, myAnnotationClass);
+	}
+
+	public String getAnnotationClass()
+	{
+		return myAnnotationClass;
+	}
 }

@@ -20,14 +20,13 @@ import com.intellij.java.language.psi.augment.PsiAugmentProvider;
 import consulo.annotation.access.RequiredReadAction;
 import consulo.component.extension.ExtensionPoint;
 import consulo.language.psi.PsiElement;
+import consulo.lombok.processors.LombokAnnotationOwnerProcessor;
 import consulo.lombok.processors.LombokProcessor;
 import consulo.lombok.processors.util.LombokUtil;
 import consulo.module.extension.ModuleExtension;
-
 import jakarta.annotation.Nonnull;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+
+import java.util.*;
 
 /**
  * @author VISTALL
@@ -45,19 +44,26 @@ public abstract class LombokPsiAugmentProvider extends PsiAugmentProvider
 			return Collections.emptyList();
 		}
 
-		List<Psi> list = new ArrayList<Psi>();
+		List<Psi> list = new ArrayList<>();
+
+		Set<String> processedAnnotations = new HashSet<>();
 
 		ExtensionPoint<LombokProcessor> point = element.getProject().getExtensionPoint(LombokProcessor.class);
-		point.forEachExtensionSafe(instance ->
+		point.forEachExtensionSafe(processor ->
 		{
-			if(instance.getModuleExtensionClass() != getModuleExtensionClass())
+			if(processor.getModuleExtensionClass() != getModuleExtensionClass())
 			{
 				return;
 			}
 
-			if(instance.getCollectorPsiElementClass() == type)
+			if(processor.getCollectorPsiElementClass() == type)
 			{
-				instance.process((PsiClass) element, (List<PsiElement>) list);
+				processor.process((PsiClass) element, (List<PsiElement>) list, processedAnnotations);
+
+				if(processor instanceof LombokAnnotationOwnerProcessor annotationOwnerProcessor)
+				{
+					processedAnnotations.add(annotationOwnerProcessor.getAnnotationClass());
+				}
 			}
 		});
 		return list;

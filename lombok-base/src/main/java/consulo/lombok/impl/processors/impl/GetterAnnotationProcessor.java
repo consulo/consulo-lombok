@@ -28,6 +28,7 @@ import jakarta.annotation.Nonnull;
 import jakarta.inject.Inject;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author VISTALL
@@ -45,6 +46,17 @@ public class GetterAnnotationProcessor extends LombokFieldProcessor
 	public GetterAnnotationProcessor(String annotationClass)
 	{
 		super(annotationClass);
+	}
+
+	@Override
+	public void process(@Nonnull PsiClass element, @Nonnull List<PsiElement> result, Set<String> processedAnnotations)
+	{
+		if(processedAnnotations.contains(DataAnnotationProcessor.ANNOTATION_CLASS))
+		{
+			return;
+		}
+
+		super.process(element, result, processedAnnotations);
 	}
 
 	@Override

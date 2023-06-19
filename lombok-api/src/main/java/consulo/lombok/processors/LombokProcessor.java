@@ -24,6 +24,7 @@ import consulo.module.extension.ModuleExtension;
 
 import jakarta.annotation.Nonnull;
 import java.util.List;
+import java.util.Set;
 
 
 /**
@@ -33,7 +34,7 @@ import java.util.List;
 @ExtensionAPI(ComponentScope.PROJECT)
 public interface LombokProcessor {
 
-  void process(@Nonnull PsiClass element, @Nonnull List<PsiElement> result);
+  void process(@Nonnull PsiClass element, @Nonnull List<PsiElement> result, Set<String> processedAnnotations);
 
   void collectInspections(@Nonnull PsiClass element, @Nonnull ProblemsHolder problemsHolder);
 

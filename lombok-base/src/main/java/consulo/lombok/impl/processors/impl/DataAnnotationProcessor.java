@@ -33,10 +33,10 @@ import java.util.List;
  * @author VISTALL
  * @since 21:00/30.04.13
  */
-@ExtensionImpl
+@ExtensionImpl(order = "first")
 public class DataAnnotationProcessor extends LombokSelfClassProcessor
 {
-	private static final String ANNOTATION_CLASS = "lombok.Data";
+	public static final String ANNOTATION_CLASS = "lombok.Data";
 
 	private AllArgsConstructorAnnotationProcessor myConstructorProcessor;
 	private ToStringAnnotationProcessor myToStringAnnotationProcessor;
