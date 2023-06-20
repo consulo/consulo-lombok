@@ -32,15 +32,17 @@ import java.util.Set;
  * @since 14:58/30.03.13
  */
 @ExtensionImpl
-public class SetterAnnotationProcessor extends SetterAnnotationProcessorBase
+public class SetterFieldAnnotationProcessor extends SetterAnnotationProcessorBase
 {
+	public static final String ANNOTATION_CLASS = "lombok.Setter";
+
 	@Inject
-	public SetterAnnotationProcessor()
+	public SetterFieldAnnotationProcessor()
 	{
-		this("lombok.Setter");
+		this(ANNOTATION_CLASS);
 	}
 
-	public SetterAnnotationProcessor(String annotationClass)
+	public SetterFieldAnnotationProcessor(String annotationClass)
 	{
 		super(annotationClass);
 	}

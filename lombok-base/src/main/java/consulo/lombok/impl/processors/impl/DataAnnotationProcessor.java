@@ -41,8 +41,8 @@ public class DataAnnotationProcessor extends LombokSelfClassProcessor
 	private AllArgsConstructorAnnotationProcessor myConstructorProcessor;
 	private ToStringAnnotationProcessor myToStringAnnotationProcessor;
 	private EqualsAndHashCodeAnnotationProcessor myEqualsAndHashCodeProcessor;
-	private SetterAnnotationProcessor mySetterProcessor;
-	private GetterAnnotationProcessor myGetterProcessor;
+	private SetterFieldAnnotationProcessor mySetterProcessor;
+	private GetterFieldAnnotationProcessor myGetterProcessor;
 
 	public DataAnnotationProcessor()
 	{
@@ -58,7 +58,7 @@ public class DataAnnotationProcessor extends LombokSelfClassProcessor
 		};
 		myToStringAnnotationProcessor = new ToStringAnnotationProcessor(ANNOTATION_CLASS);
 		myEqualsAndHashCodeProcessor = new EqualsAndHashCodeAnnotationProcessor(ANNOTATION_CLASS);
-		mySetterProcessor = new SetterAnnotationProcessor(ANNOTATION_CLASS)
+		mySetterProcessor = new SetterFieldAnnotationProcessor(ANNOTATION_CLASS)
 		{
 			@Nonnull
 			@Override
@@ -67,7 +67,7 @@ public class DataAnnotationProcessor extends LombokSelfClassProcessor
 				return DataAnnotationProcessor.this.getAffectedAnnotation((PsiClass) owner.getParent());
 			}
 		};
-		myGetterProcessor = new GetterAnnotationProcessor(ANNOTATION_CLASS)
+		myGetterProcessor = new GetterFieldAnnotationProcessor(ANNOTATION_CLASS)
 		{
 			@Nonnull
 			@Override

@@ -35,15 +35,17 @@ import java.util.Set;
  * @since 18:49/29.03.13
  */
 @ExtensionImpl
-public class GetterAnnotationProcessor extends LombokFieldProcessor
+public class GetterFieldAnnotationProcessor extends LombokFieldProcessor
 {
+	public static final String ANNOTATION_CLASS = "lombok.Getter";
+
 	@Inject
-	public GetterAnnotationProcessor()
+	public GetterFieldAnnotationProcessor()
 	{
-		this("lombok.Getter");
+		this(ANNOTATION_CLASS);
 	}
 
-	public GetterAnnotationProcessor(String annotationClass)
+	public GetterFieldAnnotationProcessor(String annotationClass)
 	{
 		super(annotationClass);
 	}
@@ -69,6 +71,16 @@ public class GetterAnnotationProcessor extends LombokFieldProcessor
 	@Override
 	public void processElement(@Nonnull PsiClass parent, @Nonnull PsiField psiField, @Nonnull List<PsiElement> result)
 	{
+		PsiAnnotation annotation = getAffectedAnnotation(psiField);
+
+		LightMethodBuilder builder = createGetter(parent, psiField, annotation);
+
+		result.add(builder);
+	}
+
+	@Nonnull
+	public static LightMethodBuilder createGetter(@Nonnull PsiClass parent, @Nonnull PsiField psiField, PsiAnnotation annotation)
+	{
 		LightMethodBuilder builder = new LightMethodBuilder(parent.getManager(), parent.getLanguage(), PropertyUtil.suggestGetterName(psiField));
 		builder.setMethodReturnType(psiField.getType());
 		builder.setContainingClass(parent);
@@ -79,11 +91,8 @@ public class GetterAnnotationProcessor extends LombokFieldProcessor
 			builder.addModifier(PsiModifier.STATIC);
 		}
 
-		PsiAnnotation annotation = getAffectedAnnotation(psiField);
-
 		LombokUtil.setAccessModifierFromAnnotation(annotation, builder, PsiAnnotation.DEFAULT_REFERENCED_METHOD_NAME);
-
-		result.add(builder);
+		return builder;
 	}
 
 	@Nonnull

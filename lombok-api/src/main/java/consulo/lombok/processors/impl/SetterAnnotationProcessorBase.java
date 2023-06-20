@@ -27,6 +27,16 @@ public abstract class SetterAnnotationProcessorBase extends LombokFieldProcessor
 	@Override
 	public void processElement(@Nonnull PsiClass parent, @Nonnull PsiField psiField, @Nonnull List<PsiElement> result)
 	{
+		PsiAnnotation annotation = getAffectedAnnotation(psiField);
+
+		LightMethodBuilder builder = createSetter(parent, psiField, annotation);
+
+		result.add(builder);
+	}
+
+	@Nonnull
+	public static LightMethodBuilder createSetter(@Nonnull PsiClass parent, @Nonnull PsiField psiField, PsiAnnotation annotation)
+	{
 		LightMethodBuilder builder = new LightMethodBuilder(parent.getManager(), parent.getLanguage(), PropertyUtil.suggestSetterName(psiField));
 		builder.setMethodReturnType(PsiType.VOID);
 		builder.setContainingClass(parent);
@@ -39,11 +49,8 @@ public abstract class SetterAnnotationProcessorBase extends LombokFieldProcessor
 			builder.addModifier(PsiModifier.STATIC);
 		}
 
-		PsiAnnotation annotation = getAffectedAnnotation(psiField);
-
 		LombokUtil.setAccessModifierFromAnnotation(annotation, builder, PsiAnnotation.DEFAULT_REFERENCED_METHOD_NAME);
-
-		result.add(builder);
+		return builder;
 	}
 
 	@Override
