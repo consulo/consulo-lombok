@@ -34,7 +34,7 @@ import java.util.Set;
 @ExtensionAPI(ComponentScope.PROJECT)
 public interface LombokProcessor {
 
-  void process(@Nonnull PsiClass element, @Nonnull List<PsiElement> result, Set<String> processedAnnotations);
+  boolean process(@Nonnull PsiClass element, @Nonnull List<PsiElement> result, Set<String> processedAnnotations);
 
   void collectInspections(@Nonnull PsiClass element, @Nonnull ProblemsHolder problemsHolder);
 

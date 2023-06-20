@@ -40,12 +40,12 @@ public abstract class LombokAnnotationOwnerProcessor<E extends PsiModifierListOw
 	}
 
 	@Override
-	public void process(@Nonnull PsiClass element, @Nonnull List<PsiElement> result, Set<String> processedAnnotations)
+	public boolean process(@Nonnull PsiClass element, @Nonnull List<PsiElement> result, Set<String> processedAnnotations)
 	{
 		final E[] elements = getElements(element);
 		if(elements.length == 0)
 		{
-			return;
+			return false;
 		}
 
 		for(E e : elements)
@@ -53,8 +53,11 @@ public abstract class LombokAnnotationOwnerProcessor<E extends PsiModifierListOw
 			if(AnnotationUtil.findAnnotation(e, myAnnotationClass) != null && canBeProcessed(e))
 			{
 				processElement(element, e, result);
+				return true;
 			}
 		}
+
+		return false;
 	}
 
 	@Override

@@ -58,9 +58,9 @@ public abstract class LombokPsiAugmentProvider extends PsiAugmentProvider
 
 			if(processor.getCollectorPsiElementClass() == type)
 			{
-				processor.process((PsiClass) element, (List<PsiElement>) list, processedAnnotations);
+				boolean processed = processor.process((PsiClass) element, (List<PsiElement>) list, processedAnnotations);
 
-				if(processor instanceof LombokAnnotationOwnerProcessor annotationOwnerProcessor)
+				if(processed && processor instanceof LombokAnnotationOwnerProcessor annotationOwnerProcessor)
 				{
 					processedAnnotations.add(annotationOwnerProcessor.getAnnotationClass());
 				}

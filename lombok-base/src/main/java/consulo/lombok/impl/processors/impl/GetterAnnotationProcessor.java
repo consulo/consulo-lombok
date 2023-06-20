@@ -49,16 +49,17 @@ public class GetterAnnotationProcessor extends LombokFieldProcessor
 	}
 
 	@Override
-	public void process(@Nonnull PsiClass element, @Nonnull List<PsiElement> result, Set<String> processedAnnotations)
+	public boolean process(@Nonnull PsiClass element, @Nonnull List<PsiElement> result, Set<String> processedAnnotations)
 	{
 		if(processedAnnotations.contains(DataAnnotationProcessor.ANNOTATION_CLASS))
 		{
-			return;
+			return false;
 		}
 
-		super.process(element, result, processedAnnotations);
+		return super.process(element, result, processedAnnotations);
 	}
 
+	@javax.annotation.Nonnull
 	@Override
 	public Class<? extends ModuleExtension> getModuleExtensionClass()
 	{

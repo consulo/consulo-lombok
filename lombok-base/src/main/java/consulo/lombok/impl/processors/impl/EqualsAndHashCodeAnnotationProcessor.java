@@ -48,13 +48,13 @@ public class EqualsAndHashCodeAnnotationProcessor extends MethodCreatorByAnnotat
 	}
 
 	@Override
-	public void process(@Nonnull PsiClass element, @Nonnull List<PsiElement> result, Set<String> processedAnnotations)
+	public boolean process(@Nonnull PsiClass element, @Nonnull List<PsiElement> result, Set<String> processedAnnotations)
 	{
 		if(processedAnnotations.contains(DataAnnotationProcessor.ANNOTATION_CLASS))
 		{
-			return;
+			return false;
 		}
-		super.process(element, result, processedAnnotations);
+		return super.process(element, result, processedAnnotations);
 	}
 
 	@Nonnull
