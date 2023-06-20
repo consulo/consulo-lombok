@@ -17,7 +17,7 @@
 package consulo.lombok.pg.processors;
 
 import consulo.lombok.pg.module.extension.LombokPgModuleExtension;
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 import consulo.lombok.processors.LombokFieldProcessor;
 import consulo.module.extension.ModuleExtension;
 

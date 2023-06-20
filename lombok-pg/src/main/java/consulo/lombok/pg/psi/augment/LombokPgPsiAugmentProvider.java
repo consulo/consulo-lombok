@@ -20,8 +20,7 @@ import consulo.annotation.component.ExtensionImpl;
 import consulo.lombok.pg.module.extension.LombokPgModuleExtension;
 import consulo.lombok.psi.augment.LombokPsiAugmentProvider;
 import consulo.module.extension.ModuleExtension;
-
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 /**
  * @author VISTALL

@@ -25,8 +25,8 @@ import com.intellij.java.language.psi.util.MethodSignature;
 import consulo.annotation.component.ExtensionImpl;
 import consulo.language.psi.PsiElement;
 import consulo.lombok.pg.processors.LombokPgSelfClassProcessor;
+import jakarta.annotation.Nonnull;
 
-import javax.annotation.Nonnull;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

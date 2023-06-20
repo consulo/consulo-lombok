@@ -59,7 +59,7 @@ public class GetterAnnotationProcessor extends LombokFieldProcessor
 		return super.process(element, result, processedAnnotations);
 	}
 
-	@javax.annotation.Nonnull
+	@Nonnull
 	@Override
 	public Class<? extends ModuleExtension> getModuleExtensionClass()
 	{

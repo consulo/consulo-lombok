@@ -24,7 +24,7 @@ import consulo.lombok.pg.processors.LombokPgFieldProcessor;
 import consulo.lombok.processors.impl.SetterAnnotationProcessorBase;
 import consulo.module.extension.ModuleExtension;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 import java.util.List;
 
 /**

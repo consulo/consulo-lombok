@@ -16,11 +16,10 @@
 
 package consulo.lombok.pg.processors;
 
-import javax.annotation.Nonnull;
-
 import consulo.lombok.pg.module.extension.LombokPgModuleExtension;
 import consulo.lombok.processors.LombokSelfClassProcessor;
 import consulo.module.extension.ModuleExtension;
+import jakarta.annotation.Nonnull;
 
 /**
  * @author VISTALL
