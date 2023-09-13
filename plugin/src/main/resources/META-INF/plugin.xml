@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <consulo-plugin>
-  <id>Lombook Plugin</id>
+  <id>consulo.lombok</id>
   <name>Lombok</name>
   <vendor>JetBrains</vendor>
   <resource-bundle>messages.LombokBundle</resource-bundle>
