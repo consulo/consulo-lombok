@@ -19,9 +19,6 @@
 	<vendor>consulo.io</vendor>
 	<category>Language Extensions</category>
 	<version>SNAPSHOT</version>
-	<depends>consulo.lombok</depends>
-	<depends optional="true">org.jetbrains.idea.maven</depends>
-
 	<tags>
 		<tag>language.extension</tag>
 	</tags>

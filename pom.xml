@@ -46,6 +46,5 @@
 		<module>lombok-base</module>
 		<module>lombok-base-maven-impl</module>
 		<module>lombok-pg</module>
-		<module>lombok-pg-maven-impl</module>
 	</modules>
 </project>
