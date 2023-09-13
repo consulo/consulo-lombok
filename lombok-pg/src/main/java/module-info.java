@@ -4,7 +4,4 @@
  */
 module consulo.lombokpg
 {
-	requires consulo.ide.api;
-	requires consulo.lombok.api;
-	requires consulo.java;
 }
