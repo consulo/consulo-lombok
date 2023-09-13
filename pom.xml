@@ -42,7 +42,6 @@
   <packaging>pom</packaging>
 
   <modules>
-    <module>lombok-base</module>
     <module>lombok-pg</module>
   </modules>
 </project>
