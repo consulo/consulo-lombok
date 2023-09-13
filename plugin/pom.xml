@@ -92,12 +92,6 @@
   <dependencies>
     <dependency>
       <groupId>${project.groupId}</groupId>
-      <artifactId>consulo.lombok-lombok.api</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>${project.groupId}</groupId>
       <artifactId>consulo.java</artifactId>
       <version>${project.version}</version>
       <scope>provided</scope>
@@ -108,13 +102,6 @@
       <artifactId>com.intellij.xml</artifactId>
       <version>${project.version}</version>
       <scope>provided</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>${project.groupId}</groupId>
-      <artifactId>consulo.lombok-lombok.base.maven.impl</artifactId>
-      <version>${project.version}</version>
-      <scope>runtime</scope>
     </dependency>
   </dependencies>
 </project>
