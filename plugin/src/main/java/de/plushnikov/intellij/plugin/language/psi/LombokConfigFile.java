@@ -3,10 +3,10 @@ package de.plushnikov.intellij.plugin.language.psi;
 import consulo.language.file.FileViewProvider;
 import consulo.language.impl.psi.PsiFileBase;
 import de.plushnikov.intellij.plugin.language.LombokConfigLanguage;
-import org.jetbrains.annotations.NotNull;
+import jakarta.annotation.Nonnull;
 
 public class LombokConfigFile extends PsiFileBase {
-  public LombokConfigFile(@NotNull FileViewProvider viewProvider) {
+  public LombokConfigFile(@Nonnull FileViewProvider viewProvider) {
     super(viewProvider, LombokConfigLanguage.INSTANCE);
   }
 

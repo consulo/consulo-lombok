@@ -1,7 +1,9 @@
 package de.plushnikov.intellij.plugin.processor.clazz;
 
-import com.intellij.openapi.application.ApplicationManager;
-import com.intellij.psi.*;
+import com.intellij.java.language.psi.*;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.language.psi.PsiElement;
+import consulo.lombok.processor.ProcessorUtil;
 import de.plushnikov.intellij.plugin.LombokClassNames;
 import de.plushnikov.intellij.plugin.problem.ProblemSink;
 import de.plushnikov.intellij.plugin.processor.LombokPsiElementUsage;
@@ -12,7 +14,7 @@ import de.plushnikov.intellij.plugin.util.LombokProcessorUtil;
 import de.plushnikov.intellij.plugin.util.PsiAnnotationSearchUtil;
 import de.plushnikov.intellij.plugin.util.PsiClassUtil;
 import de.plushnikov.intellij.plugin.util.PsiMethodUtil;
-import org.jetbrains.annotations.NotNull;
+import jakarta.annotation.Nonnull;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -24,17 +26,18 @@ import java.util.List;
  *
  * @author Plushnikov Michail
  */
+@ExtensionImpl
 public final class SetterProcessor extends AbstractClassProcessor {
   public SetterProcessor() {
     super(PsiMethod.class, LombokClassNames.SETTER);
   }
 
   private static SetterFieldProcessor getSetterFieldProcessor() {
-    return ApplicationManager.getApplication().getService(SetterFieldProcessor.class);
+    return ProcessorUtil.getProcessor(SetterFieldProcessor.class);
   }
 
   @Override
-  protected Collection<String> getNamesOfPossibleGeneratedElements(@NotNull PsiClass psiClass, @NotNull PsiAnnotation psiAnnotation) {
+  protected Collection<String> getNamesOfPossibleGeneratedElements(@Nonnull PsiClass psiClass, @Nonnull PsiAnnotation psiAnnotation) {
     Collection<String> result = new ArrayList<>();
 
     final AccessorsInfo.AccessorsValues classAccessorsValues = AccessorsInfo.getAccessorsValues(psiClass);
@@ -47,36 +50,36 @@ public final class SetterProcessor extends AbstractClassProcessor {
   }
 
   @Override
-  protected boolean validate(@NotNull PsiAnnotation psiAnnotation, @NotNull PsiClass psiClass, @NotNull ProblemSink builder) {
+  protected boolean validate(@Nonnull PsiAnnotation psiAnnotation, @Nonnull PsiClass psiClass, @Nonnull ProblemSink builder) {
     validateAnnotationOnRightType(psiAnnotation, psiClass, builder);
     validateVisibility(psiAnnotation, builder);
     return builder.success();
   }
 
-  private static void validateAnnotationOnRightType(@NotNull PsiAnnotation psiAnnotation,
-                                                       @NotNull PsiClass psiClass,
-                                                       @NotNull ProblemSink builder) {
+  private static void validateAnnotationOnRightType(@Nonnull PsiAnnotation psiAnnotation,
+                                                       @Nonnull PsiClass psiClass,
+                                                       @Nonnull ProblemSink builder) {
     if (psiClass.isAnnotationType() || psiClass.isInterface() || psiClass.isEnum()) {
       builder.addErrorMessage("inspection.message.s.only.supported.on.class.or.field.type", psiAnnotation.getQualifiedName());
       builder.markFailed();
     }
   }
 
-  private static void validateVisibility(@NotNull PsiAnnotation psiAnnotation, @NotNull ProblemSink builder) {
+  private static void validateVisibility(@Nonnull PsiAnnotation psiAnnotation, @Nonnull ProblemSink builder) {
     if(null == LombokProcessorUtil.getMethodModifier(psiAnnotation)) {
       builder.markFailed();
     }
   }
 
   @Override
-  protected void generatePsiElements(@NotNull PsiClass psiClass, @NotNull PsiAnnotation psiAnnotation, @NotNull List<? super PsiElement> target) {
+  protected void generatePsiElements(@Nonnull PsiClass psiClass, @Nonnull PsiAnnotation psiAnnotation, @Nonnull List<? super PsiElement> target) {
     final String methodVisibility = LombokProcessorUtil.getMethodModifier(psiAnnotation);
     if (methodVisibility != null) {
       target.addAll(createFieldSetters(psiClass, methodVisibility));
     }
   }
 
-  public Collection<PsiMethod> createFieldSetters(@NotNull PsiClass psiClass, @NotNull String methodModifier) {
+  public Collection<PsiMethod> createFieldSetters(@Nonnull PsiClass psiClass, @Nonnull String methodModifier) {
     Collection<PsiMethod> result = new ArrayList<>();
 
     final Collection<PsiField> setterFields = filterSetterFields(psiClass);
@@ -87,8 +90,8 @@ public final class SetterProcessor extends AbstractClassProcessor {
     return result;
   }
 
-  @NotNull
-  private Collection<PsiField> filterSetterFields(@NotNull PsiClass psiClass) {
+  @Nonnull
+  private Collection<PsiField> filterSetterFields(@Nonnull PsiClass psiClass) {
     final Collection<PsiMethod> classMethods = PsiClassUtil.collectClassMethodsIntern(psiClass);
     filterToleratedElements(classMethods);
 
@@ -120,7 +123,7 @@ public final class SetterProcessor extends AbstractClassProcessor {
   }
 
   @Override
-  public LombokPsiElementUsage checkFieldUsage(@NotNull PsiField psiField, @NotNull PsiAnnotation psiAnnotation) {
+  public LombokPsiElementUsage checkFieldUsage(@Nonnull PsiField psiField, @Nonnull PsiAnnotation psiAnnotation) {
     final PsiClass containingClass = psiField.getContainingClass();
     if (null != containingClass) {
       if (PsiClassUtil.getNames(filterSetterFields(containingClass)).contains(psiField.getName())) {

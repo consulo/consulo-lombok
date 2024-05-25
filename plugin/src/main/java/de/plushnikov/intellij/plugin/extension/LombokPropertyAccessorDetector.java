@@ -1,20 +1,24 @@
 package de.plushnikov.intellij.plugin.extension;
 
+import com.intellij.java.analysis.property.PropertyAccessorDetector;
 import com.intellij.java.language.psi.PsiField;
 import com.intellij.java.language.psi.PsiMethod;
 import com.intellij.java.language.psi.util.PropertyUtilBase;
 import com.intellij.java.language.util.PropertyKind;
+import consulo.annotation.component.ExtensionImpl;
 import consulo.language.psi.PsiElement;
 import de.plushnikov.intellij.plugin.processor.field.AccessorsInfo;
 import de.plushnikov.intellij.plugin.psi.LombokLightMethodBuilder;
 import de.plushnikov.intellij.plugin.thirdparty.LombokUtils;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
+@ExtensionImpl
 public class LombokPropertyAccessorDetector implements PropertyAccessorDetector {
 
   @Override
-  public @Nullable PropertyAccessorInfo detectPropertyAccessor(@NotNull PsiMethod method) {
+  @Nullable
+  public PropertyAccessorInfo detectPropertyAccessor(@Nonnull PsiMethod method) {
     if (method instanceof LombokLightMethodBuilder methodBuilder) {
       final PsiElement navigationElement = methodBuilder.getNavigationElement();
       if (navigationElement instanceof PsiField originalField) {
@@ -27,7 +31,7 @@ public class LombokPropertyAccessorDetector implements PropertyAccessorDetector 
         if (lombokPropertySetterOrWither || lombokPropertyGetter) {
           return new PropertyAccessorInfo(PropertyUtilBase.suggestPropertyName(originalField),
                                           originalField.getType(),
-                                          lombokPropertyGetter?PropertyKind.GETTER:PropertyKind.SETTER);
+                                          lombokPropertyGetter ? PropertyKind.GETTER : PropertyKind.SETTER);
         }
       }
     }
@@ -42,7 +46,7 @@ public class LombokPropertyAccessorDetector implements PropertyAccessorDetector 
                                                         PsiField originalField,
                                                         AccessorsInfo accessorsInfo) {
     return method.getParameterList().getParameters().length == 1 &&
-           (method.getName().equals(LombokUtils.getSetterName(originalField, accessorsInfo)) ||
-            method.getName().equals(LombokUtils.getWitherName(originalField, accessorsInfo)));
+      (method.getName().equals(LombokUtils.getSetterName(originalField, accessorsInfo)) ||
+        method.getName().equals(LombokUtils.getWitherName(originalField, accessorsInfo)));
   }
 }

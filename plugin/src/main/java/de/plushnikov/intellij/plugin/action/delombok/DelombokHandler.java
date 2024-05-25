@@ -1,20 +1,22 @@
 package de.plushnikov.intellij.plugin.action.delombok;
 
-import com.intellij.codeInsight.intention.AddAnnotationPsiFix;
-import com.intellij.openapi.command.undo.UndoUtil;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.psi.*;
-import com.intellij.psi.codeStyle.CodeStyleManager;
-import com.intellij.psi.codeStyle.JavaCodeStyleManager;
-import com.intellij.psi.impl.source.PsiClassReferenceType;
+import com.intellij.java.analysis.impl.codeInsight.intention.AddAnnotationPsiFix;
+import com.intellij.java.language.impl.psi.impl.source.PsiClassReferenceType;
+import com.intellij.java.language.psi.*;
+import com.intellij.java.language.psi.codeStyle.JavaCodeStyleManager;
+import consulo.language.codeStyle.CodeStyleManager;
+import consulo.language.editor.util.LanguageUndoUtil;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.PsiFile;
+import consulo.project.Project;
+import consulo.util.lang.StringUtil;
 import de.plushnikov.intellij.plugin.processor.AbstractProcessor;
 import de.plushnikov.intellij.plugin.processor.LombokProcessorManager;
 import de.plushnikov.intellij.plugin.processor.clazz.fieldnameconstants.FieldNameConstantsPredefinedInnerClassFieldProcessor;
 import de.plushnikov.intellij.plugin.provider.LombokUserDataKeys;
 import de.plushnikov.intellij.plugin.psi.LombokLightClassBuilder;
 import de.plushnikov.intellij.plugin.util.PsiClassUtil;
-import org.jetbrains.annotations.NotNull;
+import jakarta.annotation.Nonnull;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -33,14 +35,14 @@ public class DelombokHandler {
     this.lombokProcessors = Arrays.asList(lombokProcessors);
   }
 
-  public void invoke(@NotNull Project project, @NotNull PsiFile psiFile, @NotNull PsiClass psiClass) {
+  public void invoke(@Nonnull Project project, @Nonnull PsiFile psiFile, @Nonnull PsiClass psiClass) {
     if (psiFile.isWritable()) {
       invoke(project, psiClass, processInnerClasses);
       finish(project, psiFile);
     }
   }
 
-  public void invoke(@NotNull Project project, @NotNull PsiJavaFile psiFile) {
+  public void invoke(@Nonnull Project project, @Nonnull PsiJavaFile psiFile) {
     for (PsiClass psiClass : psiFile.getClasses()) {
       invoke(project, psiClass, true);
     }
@@ -77,12 +79,12 @@ public class DelombokHandler {
 
   private static void finish(Project project, PsiFile psiFile) {
     JavaCodeStyleManager.getInstance(project).optimizeImports(psiFile);
-    UndoUtil.markPsiFileForUndo(psiFile);
+    LanguageUndoUtil.markPsiFileForUndo(psiFile);
   }
 
-  private static Collection<PsiAnnotation> processClass(@NotNull Project project,
-                                                        @NotNull PsiClass psiClass,
-                                                        @NotNull AbstractProcessor lombokProcessor) {
+  private static Collection<PsiAnnotation> processClass(@Nonnull Project project,
+                                                        @Nonnull PsiClass psiClass,
+                                                        @Nonnull AbstractProcessor lombokProcessor) {
     Collection<PsiAnnotation> psiAnnotations = lombokProcessor.collectProcessedAnnotations(psiClass);
 
     final List<? super PsiElement> psiElements = lombokProcessor.process(psiClass);
@@ -97,14 +99,14 @@ public class DelombokHandler {
     return psiAnnotations;
   }
 
-  private static void processModifierList(@NotNull PsiClass psiClass) {
+  private static void processModifierList(@Nonnull PsiClass psiClass) {
     rebuildModifierList(psiClass);
     PsiClassUtil.collectClassFieldsIntern(psiClass).forEach(DelombokHandler::rebuildModifierList);
     PsiClassUtil.collectClassMethodsIntern(psiClass).forEach(DelombokHandler::rebuildModifierList);
     PsiClassUtil.collectClassStaticMethodsIntern(psiClass).forEach(DelombokHandler::rebuildModifierList);
   }
 
-  private static void rebuildModifierList(@NotNull PsiModifierListOwner modifierListOwner) {
+  private static void rebuildModifierList(@Nonnull PsiModifierListOwner modifierListOwner) {
     final PsiModifierList modifierList = modifierListOwner.getModifierList();
     if (null != modifierList) {
       final Set<String> lombokModifiers = new HashSet<>();
@@ -118,7 +120,7 @@ public class DelombokHandler {
     }
   }
 
-  private static void postProcessAugmentedAnnotations(@NotNull PsiModifierListOwner psiModifierListOwner) {
+  private static void postProcessAugmentedAnnotations(@Nonnull PsiModifierListOwner psiModifierListOwner) {
     final Collection<String> augmentedAnnotations = psiModifierListOwner.getUserData(LombokUserDataKeys.AUGMENTED_ANNOTATIONS);
     final PsiModifierList psiModifierList = psiModifierListOwner.getModifierList();
 
@@ -135,7 +137,8 @@ public class DelombokHandler {
     if (!psiElements.isEmpty()) {
       final PsiField existingField = PsiClassUtil.collectClassFieldsIntern(psiClass).stream().findFirst().orElse(null);
       Iterator<? super PsiElement> iterator = psiElements.iterator();
-      PsiElement prev = psiClass.addBefore(rebuildPsiElement(project, (PsiElement)iterator.next()), existingField);
+      PsiElement
+        prev = psiClass.addBefore(rebuildPsiElement(project, (PsiElement)iterator.next()), existingField);
       while (iterator.hasNext()) {
         PsiElement curr = rebuildPsiElement(project, (PsiElement)iterator.next());
         if (curr != null) {
@@ -154,7 +157,7 @@ public class DelombokHandler {
     }
   }
 
-  public Collection<PsiAnnotation> collectProcessableAnnotations(@NotNull PsiClass psiClass) {
+  public Collection<PsiAnnotation> collectProcessableAnnotations(@Nonnull PsiClass psiClass) {
     Collection<PsiAnnotation> result = new ArrayList<>();
 
     for (AbstractProcessor lombokProcessor : lombokProcessors) {
@@ -164,7 +167,7 @@ public class DelombokHandler {
     return result;
   }
 
-  private static PsiElement rebuildPsiElement(@NotNull Project project, PsiElement psiElement) {
+  private static PsiElement rebuildPsiElement(@Nonnull Project project, PsiElement psiElement) {
     if (psiElement instanceof PsiMethod) {
       return rebuildMethod(project, (PsiMethod)psiElement);
     }
@@ -182,7 +185,7 @@ public class DelombokHandler {
     return null;
   }
 
-  private static PsiClass rebuildEnum(@NotNull Project project, @NotNull PsiClass fromClass) {
+  private static PsiClass rebuildEnum(@Nonnull Project project, @Nonnull PsiClass fromClass) {
     final PsiElementFactory elementFactory = JavaPsiFacade.getElementFactory(project);
 
     final PsiClass resultClass = elementFactory.createEnum(StringUtil.defaultIfEmpty(fromClass.getName(), "UnknownClassName"));
@@ -213,7 +216,7 @@ public class DelombokHandler {
     return resultClass;
   }
 
-  private static PsiClass rebuildClass(@NotNull Project project, @NotNull PsiClass fromClass) {
+  private static PsiClass rebuildClass(@Nonnull Project project, @Nonnull PsiClass fromClass) {
     final PsiElementFactory elementFactory = JavaPsiFacade.getElementFactory(project);
 
     PsiClass resultClass = elementFactory.createClass(StringUtil.defaultIfEmpty(fromClass.getName(), "UnknownClassName"));
@@ -238,7 +241,7 @@ public class DelombokHandler {
     return resultClass;
   }
 
-  private static PsiMethod rebuildMethod(@NotNull Project project, @NotNull PsiMethod fromMethod) {
+  private static PsiMethod rebuildMethod(@Nonnull Project project, @Nonnull PsiMethod fromMethod) {
     final PsiElementFactory elementFactory = JavaPsiFacade.getElementFactory(project);
 
     final PsiMethod resultMethod;
@@ -288,7 +291,7 @@ public class DelombokHandler {
     return resultMethod;
   }
 
-  private static void copyAnnotations(@NotNull PsiModifierList fromModifierList, @NotNull PsiModifierList toModifierList) {
+  private static void copyAnnotations(@Nonnull PsiModifierList fromModifierList, @Nonnull PsiModifierList toModifierList) {
     for (PsiAnnotation originalAnnotation : fromModifierList.getAnnotations()) {
       final String annotationQualifiedName = originalAnnotation.getQualifiedName();
       if (!StringUtil.isEmptyOrSpaces(annotationQualifiedName)) {
@@ -299,7 +302,7 @@ public class DelombokHandler {
     }
   }
 
-  private static void rebuildTypeParameter(@NotNull PsiTypeParameterListOwner listOwner, @NotNull PsiTypeParameterListOwner resultOwner) {
+  private static void rebuildTypeParameter(@Nonnull PsiTypeParameterListOwner listOwner, @Nonnull PsiTypeParameterListOwner resultOwner) {
     final PsiTypeParameterList resultOwnerTypeParameterList = resultOwner.getTypeParameterList();
     if (null != resultOwnerTypeParameterList) {
       final PsiElementFactory elementFactory = JavaPsiFacade.getElementFactory(resultOwner.getProject());
@@ -311,8 +314,8 @@ public class DelombokHandler {
     }
   }
 
-  @NotNull
-  private static String getTypeParameterAsString(@NotNull PsiTypeParameter typeParameter) {
+  @Nonnull
+  private static String getTypeParameterAsString(@Nonnull PsiTypeParameter typeParameter) {
     final PsiClassType[] referencedTypes = typeParameter.getExtendsList().getReferencedTypes();
     String extendsText = "";
     if (referencedTypes.length > 0) {
@@ -322,8 +325,8 @@ public class DelombokHandler {
     return typeParameter.getName() + extendsText;
   }
 
-  @NotNull
-  private static String getTypeWithParameter(@NotNull PsiClassType psiClassType) {
+  @Nonnull
+  private static String getTypeWithParameter(@Nonnull PsiClassType psiClassType) {
     if (psiClassType instanceof PsiClassReferenceType) {
       return ((PsiClassReferenceType)psiClassType).getReference().getText();
     }
@@ -336,7 +339,7 @@ public class DelombokHandler {
     }
   }
 
-  private static PsiField rebuildField(@NotNull Project project, @NotNull PsiField fromField) {
+  private static PsiField rebuildField(@Nonnull Project project, @Nonnull PsiField fromField) {
     final PsiElementFactory elementFactory = JavaPsiFacade.getElementFactory(project);
 
     final PsiField resultField;

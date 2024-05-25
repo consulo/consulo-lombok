@@ -1,21 +1,21 @@
 package de.plushnikov.intellij.plugin.util;
 
 import com.intellij.java.language.psi.JavaPsiFacade;
+import com.intellij.java.language.psi.PsiJavaPackage;
 import consulo.application.ApplicationManager;
 import consulo.application.ReadAction;
 import consulo.application.util.CachedValueProvider;
 import consulo.application.util.CachedValuesManager;
 import consulo.component.ProcessCanceledException;
 import consulo.language.psi.PsiDirectory;
-import consulo.language.psi.PsiPackage;
 import consulo.logging.Logger;
 import consulo.module.content.ProjectRootManager;
 import consulo.module.content.layer.orderEntry.OrderEntry;
 import consulo.project.Project;
 import consulo.util.lang.StringUtil;
 import de.plushnikov.intellij.plugin.Version;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 import java.util.List;
 
@@ -25,19 +25,19 @@ public final class LombokLibraryUtil {
 
   private static final String LOMBOK_PACKAGE = "lombok.experimental";
 
-  public static boolean hasLombokLibrary(@NotNull Project project) {
+  public static boolean hasLombokLibrary(@Nonnull Project project) {
     if (project.isDefault() || !project.isInitialized()) {
       return false;
     }
     ApplicationManager.getApplication().assertReadAccessAllowed();
     return CachedValuesManager.getManager(project).getCachedValue(project, () -> {
-      PsiPackage aPackage = JavaPsiFacade.getInstance(project).findPackage(LOMBOK_PACKAGE);
+      PsiJavaPackage aPackage = JavaPsiFacade.getInstance(project).findPackage(LOMBOK_PACKAGE);
       return new CachedValueProvider.Result<>(aPackage, ProjectRootManager.getInstance(project));
     }) != null;
   }
 
-  @NotNull
-  public static String getLombokVersionCached(@NotNull Project project) {
+  @Nonnull
+  public static String getLombokVersionCached(@Nonnull Project project) {
     return CachedValuesManager.getManager(project).getCachedValue(project, () -> {
       String lombokVersion = null;
       try {
@@ -54,8 +54,8 @@ public final class LombokLibraryUtil {
   }
 
   @Nullable
-  private static String getLombokVersionInternal(@NotNull Project project) {
-    PsiPackage aPackage = JavaPsiFacade.getInstance(project).findPackage(LOMBOK_PACKAGE);
+  private static String getLombokVersionInternal(@Nonnull Project project) {
+    PsiJavaPackage aPackage = JavaPsiFacade.getInstance(project).findPackage(LOMBOK_PACKAGE);
     if (aPackage != null) {
       PsiDirectory[] directories = aPackage.getDirectories();
       if (directories.length > 0) {

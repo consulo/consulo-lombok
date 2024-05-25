@@ -10,7 +10,7 @@ import de.plushnikov.intellij.plugin.lombokconfig.ConfigDiscovery;
 import de.plushnikov.intellij.plugin.lombokconfig.ConfigKey;
 import de.plushnikov.intellij.plugin.util.PsiAnnotationSearchUtil;
 import de.plushnikov.intellij.plugin.util.PsiAnnotationUtil;
-import org.jetbrains.annotations.NotNull;
+import jakarta.annotation.Nonnull;
 
 import java.util.Collection;
 
@@ -39,37 +39,37 @@ public abstract class AbstractProcessor implements Processor {
    * @param supportedClass             kind of output elements this processor supports
    * @param supportedAnnotationClasses annotations this processor supports
    */
-  protected AbstractProcessor(@NotNull Class<? extends PsiElement> supportedClass,
-                              @NotNull String @NotNull ... supportedAnnotationClasses) {
+  protected AbstractProcessor(@Nonnull Class<? extends PsiElement> supportedClass,
+                              @Nonnull String... supportedAnnotationClasses) {
     this.configDiscovery = ConfigDiscovery.getInstance();
     this.supportedClass = supportedClass;
     this.supportedAnnotationClasses = supportedAnnotationClasses;
   }
 
   @Override
-  public final @NotNull String @NotNull [] getSupportedAnnotationClasses() {
+  public final @Nonnull String[] getSupportedAnnotationClasses() {
     return supportedAnnotationClasses;
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public final Class<? extends PsiElement> getSupportedClass() {
     return supportedClass;
   }
 
-  @NotNull
-  public abstract Collection<PsiAnnotation> collectProcessedAnnotations(@NotNull PsiClass psiClass);
+  @Nonnull
+  public abstract Collection<PsiAnnotation> collectProcessedAnnotations(@Nonnull PsiClass psiClass);
 
-  protected boolean supportAnnotationVariant(@NotNull PsiAnnotation psiAnnotation) {
+  protected boolean supportAnnotationVariant(@Nonnull PsiAnnotation psiAnnotation) {
     return true;
   }
 
-  protected void filterToleratedElements(@NotNull Collection<? extends PsiModifierListOwner> definedMethods) {
+  protected void filterToleratedElements(@Nonnull Collection<? extends PsiModifierListOwner> definedMethods) {
     definedMethods.removeIf(definedMethod -> PsiAnnotationSearchUtil.isAnnotatedWith(definedMethod, LombokClassNames.TOLERATE));
   }
 
-  protected boolean readAnnotationOrConfigProperty(@NotNull PsiAnnotation psiAnnotation, @NotNull PsiClass psiClass,
-                                                   @NotNull String annotationParameter, @NotNull ConfigKey configKey) {
+  protected boolean readAnnotationOrConfigProperty(@Nonnull PsiAnnotation psiAnnotation, @Nonnull PsiClass psiClass,
+                                                   @Nonnull String annotationParameter, @Nonnull ConfigKey configKey) {
     final boolean result;
     final Boolean declaredAnnotationValue = PsiAnnotationUtil.getDeclaredBooleanAnnotationValue(psiAnnotation, annotationParameter);
     if (null == declaredAnnotationValue) {
@@ -82,7 +82,7 @@ public abstract class AbstractProcessor implements Processor {
   }
 
   @Override
-  public LombokPsiElementUsage checkFieldUsage(@NotNull PsiField psiField, @NotNull PsiAnnotation psiAnnotation) {
+  public LombokPsiElementUsage checkFieldUsage(@Nonnull PsiField psiField, @Nonnull PsiAnnotation psiAnnotation) {
     return LombokPsiElementUsage.NONE;
   }
 }

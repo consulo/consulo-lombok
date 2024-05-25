@@ -1,7 +1,7 @@
 package de.plushnikov.intellij.plugin.problem;
 
 import de.plushnikov.intellij.plugin.LombokBundle;
-import org.jetbrains.annotations.NotNull;
+import jakarta.annotation.Nonnull;
 import org.jetbrains.annotations.PropertyKey;
 
 /**
@@ -14,8 +14,8 @@ public interface ProblemSink {
 
   void markFailed();
 
-  LombokProblem addWarningMessage(@NotNull @PropertyKey(resourceBundle = LombokBundle.PATH_TO_BUNDLE) String key, Object @NotNull ... params);
+  LombokProblem addWarningMessage(@Nonnull @PropertyKey(resourceBundle = LombokBundle.PATH_TO_BUNDLE) String key, Object... params);
 
-  LombokProblem addErrorMessage(@NotNull @PropertyKey(resourceBundle = LombokBundle.PATH_TO_BUNDLE) String key, Object @NotNull ... params);
+  LombokProblem addErrorMessage(@Nonnull @PropertyKey(resourceBundle = LombokBundle.PATH_TO_BUNDLE) String key, Object... params);
 
 }

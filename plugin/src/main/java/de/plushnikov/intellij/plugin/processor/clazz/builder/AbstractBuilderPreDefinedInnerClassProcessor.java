@@ -1,9 +1,9 @@
 package de.plushnikov.intellij.plugin.processor.clazz.builder;
 
-import com.intellij.psi.PsiAnnotation;
-import com.intellij.psi.PsiClass;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiMethod;
+import com.intellij.java.language.psi.PsiAnnotation;
+import com.intellij.java.language.psi.PsiClass;
+import com.intellij.java.language.psi.PsiMethod;
+import consulo.language.psi.PsiElement;
 import de.plushnikov.intellij.plugin.problem.LombokProblem;
 import de.plushnikov.intellij.plugin.problem.ProblemProcessingSink;
 import de.plushnikov.intellij.plugin.problem.ProblemSink;
@@ -11,21 +11,21 @@ import de.plushnikov.intellij.plugin.processor.clazz.AbstractClassProcessor;
 import de.plushnikov.intellij.plugin.processor.handler.BuilderHandler;
 import de.plushnikov.intellij.plugin.util.PsiAnnotationSearchUtil;
 import de.plushnikov.intellij.plugin.util.PsiClassUtil;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 import java.util.*;
 
 public abstract class AbstractBuilderPreDefinedInnerClassProcessor extends AbstractClassProcessor {
 
-  AbstractBuilderPreDefinedInnerClassProcessor(@NotNull Class<? extends PsiElement> supportedClass,
-                                               @NotNull String supportedAnnotationClass) {
+  AbstractBuilderPreDefinedInnerClassProcessor(@Nonnull Class<? extends PsiElement> supportedClass,
+                                               @Nonnull String supportedAnnotationClass) {
     super(supportedClass, supportedAnnotationClass);
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  public List<? super PsiElement> process(@NotNull PsiClass psiClass, @Nullable String nameHint) {
+  public List<? super PsiElement> process(@Nonnull PsiClass psiClass, @Nullable String nameHint) {
     final Optional<PsiClass> parentClass = getSupportedParentClass(psiClass);
     final Optional<PsiAnnotation> builderAnnotation = parentClass.map(this::getSupportedAnnotation);
     if (builderAnnotation.isPresent()) {
@@ -52,8 +52,8 @@ public abstract class AbstractBuilderPreDefinedInnerClassProcessor extends Abstr
     return Collections.emptyList();
   }
 
-  private List<? super PsiElement> processAnnotation(@NotNull PsiClass psiParentClass, @Nullable PsiMethod psiParentMethod,
-                                                     @NotNull PsiAnnotation psiAnnotation, @NotNull PsiClass psiClass,
+  private List<? super PsiElement> processAnnotation(@Nonnull PsiClass psiParentClass, @Nullable PsiMethod psiParentMethod,
+                                                     @Nonnull PsiAnnotation psiAnnotation, @Nonnull PsiClass psiClass,
                                                      @Nullable String nameHint) {
     // use parent class as source!
     final String builderClassName = BuilderHandler.getBuilderClassName(psiParentClass, psiAnnotation, psiParentMethod);
@@ -71,22 +71,22 @@ public abstract class AbstractBuilderPreDefinedInnerClassProcessor extends Abstr
     return new BuilderHandler();
   }
 
-  protected abstract Collection<? extends PsiElement> generatePsiElements(@NotNull PsiClass psiParentClass, @Nullable PsiMethod psiParentMethod, @NotNull PsiAnnotation psiAnnotation, @NotNull PsiClass psiBuilderClass);
+  protected abstract Collection<? extends PsiElement> generatePsiElements(@Nonnull PsiClass psiParentClass, @Nullable PsiMethod psiParentMethod, @Nonnull PsiAnnotation psiAnnotation, @Nonnull PsiClass psiBuilderClass);
 
-  @NotNull
+  @Nonnull
   @Override
-  public Collection<LombokProblem> verifyAnnotation(@NotNull PsiAnnotation psiAnnotation) {
+  public Collection<LombokProblem> verifyAnnotation(@Nonnull PsiAnnotation psiAnnotation) {
     //do nothing
     return Collections.emptySet();
   }
 
   @Override
-  protected boolean validate(@NotNull PsiAnnotation psiAnnotation, @NotNull PsiClass psiClass, @NotNull ProblemSink builder) {
+  protected boolean validate(@Nonnull PsiAnnotation psiAnnotation, @Nonnull PsiClass psiClass, @Nonnull ProblemSink builder) {
     return getBuilderHandler().validate(psiClass, psiAnnotation, builder);
   }
 
   @Override
-  protected void generatePsiElements(@NotNull PsiClass psiClass, @NotNull PsiAnnotation psiAnnotation, @NotNull List<? super PsiElement> target) {
+  protected void generatePsiElements(@Nonnull PsiClass psiClass, @Nonnull PsiAnnotation psiAnnotation, @Nonnull List<? super PsiElement> target) {
     //do nothing
   }
 }

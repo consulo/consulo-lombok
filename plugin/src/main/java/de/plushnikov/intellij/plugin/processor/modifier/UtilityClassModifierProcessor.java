@@ -1,12 +1,13 @@
 package de.plushnikov.intellij.plugin.processor.modifier;
 
-import com.intellij.psi.*;
-import com.intellij.psi.util.PsiTreeUtil;
+import com.intellij.java.language.psi.*;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.util.PsiTreeUtil;
 import de.plushnikov.intellij.plugin.LombokClassNames;
 import de.plushnikov.intellij.plugin.problem.ProblemValidationSink;
 import de.plushnikov.intellij.plugin.processor.clazz.UtilityClassProcessor;
 import de.plushnikov.intellij.plugin.util.PsiAnnotationSearchUtil;
-import org.jetbrains.annotations.NotNull;
+import jakarta.annotation.Nonnull;
 
 import java.util.Set;
 
@@ -15,7 +16,7 @@ import java.util.Set;
  */
 public class UtilityClassModifierProcessor implements ModifierProcessor {
 
-  public static boolean isModifierListSupported(@NotNull PsiModifierList modifierList) {
+  public static boolean isModifierListSupported(@Nonnull PsiModifierList modifierList) {
     PsiElement modifierListParent = modifierList.getParent();
 
     if (modifierListParent instanceof PsiClass parentClass) {
@@ -34,12 +35,12 @@ public class UtilityClassModifierProcessor implements ModifierProcessor {
   }
 
   @Override
-  public boolean isSupported(@NotNull PsiModifierList modifierList) {
+  public boolean isSupported(@Nonnull PsiModifierList modifierList) {
     return isModifierListSupported(modifierList);
   }
 
   @Override
-  public void transformModifiers(@NotNull PsiModifierList modifierList, @NotNull final Set<String> modifiers) {
+  public void transformModifiers(@Nonnull PsiModifierList modifierList, @Nonnull final Set<String> modifiers) {
     final PsiElement parent = modifierList.getParent();
 
     // FINAL

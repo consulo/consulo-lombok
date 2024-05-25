@@ -8,11 +8,11 @@ import consulo.language.psi.util.PsiTreeUtil;
 import de.plushnikov.intellij.plugin.LombokClassNames;
 import de.plushnikov.intellij.plugin.util.PsiAnnotationSearchUtil;
 import de.plushnikov.intellij.plugin.util.PsiAnnotationUtil;
-import org.jetbrains.annotations.NotNull;
+import jakarta.annotation.Nonnull;
 
 public final class LazyGetterHandler {
 
-  public static boolean isLazyGetterHandled(@NotNull PsiElement element) {
+  public static boolean isLazyGetterHandled(@Nonnull PsiElement element) {
     if (!(element instanceof PsiIdentifier)) {
       return false;
     }
@@ -25,7 +25,7 @@ public final class LazyGetterHandler {
     return null != getterAnnotation && PsiAnnotationUtil.getBooleanAnnotationValue(getterAnnotation, "lazy", false);
   }
 
-  public static boolean isInitializedInConstructors(@NotNull PsiElement element) {
+  public static boolean isInitializedInConstructors(@Nonnull PsiElement element) {
     if (!(element instanceof PsiIdentifier)) {
       return false;
     }

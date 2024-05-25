@@ -1,24 +1,27 @@
 package de.plushnikov.intellij.plugin.handler;
 
+import com.intellij.java.language.codeInsight.CustomExceptionHandler;
 import com.intellij.java.language.psi.*;
+import consulo.annotation.component.ExtensionImpl;
 import consulo.language.psi.PsiElement;
 import consulo.language.psi.util.PsiTreeUtil;
 import consulo.util.collection.ContainerUtil;
 import de.plushnikov.intellij.plugin.LombokClassNames;
 import de.plushnikov.intellij.plugin.util.PsiAnnotationSearchUtil;
 import de.plushnikov.intellij.plugin.util.PsiAnnotationUtil;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 import java.util.Collection;
 import java.util.List;
 
-public class SneakyThrowsExceptionHandler extends CustomExceptionHandler {
+@ExtensionImpl
+public class SneakyThrowsExceptionHandler implements CustomExceptionHandler {
 
   private static final String JAVA_LANG_THROWABLE = "java.lang.Throwable";
 
   @Override
-  public boolean isHandled(@Nullable PsiElement element, @NotNull PsiClassType exceptionType, PsiElement topElement) {
+  public boolean isHandled(@Nullable PsiElement element, @Nonnull PsiClassType exceptionType, PsiElement topElement) {
     PsiElement parent = PsiTreeUtil.getParentOfType(element, PsiLambdaExpression.class, PsiTryStatement.class, PsiMethod.class);
     if (parent instanceof PsiLambdaExpression) {
       // lambda it's another scope, @SneakyThrows annotation can't neglect exceptions in lambda only on method, constructor
@@ -38,12 +41,12 @@ public class SneakyThrowsExceptionHandler extends CustomExceptionHandler {
     return false;
   }
 
-  private static boolean isHandledByTryCatch(@NotNull PsiClassType exceptionType, PsiTryStatement topElement) {
+  private static boolean isHandledByTryCatch(@Nonnull PsiClassType exceptionType, PsiTryStatement topElement) {
     List<PsiType> caughtExceptions = ContainerUtil.map(topElement.getCatchBlockParameters(), PsiParameter::getType);
     return isExceptionHandled(exceptionType, caughtExceptions);
   }
 
-  private static boolean isExceptionHandled(@NotNull PsiModifierListOwner psiModifierListOwner, PsiClassType exceptionClassType) {
+  private static boolean isExceptionHandled(@Nonnull PsiModifierListOwner psiModifierListOwner, PsiClassType exceptionClassType) {
     final PsiAnnotation psiAnnotation = PsiAnnotationSearchUtil.findAnnotation(psiModifierListOwner, LombokClassNames.SNEAKY_THROWS);
     if (psiAnnotation == null) {
       return false;
@@ -56,7 +59,7 @@ public class SneakyThrowsExceptionHandler extends CustomExceptionHandler {
       || isExceptionHandled(exceptionClassType, sneakedExceptionTypes);
   }
 
-  private static boolean isExceptionHandled(@NotNull PsiClassType exceptionClassType, @NotNull Collection<PsiType> sneakedExceptionTypes) {
+  private static boolean isExceptionHandled(@Nonnull PsiClassType exceptionClassType, @Nonnull Collection<PsiType> sneakedExceptionTypes) {
     for (PsiType sneakedExceptionType : sneakedExceptionTypes) {
       if (sneakedExceptionType.equalsToText(JAVA_LANG_THROWABLE) || sneakedExceptionType.equals(exceptionClassType)) {
         return true;

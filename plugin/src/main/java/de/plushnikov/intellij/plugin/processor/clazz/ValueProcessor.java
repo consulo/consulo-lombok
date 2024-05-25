@@ -1,8 +1,10 @@
 package de.plushnikov.intellij.plugin.processor.clazz;
 
-import com.intellij.openapi.application.ApplicationManager;
-import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.psi.*;
+import com.intellij.java.language.psi.*;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.language.psi.PsiElement;
+import consulo.lombok.processor.ProcessorUtil;
+import consulo.util.lang.StringUtil;
 import de.plushnikov.intellij.plugin.LombokClassNames;
 import de.plushnikov.intellij.plugin.problem.ProblemProcessingSink;
 import de.plushnikov.intellij.plugin.problem.ProblemSink;
@@ -13,7 +15,7 @@ import de.plushnikov.intellij.plugin.processor.clazz.constructor.NoArgsConstruct
 import de.plushnikov.intellij.plugin.util.PsiAnnotationSearchUtil;
 import de.plushnikov.intellij.plugin.util.PsiAnnotationUtil;
 import de.plushnikov.intellij.plugin.util.PsiClassUtil;
-import org.jetbrains.annotations.NotNull;
+import jakarta.annotation.Nonnull;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -22,6 +24,7 @@ import java.util.List;
 /**
  * @author twillouer
  */
+@ExtensionImpl
 public class ValueProcessor extends AbstractClassProcessor {
 
   public ValueProcessor() {
@@ -29,27 +32,27 @@ public class ValueProcessor extends AbstractClassProcessor {
   }
 
   private static ToStringProcessor getToStringProcessor() {
-    return ApplicationManager.getApplication().getService(ToStringProcessor.class);
+    return ProcessorUtil.getProcessor(ToStringProcessor.class);
   }
 
   private static AllArgsConstructorProcessor getAllArgsConstructorProcessor() {
-    return ApplicationManager.getApplication().getService(AllArgsConstructorProcessor.class);
+    return ProcessorUtil.getProcessor(AllArgsConstructorProcessor.class);
   }
 
   private static NoArgsConstructorProcessor getNoArgsConstructorProcessor() {
-    return ApplicationManager.getApplication().getService(NoArgsConstructorProcessor.class);
+    return ProcessorUtil.getProcessor(NoArgsConstructorProcessor.class);
   }
 
   private static GetterProcessor getGetterProcessor() {
-    return ApplicationManager.getApplication().getService(GetterProcessor.class);
+    return ProcessorUtil.getProcessor(GetterProcessor.class);
   }
 
   private static EqualsAndHashCodeProcessor getEqualsAndHashCodeProcessor() {
-    return ApplicationManager.getApplication().getService(EqualsAndHashCodeProcessor.class);
+    return ProcessorUtil.getProcessor(EqualsAndHashCodeProcessor.class);
   }
 
   @Override
-  protected Collection<String> getNamesOfPossibleGeneratedElements(@NotNull PsiClass psiClass, @NotNull PsiAnnotation psiAnnotation) {
+  protected Collection<String> getNamesOfPossibleGeneratedElements(@Nonnull PsiClass psiClass, @Nonnull PsiAnnotation psiAnnotation) {
     Collection<String> result = new ArrayList<>();
 
     final String staticConstructorName = getStaticConstructorNameValue(psiAnnotation);
@@ -64,12 +67,12 @@ public class ValueProcessor extends AbstractClassProcessor {
     return result;
   }
 
-  private static String getStaticConstructorNameValue(@NotNull PsiAnnotation psiAnnotation) {
+  private static String getStaticConstructorNameValue(@Nonnull PsiAnnotation psiAnnotation) {
     return PsiAnnotationUtil.getStringAnnotationValue(psiAnnotation, "staticConstructor", "");
   }
 
   @Override
-  protected boolean validate(@NotNull PsiAnnotation psiAnnotation, @NotNull PsiClass psiClass, @NotNull ProblemSink builder) {
+  protected boolean validate(@Nonnull PsiAnnotation psiAnnotation, @Nonnull PsiClass psiClass, @Nonnull ProblemSink builder) {
     validateAnnotationOnRightType(psiClass, builder);
 
     if (builder.deepValidation()) {
@@ -80,7 +83,7 @@ public class ValueProcessor extends AbstractClassProcessor {
     return builder.success();
   }
 
-  private static void validateAnnotationOnRightType(@NotNull PsiClass psiClass, @NotNull ProblemSink builder) {
+  private static void validateAnnotationOnRightType(@Nonnull PsiClass psiClass, @Nonnull ProblemSink builder) {
     if (psiClass.isAnnotationType() || psiClass.isInterface() || psiClass.isEnum()) {
       builder.addErrorMessage("inspection.message.value.only.supported.on.class.type");
       builder.markFailed();
@@ -88,9 +91,9 @@ public class ValueProcessor extends AbstractClassProcessor {
   }
 
   @Override
-  protected void generatePsiElements(@NotNull PsiClass psiClass,
-                                     @NotNull PsiAnnotation psiAnnotation,
-                                     @NotNull List<? super PsiElement> target) {
+  protected void generatePsiElements(@Nonnull PsiClass psiClass,
+                                     @Nonnull PsiAnnotation psiAnnotation,
+                                     @Nonnull List<? super PsiElement> target) {
 
     if (PsiAnnotationSearchUtil.isNotAnnotatedWith(psiClass, LombokClassNames.GETTER)) {
       target.addAll(getGetterProcessor().createFieldGetters(psiClass, PsiModifier.PUBLIC));
@@ -124,9 +127,9 @@ public class ValueProcessor extends AbstractClassProcessor {
     }
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  public Collection<PsiAnnotation> collectProcessedAnnotations(@NotNull PsiClass psiClass) {
+  public Collection<PsiAnnotation> collectProcessedAnnotations(@Nonnull PsiClass psiClass) {
     final Collection<PsiAnnotation> result = super.collectProcessedAnnotations(psiClass);
     addClassAnnotation(result, psiClass, LombokClassNames.NON_FINAL, LombokClassNames.PACKAGE_PRIVATE);
     addFieldsAnnotation(result, psiClass, LombokClassNames.NON_FINAL, LombokClassNames.PACKAGE_PRIVATE);
@@ -134,7 +137,7 @@ public class ValueProcessor extends AbstractClassProcessor {
   }
 
   @Override
-  public LombokPsiElementUsage checkFieldUsage(@NotNull PsiField psiField, @NotNull PsiAnnotation psiAnnotation) {
+  public LombokPsiElementUsage checkFieldUsage(@Nonnull PsiField psiField, @Nonnull PsiAnnotation psiAnnotation) {
     return LombokPsiElementUsage.READ_WRITE;
   }
 }

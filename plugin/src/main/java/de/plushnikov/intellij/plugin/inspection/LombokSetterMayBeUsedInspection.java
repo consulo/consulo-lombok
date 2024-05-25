@@ -4,49 +4,63 @@ package de.plushnikov.intellij.plugin.inspection;
 import com.intellij.java.language.jvm.JvmModifier;
 import com.intellij.java.language.psi.*;
 import com.intellij.java.language.psi.util.PsiUtil;
+import consulo.annotation.component.ExtensionImpl;
 import consulo.language.psi.util.PsiTreeUtil;
 import consulo.util.lang.Pair;
 import consulo.util.lang.StringUtil;
 import de.plushnikov.intellij.plugin.LombokBundle;
 import de.plushnikov.intellij.plugin.LombokClassNames;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
 import java.util.List;
 
-import static com.intellij.util.ObjectUtils.tryCast;
+import static consulo.util.lang.ObjectUtil.tryCast;
 
+@ExtensionImpl
 public class LombokSetterMayBeUsedInspection extends LombokGetterOrSetterMayBeUsedInspection {
   @Override
-  @NotNull
+  @Nonnull
   protected String getTagName() {
     return "param";
   }
 
+  @Nonnull
   @Override
-  @NotNull
+  public String getShortName() {
+    return "LombokSetterMayBeUsed";
+  }
+
+  @Nonnull
+  @Override
+  public String getDisplayName() {
+    return LombokBundle.message("inspection.lombok.setter.may.be.used.display.name");
+  }
+
+  @Override
+  @Nonnull
   protected String getJavaDocMethodMarkup() {
     return "SETTER";
   }
 
   @Override
-  @NotNull
+  @Nonnull
   protected @NonNls String getAnnotationName() {
     return LombokClassNames.SETTER;
   }
 
   @Override
-  @NotNull
+  @Nonnull
   protected @Nls String getFieldErrorMessage(String fieldName) {
     return LombokBundle.message("inspection.lombok.setter.may.be.used.display.field.message",
                                 fieldName);
   }
 
   @Override
-  @NotNull
+  @Nonnull
   protected @Nls String getClassErrorMessage(String className) {
     return LombokBundle.message("inspection.lombok.setter.may.be.used.display.class.message",
                                 className);
@@ -54,34 +68,34 @@ public class LombokSetterMayBeUsedInspection extends LombokGetterOrSetterMayBeUs
 
   @Override
   protected boolean processMethod(
-    @NotNull PsiMethod method,
-    @NotNull List<Pair<PsiField, PsiMethod>> instanceCandidates,
-    @NotNull List<Pair<PsiField, PsiMethod>> staticCandidates
+    @Nonnull PsiMethod method,
+    @Nonnull List<Pair<PsiField, PsiMethod>> instanceCandidates,
+    @Nonnull List<Pair<PsiField, PsiMethod>> staticCandidates
   ) {
     if (!method.hasModifierProperty(PsiModifier.PUBLIC)
-        || method.isConstructor()
-        || !method.hasParameters()
-        || method.getParameterList().getParameters().length != 1
-        || 0 < method.getThrowsTypes().length
-        || method.hasModifierProperty(PsiModifier.FINAL)
-        || method.hasModifierProperty(PsiModifier.ABSTRACT)
-        || method.hasModifierProperty(PsiModifier.SYNCHRONIZED)
-        || method.hasModifierProperty(PsiModifier.NATIVE)
-        || method.hasModifierProperty(PsiModifier.STRICTFP)
-        || 0 < method.getAnnotations().length
-        || !PsiTypes.voidType().equals(method.getReturnType())
-        || !method.isWritable()) {
+      || method.isConstructor()
+      || !method.hasParameters()
+      || method.getParameterList().getParameters().length != 1
+      || 0 < method.getThrowsTypes().length
+      || method.hasModifierProperty(PsiModifier.FINAL)
+      || method.hasModifierProperty(PsiModifier.ABSTRACT)
+      || method.hasModifierProperty(PsiModifier.SYNCHRONIZED)
+      || method.hasModifierProperty(PsiModifier.NATIVE)
+      || method.hasModifierProperty(PsiModifier.STRICTFP)
+      || 0 < method.getAnnotations().length
+      || !PsiTypes.voidType().equals(method.getReturnType())
+      || !method.isWritable()) {
       return false;
     }
     final PsiParameter parameter = method.getParameterList().getParameters()[0];
     if (
       parameter.isVarArgs()
-      || (
+        || (
         parameter.getModifierList() != null
-        && 0 < parameter.getModifierList().getChildren().length
-        && (parameter.getModifierList().getChildren().length != 1 || !parameter.hasModifier(JvmModifier.FINAL))
+          && 0 < parameter.getModifierList().getChildren().length
+          && (parameter.getModifierList().getChildren().length != 1 || !parameter.hasModifier(JvmModifier.FINAL))
       )
-      || 0 < parameter.getAnnotations().length
+        || 0 < parameter.getAnnotations().length
     ) {
       return false;
     }
@@ -100,7 +114,8 @@ public class LombokSetterMayBeUsedInspection extends LombokGetterOrSetterMayBeUs
     if (method.getBody() == null) {
       return false;
     }
-    final PsiStatement @NotNull [] methodStatements = Arrays.stream(method.getBody().getStatements()).filter(e -> !(e instanceof PsiEmptyStatement)).toArray(PsiStatement[]::new);
+    final PsiStatement[] methodStatements =
+      Arrays.stream(method.getBody().getStatements()).filter(e -> !(e instanceof PsiEmptyStatement)).toArray(PsiStatement[]::new);
     if (methodStatements.length != 1) {
       return false;
     }
@@ -112,7 +127,8 @@ public class LombokSetterMayBeUsedInspection extends LombokGetterOrSetterMayBeUs
     if (assignment == null || assignment.getOperationTokenType() != JavaTokenType.EQ) {
       return false;
     }
-    final PsiReferenceExpression sourceRef = tryCast(PsiUtil.skipParenthesizedExprDown(assignment.getRExpression()), PsiReferenceExpression.class);
+    final PsiReferenceExpression sourceRef =
+      tryCast(PsiUtil.skipParenthesizedExprDown(assignment.getRExpression()), PsiReferenceExpression.class);
     if (sourceRef == null || sourceRef.getQualifierExpression() != null) {
       return false;
     }
@@ -136,7 +152,8 @@ public class LombokSetterMayBeUsedInspection extends LombokGetterOrSetterMayBeUs
     if (qualifier != null) {
       if (thisExpression == null) {
         return false;
-      } else if (thisExpression.getQualifier() != null) {
+      }
+      else if (thisExpression.getQualifier() != null) {
         if (!thisExpression.getQualifier().isReferenceTo(psiClass)) {
           return false;
         }
@@ -150,34 +167,35 @@ public class LombokSetterMayBeUsedInspection extends LombokGetterOrSetterMayBeUs
       return false;
     }
     if (qualifier == null
-        && paramIdentifier.equals(fieldIdentifier)) {
+      && paramIdentifier.equals(fieldIdentifier)) {
       return false;
     }
 
     final boolean isMethodStatic = method.hasModifierProperty(PsiModifier.STATIC);
     final PsiField field = psiClass.findFieldByName(fieldIdentifier, false);
     if (field == null
-        || !field.isWritable()
-        || isMethodStatic != field.hasModifierProperty(PsiModifier.STATIC)
-        || !field.getType().equals(parameterType)) {
+      || !field.isWritable()
+      || isMethodStatic != field.hasModifierProperty(PsiModifier.STATIC)
+      || !field.getType().equals(parameterType)) {
       return false;
     }
     if (isMethodStatic) {
       staticCandidates.add(Pair.pair(field, method));
-    } else {
+    }
+    else {
       instanceCandidates.add(Pair.pair(field, method));
     }
     return true;
   }
 
   @Override
-  @NotNull
+  @Nonnull
   protected @Nls String getFixName(String text) {
     return LombokBundle.message("inspection.lombok.setter.may.be.used.display.fix.name", text);
   }
 
   @Override
-  @NotNull
+  @Nonnull
   protected @Nls String getFixFamilyName() {
     return LombokBundle.message("inspection.lombok.setter.may.be.used.display.fix.family.name");
   }

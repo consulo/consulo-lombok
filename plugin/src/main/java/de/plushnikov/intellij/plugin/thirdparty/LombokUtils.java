@@ -1,10 +1,11 @@
 package de.plushnikov.intellij.plugin.thirdparty;
 
 import com.intellij.java.language.psi.PsiField;
+import com.intellij.java.language.psi.PsiTypes;
 import com.intellij.java.language.psi.PsiVariable;
 import consulo.util.lang.StringUtil;
 import de.plushnikov.intellij.plugin.processor.field.AccessorsInfo;
-import org.jetbrains.annotations.NotNull;
+import jakarta.annotation.Nonnull;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -376,28 +377,28 @@ public final class LombokUtils {
     "com.fasterxml.jackson.annotation.JsonView",
     "com.fasterxml.jackson.databind.annotation.JsonNaming"};
 
-  public static String getGetterName(final @NotNull PsiField psiField) {
+  public static String getGetterName(final @Nonnull PsiField psiField) {
     final AccessorsInfo accessorsInfo = AccessorsInfo.buildFor(psiField);
     return getGetterName(psiField, accessorsInfo);
   }
 
-  public static String getGetterName(@NotNull PsiField psiField, @NotNull AccessorsInfo accessorsInfo) {
+  public static String getGetterName(@Nonnull PsiField psiField, @Nonnull AccessorsInfo accessorsInfo) {
     final String psiFieldName = psiField.getName();
     final boolean isBoolean = PsiTypes.booleanType().equals(psiField.getType());
 
     return toGetterName(accessorsInfo, psiFieldName, isBoolean);
   }
 
-  public static String getSetterName(@NotNull PsiField psiField) {
+  public static String getSetterName(@Nonnull PsiField psiField) {
     final AccessorsInfo accessorsInfo = AccessorsInfo.buildFor(psiField);
     return getSetterName(psiField, accessorsInfo);
   }
 
-  public static String getSetterName(@NotNull PsiField psiField, @NotNull AccessorsInfo accessorsInfo) {
+  public static String getSetterName(@Nonnull PsiField psiField, @Nonnull AccessorsInfo accessorsInfo) {
     return toSetterName(accessorsInfo, psiField.getName(), PsiTypes.booleanType().equals(psiField.getType()));
   }
 
-  public static String getWitherName(@NotNull PsiVariable psiVariable, @NotNull AccessorsInfo accessorsInfo) {
+  public static String getWitherName(@Nonnull PsiVariable psiVariable, @Nonnull AccessorsInfo accessorsInfo) {
     return toWitherName(accessorsInfo.withFluent(false), psiVariable.getName(), PsiTypes.booleanType().equals(psiVariable.getType()));
   }
 
@@ -421,7 +422,7 @@ public final class LombokUtils {
    * @param isBoolean if the field is of type 'boolean'. For fields of type {@code java.lang.Boolean}, you should provide {@code false}.
    * @return The getter name for this field, or {@code null} if this field does not fit expected patterns and therefore cannot be turned into a getter name.
    */
-  public static String toGetterName(@NotNull AccessorsInfo accessors, String fieldName, boolean isBoolean) {
+  public static String toGetterName(@Nonnull AccessorsInfo accessors, String fieldName, boolean isBoolean) {
     return toAccessorName(accessors, fieldName, isBoolean, "is", "get");
   }
 
@@ -445,7 +446,7 @@ public final class LombokUtils {
    * @param isBoolean if the field is of type 'boolean'. For fields of type {@code java.lang.Boolean}, you should provide {@code false}.
    * @return The setter name for this field, or {@code null} if this field does not fit expected patterns and therefore cannot be turned into a getter name.
    */
-  public static String toSetterName(@NotNull AccessorsInfo accessors, String fieldName, boolean isBoolean) {
+  public static String toSetterName(@Nonnull AccessorsInfo accessors, String fieldName, boolean isBoolean) {
     return toAccessorName(accessors, fieldName, isBoolean, "set", "set");
   }
 
@@ -468,14 +469,14 @@ public final class LombokUtils {
    * @param isBoolean if the field is of type 'boolean'. For fields of type {@code java.lang.Boolean}, you should provide {@code false}.
    * @return The wither name for this field, or {@code null} if this field does not fit expected patterns and therefore cannot be turned into a getter name.
    */
-  public static String toWitherName(@NotNull AccessorsInfo accessors, String fieldName, boolean isBoolean) {
+  public static String toWitherName(@Nonnull AccessorsInfo accessors, String fieldName, boolean isBoolean) {
     if (accessors.isFluent()) {
       throw new IllegalArgumentException("@Wither does not support @Accessors(fluent=true)");
     }
     return toAccessorName(accessors, fieldName, isBoolean, "with", "with");
   }
 
-  private static String toAccessorName(@NotNull AccessorsInfo accessorsInfo,
+  private static String toAccessorName(@Nonnull AccessorsInfo accessorsInfo,
                                        String fieldName,
                                        boolean isBoolean,
                                        String booleanPrefix,
@@ -514,7 +515,7 @@ public final class LombokUtils {
    * @param fieldName the name of the field.
    * @param isBoolean if the field is of type 'boolean'. For fields of type 'java.lang.Boolean', you should provide {@code false}.
    */
-  public static Collection<String> toAllGetterNames(@NotNull AccessorsInfo accessorsInfo, String fieldName, boolean isBoolean) {
+  public static Collection<String> toAllGetterNames(@Nonnull AccessorsInfo accessorsInfo, String fieldName, boolean isBoolean) {
     return toAllAccessorNames(accessorsInfo, fieldName, isBoolean, "is", "get");
   }
 
@@ -527,7 +528,7 @@ public final class LombokUtils {
    * @param fieldName the name of the field.
    * @param isBoolean if the field is of type 'boolean'. For fields of type 'java.lang.Boolean', you should provide {@code false}.
    */
-  public static Collection<String> toAllSetterNames(@NotNull AccessorsInfo accessorsInfo, String fieldName, boolean isBoolean) {
+  public static Collection<String> toAllSetterNames(@Nonnull AccessorsInfo accessorsInfo, String fieldName, boolean isBoolean) {
     return toAllAccessorNames(accessorsInfo, fieldName, isBoolean, "set", "set");
   }
 
@@ -540,14 +541,14 @@ public final class LombokUtils {
    * @param fieldName the name of the field.
    * @param isBoolean if the field is of type 'boolean'. For fields of type 'java.lang.Boolean', you should provide {@code false}.
    */
-  public static Collection<String> toAllWitherNames(@NotNull AccessorsInfo accessorsInfo, String fieldName, boolean isBoolean) {
+  public static Collection<String> toAllWitherNames(@Nonnull AccessorsInfo accessorsInfo, String fieldName, boolean isBoolean) {
     if (accessorsInfo.isFluent()) {
       throw new IllegalArgumentException("@Wither does not support @Accessors(fluent=true)");
     }
     return toAllAccessorNames(accessorsInfo, fieldName, isBoolean, "with", "with");
   }
 
-  private static Collection<String> toAllAccessorNames(@NotNull AccessorsInfo accessorsInfo,
+  private static Collection<String> toAllAccessorNames(@Nonnull AccessorsInfo accessorsInfo,
                                                        String fieldName,
                                                        boolean isBoolean,
                                                        String booleanPrefix,

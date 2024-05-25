@@ -1,7 +1,7 @@
 package de.plushnikov.intellij.plugin.util;
 
 import com.intellij.java.language.psi.PsiMethod;
-import org.jetbrains.annotations.NotNull;
+import jakarta.annotation.Nonnull;
 
 import java.util.Collection;
 
@@ -10,19 +10,19 @@ import java.util.Collection;
  */
 public final class PsiMethodUtil {
 
-  public static boolean hasMethodByName(@NotNull Collection<PsiMethod> classMethods, @NotNull String methodName, int paramCount) {
+  public static boolean hasMethodByName(@Nonnull Collection<PsiMethod> classMethods, @Nonnull String methodName, int paramCount) {
     return classMethods.stream()
       .filter(m -> methodName.equals(m.getName()))
       .anyMatch(m -> acceptedParameterCount(m, paramCount));
   }
 
-  public static boolean hasSimilarMethod(@NotNull Collection<PsiMethod> classMethods, @NotNull String methodName, int paramCount) {
+  public static boolean hasSimilarMethod(@Nonnull Collection<PsiMethod> classMethods, @Nonnull String methodName, int paramCount) {
     return classMethods.stream()
       .filter(m -> methodName.equalsIgnoreCase(m.getName()))
       .anyMatch(m -> acceptedParameterCount(m, paramCount));
   }
 
-  private static boolean acceptedParameterCount(@NotNull PsiMethod classMethod, int methodArgCount) {
+  private static boolean acceptedParameterCount(@Nonnull PsiMethod classMethod, int methodArgCount) {
     int minArgs = classMethod.getParameterList().getParametersCount();
     int maxArgs = minArgs;
     if (classMethod.isVarArgs()) {

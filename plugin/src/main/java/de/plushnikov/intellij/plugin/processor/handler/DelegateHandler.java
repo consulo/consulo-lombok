@@ -1,18 +1,21 @@
 package de.plushnikov.intellij.plugin.processor.handler;
 
-import com.intellij.openapi.util.Pair;
-import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.psi.*;
-import com.intellij.psi.util.PsiTypesUtil;
-import com.intellij.psi.util.PsiUtil;
-import com.intellij.psi.util.TypeConversionUtil;
+import com.intellij.java.language.psi.*;
+import com.intellij.java.language.psi.util.PsiTypesUtil;
+import com.intellij.java.language.psi.util.PsiUtil;
+import com.intellij.java.language.psi.util.TypeConversionUtil;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.PsiManager;
+import consulo.language.psi.PsiNamedElement;
+import consulo.util.lang.Pair;
+import consulo.util.lang.StringUtil;
 import de.plushnikov.intellij.plugin.LombokClassNames;
 import de.plushnikov.intellij.plugin.problem.ProblemSink;
 import de.plushnikov.intellij.plugin.psi.LombokLightMethodBuilder;
 import de.plushnikov.intellij.plugin.util.PsiAnnotationSearchUtil;
 import de.plushnikov.intellij.plugin.util.PsiAnnotationUtil;
 import de.plushnikov.intellij.plugin.util.PsiElementUtil;
-import org.jetbrains.annotations.NotNull;
+import jakarta.annotation.Nonnull;
 
 import java.util.*;
 
@@ -21,10 +24,10 @@ import java.util.*;
  */
 public final class DelegateHandler {
 
-  public static boolean validate(@NotNull PsiModifierListOwner psiModifierListOwner,
-                                 @NotNull PsiType psiType,
-                                 @NotNull PsiAnnotation psiAnnotation,
-                                 @NotNull ProblemSink problemSink) {
+  public static boolean validate(@Nonnull PsiModifierListOwner psiModifierListOwner,
+                                 @Nonnull PsiType psiType,
+                                 @Nonnull PsiAnnotation psiAnnotation,
+                                 @Nonnull ProblemSink problemSink) {
     boolean result = true;
 
     if (psiModifierListOwner.hasModifierProperty(PsiModifier.STATIC)) {
@@ -55,7 +58,8 @@ public final class DelegateHandler {
       if (!checkConcreteClass(psiType)) {
         problemSink.addErrorMessage("inspection.message.delegate.can.only.use.concrete.class.types", psiType.getCanonicalText());
         result = false;
-      } else {
+      }
+      else {
         result &= validateRecursion(psiType, problemSink);
       }
     }
@@ -73,9 +77,9 @@ public final class DelegateHandler {
   }
 
 
-  private static boolean checkConcreteClass(@NotNull PsiType psiType) {
+  private static boolean checkConcreteClass(@Nonnull PsiType psiType) {
     if (psiType instanceof PsiClassType) {
-      PsiClass psiClass = ((PsiClassType) psiType).resolve();
+      PsiClass psiClass = ((PsiClassType)psiType).resolve();
       return !(psiClass instanceof PsiTypeParameter);
     }
     return false;
@@ -85,10 +89,10 @@ public final class DelegateHandler {
     return PsiAnnotationUtil.getAnnotationValues(psiAnnotation, "excludes", PsiType.class);
   }
 
-  public static <T extends PsiMember & PsiNamedElement> void generateElements(@NotNull T psiElement,
-                                                                              @NotNull PsiType psiElementType,
-                                                                              @NotNull PsiAnnotation psiAnnotation,
-                                                                              @NotNull List<? super PsiElement> target) {
+  public static <T extends PsiMember & PsiNamedElement> void generateElements(@Nonnull T psiElement,
+                                                                              @Nonnull PsiType psiElementType,
+                                                                              @Nonnull PsiAnnotation psiAnnotation,
+                                                                              @Nonnull List<? super PsiElement> target) {
     final PsiManager manager = psiElement.getContainingFile().getManager();
 
     final Collection<Pair<PsiMethod, PsiSubstitutor>> includesMethods = new LinkedHashSet<>();
@@ -130,8 +134,8 @@ public final class DelegateHandler {
   }
 
   private static void collectAllMethods(Collection<Pair<PsiMethod, PsiSubstitutor>> allMethods,
-                                        @NotNull PsiClass psiStartClass,
-                                        @NotNull PsiSubstitutor classSubstitutor) {
+                                        @Nonnull PsiClass psiStartClass,
+                                        @Nonnull PsiSubstitutor classSubstitutor) {
     PsiClass psiClass = psiStartClass;
     while (null != psiClass) {
       PsiMethod[] psiMethods = psiClass.getMethods();
@@ -181,12 +185,12 @@ public final class DelegateHandler {
     return result;
   }
 
-  @NotNull
-  private static <T extends PsiModifierListOwner & PsiNamedElement> PsiMethod generateDelegateMethod(@NotNull PsiClass psiClass,
-                                                                                                     @NotNull T psiElement,
-                                                                                                     @NotNull PsiAnnotation psiAnnotation,
-                                                                                                     @NotNull PsiMethod psiMethod,
-                                                                                                     @NotNull PsiSubstitutor psiSubstitutor) {
+  @Nonnull
+  private static <T extends PsiModifierListOwner & PsiNamedElement> PsiMethod generateDelegateMethod(@Nonnull PsiClass psiClass,
+                                                                                                     @Nonnull T psiElement,
+                                                                                                     @Nonnull PsiAnnotation psiAnnotation,
+                                                                                                     @Nonnull PsiMethod psiMethod,
+                                                                                                     @Nonnull PsiSubstitutor psiSubstitutor) {
     final PsiType returnType = psiSubstitutor.substitute(psiMethod.getReturnType());
 
     final LombokLightMethodBuilder methodBuilder = new LombokLightMethodBuilder(psiClass.getManager(), psiMethod.getName())
@@ -221,11 +225,11 @@ public final class DelegateHandler {
     return methodBuilder;
   }
 
-  @NotNull
-  private static <T extends PsiModifierListOwner & PsiNamedElement> String createCodeBlockText(@NotNull T psiElement,
-                                                                                               @NotNull PsiMethod psiMethod,
-                                                                                               @NotNull PsiType returnType,
-                                                                                               PsiParameter @NotNull [] psiParameters) {
+  @Nonnull
+  private static <T extends PsiModifierListOwner & PsiNamedElement> String createCodeBlockText(@Nonnull T psiElement,
+                                                                                               @Nonnull PsiMethod psiMethod,
+                                                                                               @Nonnull PsiType returnType,
+                                                                                               @Nonnull PsiParameter[] psiParameters) {
     final String blockText;
     final StringBuilder paramString = new StringBuilder();
 
@@ -242,10 +246,10 @@ public final class DelegateHandler {
     final boolean isMethodCall = psiElement instanceof PsiMethod;
     blockText = String.format("%sthis.%s%s.%s(%s);",
                               PsiTypes.voidType().equals(returnType) ? "" : "return ",
-      psiElement.getName(),
-      isMethodCall ? "()" : "",
-      psiMethod.getName(),
-      paramString);
+                              psiElement.getName(),
+                              isMethodCall ? "()" : "",
+                              psiMethod.getName(),
+                              paramString);
     return blockText;
   }
 
@@ -261,18 +265,20 @@ public final class DelegateHandler {
     }
 
     @Override
-    public void visitField(@NotNull PsiField psiField) {
+    public void visitField(@Nonnull PsiField psiField) {
       checkModifierListOwner(psiField);
     }
 
     @Override
-    public void visitMethod(@NotNull PsiMethod psiMethod) {
+    public void visitMethod(@Nonnull PsiMethod psiMethod) {
       checkModifierListOwner(psiMethod);
     }
 
     private void checkModifierListOwner(PsiModifierListOwner modifierListOwner) {
       if (PsiAnnotationSearchUtil.isAnnotatedWith(modifierListOwner, LombokClassNames.DELEGATE, LombokClassNames.EXPERIMENTAL_DELEGATE)) {
-        builder.addErrorMessage("inspection.message.delegate.does.not.support.recursion.delegating", ((PsiMember) modifierListOwner).getName(), psiType.getPresentableText());
+        builder.addErrorMessage("inspection.message.delegate.does.not.support.recursion.delegating",
+                                ((PsiMember)modifierListOwner).getName(),
+                                psiType.getPresentableText());
         valid = false;
       }
     }

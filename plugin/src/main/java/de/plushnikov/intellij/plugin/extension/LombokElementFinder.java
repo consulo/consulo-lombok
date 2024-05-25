@@ -1,27 +1,31 @@
 package de.plushnikov.intellij.plugin.extension;
 
-import com.intellij.openapi.project.Project;
-import com.intellij.psi.PsiClass;
-import com.intellij.psi.PsiElementFinder;
-import com.intellij.psi.impl.file.impl.JavaFileManager;
-import com.intellij.psi.search.GlobalSearchScope;
+import com.intellij.java.language.impl.psi.impl.file.impl.JavaFileManager;
+import com.intellij.java.language.psi.PsiClass;
+import com.intellij.java.language.psi.PsiElementFinder;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.language.psi.scope.GlobalSearchScope;
+import consulo.project.Project;
 import de.plushnikov.intellij.plugin.util.LombokLibraryUtil;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.inject.Inject;
+import jakarta.annotation.Nullable;
 
+@ExtensionImpl
 public class LombokElementFinder extends PsiElementFinder {
 
   private final JavaFileManager myFileManager;
   private final Project myProject;
 
-  public LombokElementFinder(Project project) {
-    myFileManager = JavaFileManager.getInstance(project);
+  @Inject
+  public LombokElementFinder(Project project, JavaFileManager fileManager) {
+    myFileManager = fileManager;
     myProject = project;
   }
 
   @Nullable
   @Override
-  public PsiClass findClass(@NotNull String qualifiedName, @NotNull GlobalSearchScope scope) {
+  public PsiClass findClass(@Nonnull String qualifiedName, @Nonnull GlobalSearchScope scope) {
     if (!LombokLibraryUtil.hasLombokLibrary(myProject)) {
       return null;
     }
@@ -47,7 +51,8 @@ public class LombokElementFinder extends PsiElementFinder {
   }
 
   @Override
-  public PsiClass @NotNull [] findClasses(@NotNull String qualifiedName, @NotNull GlobalSearchScope scope) {
+  @Nonnull
+  public PsiClass[] findClasses(@Nonnull String qualifiedName, @Nonnull GlobalSearchScope scope) {
     return PsiClass.EMPTY_ARRAY;
   }
 }

@@ -1,11 +1,13 @@
 package de.plushnikov.intellij.plugin.processor.field;
 
-import com.intellij.psi.*;
+import com.intellij.java.language.psi.*;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.language.psi.PsiElement;
 import de.plushnikov.intellij.plugin.LombokClassNames;
 import de.plushnikov.intellij.plugin.problem.ProblemSink;
 import de.plushnikov.intellij.plugin.processor.LombokPsiElementUsage;
 import de.plushnikov.intellij.plugin.processor.handler.DelegateHandler;
-import org.jetbrains.annotations.NotNull;
+import jakarta.annotation.Nonnull;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -17,33 +19,34 @@ import java.util.List;
  *
  * @author Plushnikov Michail
  */
+@ExtensionImpl
 public class DelegateFieldProcessor extends AbstractFieldProcessor {
 
   public DelegateFieldProcessor() {
     super(PsiMethod.class, LombokClassNames.DELEGATE, LombokClassNames.EXPERIMENTAL_DELEGATE);
   }
 
-  protected Collection<String> getNamesOfPossibleGeneratedElements(@NotNull PsiClass psiClass,
-                                                                   @NotNull PsiAnnotation psiAnnotation,
-                                                                   @NotNull PsiField psiField) {
+  protected Collection<String> getNamesOfPossibleGeneratedElements(@Nonnull PsiClass psiClass,
+                                                                   @Nonnull PsiAnnotation psiAnnotation,
+                                                                   @Nonnull PsiField psiField) {
     return Collections.emptyList();
   }
 
   @Override
-  protected boolean validate(@NotNull PsiAnnotation psiAnnotation, @NotNull PsiField psiField, @NotNull ProblemSink builder) {
+  protected boolean validate(@Nonnull PsiAnnotation psiAnnotation, @Nonnull PsiField psiField, @Nonnull ProblemSink builder) {
     final PsiType psiFieldType = psiField.getType();
     return DelegateHandler.validate(psiField, psiFieldType, psiAnnotation, builder);
   }
 
   @Override
-  protected void generatePsiElements(@NotNull PsiField psiField,
-                                     @NotNull PsiAnnotation psiAnnotation,
-                                     @NotNull List<? super PsiElement> target) {
+  protected void generatePsiElements(@Nonnull PsiField psiField,
+                                     @Nonnull PsiAnnotation psiAnnotation,
+                                     @Nonnull List<? super PsiElement> target) {
     DelegateHandler.generateElements(psiField, psiField.getType(), psiAnnotation, target);
   }
 
   @Override
-  public LombokPsiElementUsage checkFieldUsage(@NotNull PsiField psiField, @NotNull PsiAnnotation psiAnnotation) {
+  public LombokPsiElementUsage checkFieldUsage(@Nonnull PsiField psiField, @Nonnull PsiAnnotation psiAnnotation) {
     return LombokPsiElementUsage.READ;
   }
 }

@@ -1,14 +1,14 @@
 package de.plushnikov.intellij.plugin.processor.handler.singular;
 
-import com.intellij.psi.CommonClassNames;
-import com.intellij.psi.PsiManager;
-import com.intellij.psi.PsiType;
-import com.intellij.psi.PsiVariable;
-import com.intellij.util.containers.ContainerUtil;
+import com.intellij.java.language.psi.CommonClassNames;
+import com.intellij.java.language.psi.PsiType;
+import com.intellij.java.language.psi.PsiVariable;
+import consulo.language.psi.PsiManager;
+import consulo.util.collection.ContainerUtil;
 import de.plushnikov.intellij.plugin.processor.handler.BuilderInfo;
 import de.plushnikov.intellij.plugin.psi.LombokLightMethodBuilder;
 import de.plushnikov.intellij.plugin.util.PsiTypeUtil;
-import org.jetbrains.annotations.NotNull;
+import jakarta.annotation.Nonnull;
 
 import java.text.MessageFormat;
 
@@ -19,17 +19,17 @@ class SingularCollectionHandler extends AbstractSingularHandler {
   }
 
   @Override
-  protected void addOneMethodParameter(@NotNull LombokLightMethodBuilder methodBuilder,
-                                       @NotNull PsiType psiFieldType,
-                                       @NotNull String singularName) {
+  protected void addOneMethodParameter(@Nonnull LombokLightMethodBuilder methodBuilder,
+                                       @Nonnull PsiType psiFieldType,
+                                       @Nonnull String singularName) {
     final PsiType oneElementType = PsiTypeUtil.extractOneElementType(psiFieldType, methodBuilder.getManager());
     methodBuilder.withParameter(singularName, oneElementType);
   }
 
   @Override
-  protected void addAllMethodParameter(@NotNull LombokLightMethodBuilder methodBuilder,
-                                       @NotNull PsiType psiFieldType,
-                                       @NotNull String singularName) {
+  protected void addAllMethodParameter(@Nonnull LombokLightMethodBuilder methodBuilder,
+                                       @Nonnull PsiType psiFieldType,
+                                       @Nonnull String singularName) {
     final PsiManager psiManager = methodBuilder.getManager();
     final PsiType elementType = PsiTypeUtil.extractAllElementType(psiFieldType, psiManager);
     final PsiType collectionType = PsiTypeUtil.createCollectionType(psiManager, CommonClassNames.JAVA_UTIL_COLLECTION, elementType);
@@ -37,7 +37,7 @@ class SingularCollectionHandler extends AbstractSingularHandler {
   }
 
   @Override
-  protected String getClearMethodBody(@NotNull BuilderInfo info) {
+  protected String getClearMethodBody(@Nonnull BuilderInfo info) {
     final String codeBlockFormat = """
       if (this.{0} != null)\s
        this.{0}.clear();
@@ -46,7 +46,7 @@ class SingularCollectionHandler extends AbstractSingularHandler {
   }
 
   @Override
-  protected String getOneMethodBody(@NotNull String singularName, @NotNull BuilderInfo info) {
+  protected String getOneMethodBody(@Nonnull String singularName, @Nonnull BuilderInfo info) {
     final String codeBlockTemplate = """
       if (this.{0} == null) this.{0} = new java.util.ArrayList<{3}>();\s
       this.{0}.add({1});
@@ -58,7 +58,7 @@ class SingularCollectionHandler extends AbstractSingularHandler {
   }
 
   @Override
-  protected String getAllMethodBody(@NotNull String singularName, @NotNull BuilderInfo info) {
+  protected String getAllMethodBody(@Nonnull String singularName, @Nonnull BuilderInfo info) {
     final String codeBlockTemplate = """
       if({0}==null)'{'throw new NullPointerException("{0} cannot be null");'}'
       if (this.{0} == null) this.{0} = new java.util.ArrayList<{2}>();\s
@@ -71,21 +71,21 @@ class SingularCollectionHandler extends AbstractSingularHandler {
   }
 
   @Override
-  public String renderBuildPrepare(@NotNull BuilderInfo info) {
+  public String renderBuildPrepare(@Nonnull BuilderInfo info) {
     return renderBuildCode(info.getVariable(), info.getFieldName(), "this");
   }
 
   @Override
-  public String renderBuildCall(@NotNull BuilderInfo info) {
+  public String renderBuildCall(@Nonnull BuilderInfo info) {
     return info.renderFieldName();
   }
 
   @Override
-  public String renderSuperBuilderConstruction(@NotNull PsiVariable psiVariable, @NotNull String fieldName) {
+  public String renderSuperBuilderConstruction(@Nonnull PsiVariable psiVariable, @Nonnull String fieldName) {
     return renderBuildCode(psiVariable, fieldName, "b") + "this." + psiVariable.getName() + "=" + fieldName + ";\n";
   }
 
-  String renderBuildCode(@NotNull PsiVariable psiVariable, @NotNull String fieldName, @NotNull String builderVariable) {
+  String renderBuildCode(@Nonnull PsiVariable psiVariable, @Nonnull String fieldName, @Nonnull String builderVariable) {
     final PsiManager psiManager = psiVariable.getManager();
     final PsiType elementType = PsiTypeUtil.extractOneElementType(psiVariable.getType(), psiManager);
     String result;
@@ -139,7 +139,7 @@ class SingularCollectionHandler extends AbstractSingularHandler {
   }
 
   @Override
-  protected String getEmptyCollectionCall(@NotNull BuilderInfo info) {
+  protected String getEmptyCollectionCall(@Nonnull BuilderInfo info) {
     final PsiType elementType = PsiTypeUtil.extractOneElementType(info.getVariable().getType(), info.getManager());
     final String typeName = elementType.getCanonicalText(false);
     if (ContainerUtil.exists(SingularCollectionClassNames.JAVA_SETS, collectionQualifiedName::equals)) {

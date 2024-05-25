@@ -1,12 +1,16 @@
 package de.plushnikov.intellij.plugin.processor.handler.singular;
 
-import com.intellij.openapi.project.Project;
-import com.intellij.psi.*;
+import com.intellij.java.language.psi.PsiField;
+import com.intellij.java.language.psi.PsiModifier;
+import com.intellij.java.language.psi.PsiType;
+import com.intellij.java.language.psi.PsiVariable;
+import consulo.language.psi.PsiManager;
+import consulo.project.Project;
 import de.plushnikov.intellij.plugin.processor.handler.BuilderInfo;
 import de.plushnikov.intellij.plugin.psi.LombokLightFieldBuilder;
 import de.plushnikov.intellij.plugin.psi.LombokLightMethodBuilder;
 import de.plushnikov.intellij.plugin.util.PsiTypeUtil;
-import org.jetbrains.annotations.NotNull;
+import jakarta.annotation.Nonnull;
 
 import java.text.MessageFormat;
 import java.util.Collection;
@@ -27,7 +31,7 @@ class SingularGuavaTableHandler extends SingularMapHandler {
   }
 
   @Override
-  public Collection<PsiField> renderBuilderFields(@NotNull BuilderInfo info) {
+  public Collection<PsiField> renderBuilderFields(@Nonnull BuilderInfo info) {
     final PsiType builderFieldKeyType = getBuilderFieldType(info.getFieldType(), info.getProject());
     return Collections.singleton(
       new LombokLightFieldBuilder(info.getManager(), info.getFieldName(), builderFieldKeyType)
@@ -37,8 +41,8 @@ class SingularGuavaTableHandler extends SingularMapHandler {
   }
 
   @Override
-  @NotNull
-  protected PsiType getBuilderFieldType(@NotNull PsiType psiFieldType, @NotNull Project project) {
+  @Nonnull
+  protected PsiType getBuilderFieldType(@Nonnull PsiType psiFieldType, @Nonnull Project project) {
     final PsiManager psiManager = PsiManager.getInstance(project);
     final PsiType rowKeyType = PsiTypeUtil.extractOneElementType(psiFieldType, psiManager, COM_GOOGLE_COMMON_COLLECT_TABLE, 0);
     final PsiType columnKeyType = PsiTypeUtil.extractOneElementType(psiFieldType, psiManager, COM_GOOGLE_COMMON_COLLECT_TABLE, 1);
@@ -48,7 +52,7 @@ class SingularGuavaTableHandler extends SingularMapHandler {
   }
 
   @Override
-  protected void addOneMethodParameter(@NotNull LombokLightMethodBuilder methodBuilder, @NotNull PsiType psiFieldType, @NotNull String singularName) {
+  protected void addOneMethodParameter(@Nonnull LombokLightMethodBuilder methodBuilder, @Nonnull PsiType psiFieldType, @Nonnull String singularName) {
     final PsiManager psiManager = methodBuilder.getManager();
     final PsiType rowKeyType = PsiTypeUtil.extractOneElementType(psiFieldType, psiManager, COM_GOOGLE_COMMON_COLLECT_TABLE, 0);
     final PsiType columnKeyType = PsiTypeUtil.extractOneElementType(psiFieldType, psiManager, COM_GOOGLE_COMMON_COLLECT_TABLE, 1);
@@ -60,7 +64,7 @@ class SingularGuavaTableHandler extends SingularMapHandler {
   }
 
   @Override
-  protected void addAllMethodParameter(@NotNull LombokLightMethodBuilder methodBuilder, @NotNull PsiType psiFieldType, @NotNull String singularName) {
+  protected void addAllMethodParameter(@Nonnull LombokLightMethodBuilder methodBuilder, @Nonnull PsiType psiFieldType, @Nonnull String singularName) {
     final PsiManager psiManager = methodBuilder.getManager();
     final PsiType rowKeyType = PsiTypeUtil.extractAllElementType(psiFieldType, psiManager, COM_GOOGLE_COMMON_COLLECT_TABLE, 0);
     final PsiType columnKeyType = PsiTypeUtil.extractAllElementType(psiFieldType, psiManager, COM_GOOGLE_COMMON_COLLECT_TABLE, 1);
@@ -72,14 +76,14 @@ class SingularGuavaTableHandler extends SingularMapHandler {
   }
 
   @Override
-  protected String getClearMethodBody(@NotNull BuilderInfo info) {
+  protected String getClearMethodBody(@Nonnull BuilderInfo info) {
     final String codeBlockFormat = "this.{0} = null;\n" +
       "return {1};";
     return MessageFormat.format(codeBlockFormat, info.getFieldName(), info.getBuilderChainResult());
   }
 
   @Override
-  protected String getOneMethodBody(@NotNull String singularName, @NotNull BuilderInfo info) {
+  protected String getOneMethodBody(@Nonnull String singularName, @Nonnull BuilderInfo info) {
     final String codeBlockTemplate = "if (this.{0} == null) this.{0} = {2}.{3}; \n" +
       "this.{0}.put(" + LOMBOK_ROW_KEY + ", " + LOMBOK_COLUMN_KEY + ", " + LOMBOK_VALUE + ");\n" +
       "return {4};";
@@ -89,7 +93,7 @@ class SingularGuavaTableHandler extends SingularMapHandler {
   }
 
   @Override
-  protected String getAllMethodBody(@NotNull String singularName, @NotNull BuilderInfo info) {
+  protected String getAllMethodBody(@Nonnull String singularName, @Nonnull BuilderInfo info) {
     final String codeBlockTemplate = """
       if({0}==null)'{'throw new NullPointerException("{0} cannot be null");'}'
       if (this.{0} == null) this.{0} = {1}.{2};\s
@@ -101,7 +105,7 @@ class SingularGuavaTableHandler extends SingularMapHandler {
   }
 
   @Override
-  protected String renderBuildCode(@NotNull PsiVariable psiVariable, @NotNull String fieldName, @NotNull String builderVariable) {
+  protected String renderBuildCode(@Nonnull PsiVariable psiVariable, @Nonnull String fieldName, @Nonnull String builderVariable) {
     final PsiManager psiManager = psiVariable.getManager();
     final PsiType psiFieldType = psiVariable.getType();
 
@@ -119,7 +123,7 @@ class SingularGuavaTableHandler extends SingularMapHandler {
   }
 
   @Override
-  protected String getEmptyCollectionCall(@NotNull BuilderInfo info) {
+  protected String getEmptyCollectionCall(@Nonnull BuilderInfo info) {
     return collectionQualifiedName + '.' + "builder()";
   }
 }

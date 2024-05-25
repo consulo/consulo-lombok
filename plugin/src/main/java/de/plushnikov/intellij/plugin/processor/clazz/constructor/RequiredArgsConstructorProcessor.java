@@ -1,13 +1,15 @@
 package de.plushnikov.intellij.plugin.processor.clazz.constructor;
 
-import com.intellij.psi.*;
+import com.intellij.java.language.psi.*;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.language.psi.PsiElement;
 import de.plushnikov.intellij.plugin.LombokClassNames;
 import de.plushnikov.intellij.plugin.problem.ProblemSink;
 import de.plushnikov.intellij.plugin.processor.LombokPsiElementUsage;
 import de.plushnikov.intellij.plugin.util.LombokProcessorUtil;
 import de.plushnikov.intellij.plugin.util.PsiClassUtil;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 import java.util.Collection;
 import java.util.List;
@@ -15,13 +17,14 @@ import java.util.List;
 /**
  * @author Plushnikov Michail
  */
+@ExtensionImpl
 public final class RequiredArgsConstructorProcessor extends AbstractConstructorClassProcessor {
   public RequiredArgsConstructorProcessor() {
     super(LombokClassNames.REQUIRED_ARGS_CONSTRUCTOR, PsiMethod.class);
   }
 
   @Override
-  protected boolean validate(@NotNull PsiAnnotation psiAnnotation, @NotNull PsiClass psiClass, @NotNull ProblemSink builder) {
+  protected boolean validate(@Nonnull PsiAnnotation psiAnnotation, @Nonnull PsiClass psiClass, @Nonnull ProblemSink builder) {
     boolean result;
 
     result = super.validate(psiAnnotation, psiClass, builder);
@@ -34,7 +37,7 @@ public final class RequiredArgsConstructorProcessor extends AbstractConstructorC
   }
 
   @Override
-  protected void generatePsiElements(@NotNull PsiClass psiClass, @NotNull PsiAnnotation psiAnnotation, @NotNull List<? super PsiElement> target) {
+  protected void generatePsiElements(@Nonnull PsiClass psiClass, @Nonnull PsiAnnotation psiAnnotation, @Nonnull List<? super PsiElement> target) {
     final String methodVisibility = LombokProcessorUtil.getAccessVisibility(psiAnnotation);
     if (null != methodVisibility) {
       target.addAll(
@@ -42,15 +45,15 @@ public final class RequiredArgsConstructorProcessor extends AbstractConstructorC
     }
   }
 
-  @NotNull
-  public Collection<PsiMethod> createRequiredArgsConstructor(@NotNull PsiClass psiClass, @PsiModifier.ModifierConstant @NotNull String methodModifier, @NotNull PsiAnnotation psiAnnotation, @Nullable String staticName, boolean skipConstructorIfAnyConstructorExists) {
+  @Nonnull
+  public Collection<PsiMethod> createRequiredArgsConstructor(@Nonnull PsiClass psiClass, @PsiModifier.ModifierConstant @Nonnull String methodModifier, @Nonnull PsiAnnotation psiAnnotation, @Nullable String staticName, boolean skipConstructorIfAnyConstructorExists) {
     final Collection<PsiField> allReqFields = getRequiredFields(psiClass);
 
     return createConstructorMethod(psiClass, methodModifier, psiAnnotation, false, allReqFields, staticName, skipConstructorIfAnyConstructorExists);
   }
 
   @Override
-  public LombokPsiElementUsage checkFieldUsage(@NotNull PsiField psiField, @NotNull PsiAnnotation psiAnnotation) {
+  public LombokPsiElementUsage checkFieldUsage(@Nonnull PsiField psiField, @Nonnull PsiAnnotation psiAnnotation) {
     final PsiClass containingClass = psiField.getContainingClass();
     if (null != containingClass) {
       if (PsiClassUtil.getNames(getRequiredFields(containingClass)).contains(psiField.getName())) {

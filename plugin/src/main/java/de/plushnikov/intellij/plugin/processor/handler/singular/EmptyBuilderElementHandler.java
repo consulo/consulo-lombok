@@ -1,12 +1,12 @@
 package de.plushnikov.intellij.plugin.processor.handler.singular;
 
-import com.intellij.psi.PsiAnnotation;
-import com.intellij.psi.PsiField;
-import com.intellij.psi.PsiMethod;
+import com.intellij.java.language.psi.PsiAnnotation;
+import com.intellij.java.language.psi.PsiField;
+import com.intellij.java.language.psi.PsiMethod;
 import de.plushnikov.intellij.plugin.processor.handler.BuilderInfo;
 import de.plushnikov.intellij.plugin.thirdparty.CapitalizationStrategy;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -15,22 +15,22 @@ import java.util.List;
 class EmptyBuilderElementHandler implements BuilderElementHandler {
 
   @Override
-  public Collection<PsiField> renderBuilderFields(@NotNull BuilderInfo info) {
+  public Collection<PsiField> renderBuilderFields(@Nonnull BuilderInfo info) {
     return Collections.emptyList();
   }
 
   @Override
-  public Collection<PsiMethod> renderBuilderMethod(@NotNull BuilderInfo info) {
+  public Collection<PsiMethod> renderBuilderMethod(@Nonnull BuilderInfo info) {
     return Collections.emptyList();
   }
 
   @Override
-  public String calcBuilderMethodName(@NotNull BuilderInfo info) {
+  public String calcBuilderMethodName(@Nonnull BuilderInfo info) {
     return "";
   }
 
   @Override
-  public List<String> getBuilderMethodNames(@NotNull String fieldName, @NotNull String prefix,
+  public List<String> getBuilderMethodNames(@Nonnull String fieldName, @Nonnull String prefix,
                                             @Nullable PsiAnnotation singularAnnotation, CapitalizationStrategy capitalizationStrategy) {
     return Collections.emptyList();
   }

@@ -1,8 +1,8 @@
 package de.plushnikov.intellij.plugin.processor.clazz.log;
 
 import de.plushnikov.intellij.plugin.processor.clazz.log.AbstractLogProcessor.LoggerInitializerParameter;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -71,7 +71,7 @@ final class CustomLogParser {
   }
 
   @Nullable
-  static String parseLoggerType(@NotNull String customDeclaration) {
+  static String parseLoggerType(@Nonnull String customDeclaration) {
     final Matcher declarationMatcher = DECLARATION_PATTERN.matcher(customDeclaration);
     if (!declarationMatcher.matches()) {
       return null;
@@ -84,7 +84,7 @@ final class CustomLogParser {
   }
 
   @Nullable
-  static String parseLoggerInitializer(@NotNull String customDeclaration) {
+  static String parseLoggerInitializer(@Nonnull String customDeclaration) {
     final Matcher declarationMatcher = DECLARATION_PATTERN.matcher(customDeclaration);
     if (!declarationMatcher.matches()) {
       return null;
@@ -98,7 +98,7 @@ final class CustomLogParser {
    * @return null if declaration is invalid
    */
   @Nullable
-  static LoggerInitializerDeclaration parseInitializerParameters(@NotNull String customDeclaration) {
+  static LoggerInitializerDeclaration parseInitializerParameters(@Nonnull String customDeclaration) {
     final Matcher declarationMatcher = DECLARATION_PATTERN.matcher(customDeclaration);
     if (!declarationMatcher.matches()) {
       return null;
@@ -128,8 +128,8 @@ final class CustomLogParser {
     return new LoggerInitializerDeclaration(withTopic, withoutTopic);
   }
 
-  @NotNull
-  private static List<LoggerInitializerParameter> splitParameters(@NotNull String parameters) {
+  @Nonnull
+  private static List<LoggerInitializerParameter> splitParameters(@Nonnull String parameters) {
     if (parameters.isEmpty()) {
       return Collections.emptyList();
     }

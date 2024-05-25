@@ -1,11 +1,14 @@
 package de.plushnikov.intellij.plugin.processor.clazz;
 
-import com.intellij.openapi.util.text.Strings;
-import com.intellij.psi.*;
-import com.intellij.psi.search.GlobalSearchScope;
-import com.intellij.psi.util.InheritanceUtil;
-import com.intellij.psi.util.PsiTypesUtil;
-import com.intellij.util.containers.ContainerUtil;
+import com.intellij.java.language.psi.*;
+import com.intellij.java.language.psi.util.InheritanceUtil;
+import com.intellij.java.language.psi.util.PsiTypesUtil;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.PsiManager;
+import consulo.language.psi.scope.GlobalSearchScope;
+import consulo.util.collection.ContainerUtil;
+import consulo.util.lang.StringUtil;
 import de.plushnikov.intellij.plugin.LombokClassNames;
 import de.plushnikov.intellij.plugin.lombokconfig.ConfigDiscovery;
 import de.plushnikov.intellij.plugin.lombokconfig.ConfigKey;
@@ -13,31 +16,32 @@ import de.plushnikov.intellij.plugin.problem.ProblemSink;
 import de.plushnikov.intellij.plugin.psi.LombokLightMethodBuilder;
 import de.plushnikov.intellij.plugin.util.LombokProcessorUtil;
 import de.plushnikov.intellij.plugin.util.PsiClassUtil;
-import org.jetbrains.annotations.NotNull;
+import jakarta.annotation.Nonnull;
 
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+@ExtensionImpl
 public class StandardExceptionProcessor extends AbstractClassProcessor {
 
-  protected StandardExceptionProcessor() {
+  public StandardExceptionProcessor() {
     super(PsiMethod.class, LombokClassNames.STANDARD_EXCEPTION);
   }
 
   @Override
-  protected Collection<String> getNamesOfPossibleGeneratedElements(@NotNull PsiClass psiClass, @NotNull PsiAnnotation psiAnnotation) {
+  protected Collection<String> getNamesOfPossibleGeneratedElements(@Nonnull PsiClass psiClass, @Nonnull PsiAnnotation psiAnnotation) {
     return Collections.singleton(getConstructorName(psiClass));
   }
 
-  private static String getConstructorName(@NotNull PsiClass psiClass) {
-    return Strings.notNullize(psiClass.getName());
+  private static String getConstructorName(@Nonnull PsiClass psiClass) {
+    return StringUtil.notNullize(psiClass.getName());
   }
 
   @Override
-  protected boolean validate(@NotNull PsiAnnotation psiAnnotation,
-                             @NotNull PsiClass psiClass,
-                             @NotNull ProblemSink builder) {
+  protected boolean validate(@Nonnull PsiAnnotation psiAnnotation,
+                             @Nonnull PsiClass psiClass,
+                             @Nonnull ProblemSink builder) {
     if (checkWrongType(psiClass)) {
       builder.addErrorMessage("inspection.message.standardexception.class.only.supported.on.class");
       return false;
@@ -53,22 +57,22 @@ public class StandardExceptionProcessor extends AbstractClassProcessor {
     return true;
   }
 
-  private static boolean checkWrongType(@NotNull PsiClass psiClass) {
+  private static boolean checkWrongType(@Nonnull PsiClass psiClass) {
     return psiClass.isInterface() || psiClass.isAnnotationType() || psiClass.isEnum() || psiClass.isRecord();
   }
 
-  private static boolean checkWrongInheritorOfThrowable(@NotNull PsiClass psiClass) {
+  private static boolean checkWrongInheritorOfThrowable(@Nonnull PsiClass psiClass) {
     return !InheritanceUtil.isInheritor(psiClass, CommonClassNames.JAVA_LANG_THROWABLE);
   }
 
-  private static boolean checkWrongAccessVisibility(@NotNull PsiAnnotation psiAnnotation) {
+  private static boolean checkWrongAccessVisibility(@Nonnull PsiAnnotation psiAnnotation) {
     return null == LombokProcessorUtil.getAccessVisibility(psiAnnotation);
   }
 
   @Override
-  protected void generatePsiElements(@NotNull PsiClass psiClass,
-                                     @NotNull PsiAnnotation psiAnnotation,
-                                     @NotNull List<? super PsiElement> target) {
+  protected void generatePsiElements(@Nonnull PsiClass psiClass,
+                                     @Nonnull PsiAnnotation psiAnnotation,
+                                     @Nonnull List<? super PsiElement> target) {
     final PsiManager psiManager = psiClass.getManager();
     final Collection<PsiMethod> existedConstructors = PsiClassUtil.collectClassConstructorIntern(psiClass);
     final String accessVisibility = getAccessVisibility(psiAnnotation);
@@ -121,7 +125,7 @@ public class StandardExceptionProcessor extends AbstractClassProcessor {
   }
 
   @PsiModifier.ModifierConstant
-  private static String getAccessVisibility(@NotNull PsiAnnotation psiAnnotation) {
+  private static String getAccessVisibility(@Nonnull PsiAnnotation psiAnnotation) {
     String accessVisibility = LombokProcessorUtil.getAccessVisibility(psiAnnotation);
     if (null == accessVisibility) {
       accessVisibility = PsiModifier.PUBLIC;
@@ -148,9 +152,9 @@ public class StandardExceptionProcessor extends AbstractClassProcessor {
     });
   }
 
-  private static LombokLightMethodBuilder createConstructor(@NotNull PsiClass psiClass,
-                                                            @NotNull PsiAnnotation psiAnnotation,
-                                                            @NotNull PsiManager psiManager,
+  private static LombokLightMethodBuilder createConstructor(@Nonnull PsiClass psiClass,
+                                                            @Nonnull PsiAnnotation psiAnnotation,
+                                                            @Nonnull PsiManager psiManager,
                                                             @PsiModifier.ModifierConstant String accessVisibility) {
     return new LombokLightMethodBuilder(psiManager, getConstructorName(psiClass))
       .withConstructor(true)

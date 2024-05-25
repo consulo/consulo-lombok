@@ -2,11 +2,11 @@ package de.plushnikov.intellij.plugin.psi;
 
 import com.intellij.java.language.psi.*;
 import consulo.language.psi.PsiManager;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 public class LombokEnumConstantBuilder extends LombokLightFieldBuilder implements PsiEnumConstant {
-  public LombokEnumConstantBuilder(@NotNull PsiManager manager, @NotNull String name, @NotNull PsiType type) {
+  public LombokEnumConstantBuilder(@Nonnull PsiManager manager, @Nonnull String name, @Nonnull PsiType type) {
     super(manager, name, type);
   }
 
@@ -22,7 +22,7 @@ public class LombokEnumConstantBuilder extends LombokLightFieldBuilder implement
     return null;
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public PsiEnumConstantInitializer getOrCreateInitializingClass() {
     final PsiElementFactory factory = JavaPsiFacade.getElementFactory(getProject());
@@ -35,7 +35,7 @@ public class LombokEnumConstantBuilder extends LombokLightFieldBuilder implement
     return null;
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public JavaResolveResult resolveMethodGenerics() {
     return JavaResolveResult.EMPTY;

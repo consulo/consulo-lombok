@@ -4,8 +4,9 @@ import com.intellij.java.impl.codeInsight.template.postfix.util.JavaPostfixTempl
 import com.intellij.java.impl.refactoring.introduceVariable.IntroduceVariableHandler;
 import com.intellij.java.language.psi.PsiExpression;
 import consulo.codeEditor.Editor;
+import consulo.language.editor.refactoring.postfixTemplate.PostfixTemplateWithExpressionSelector;
 import consulo.language.psi.PsiElement;
-import org.jetbrains.annotations.NotNull;
+import jakarta.annotation.Nonnull;
 
 public class LombokVarValPostfixTemplate extends PostfixTemplateWithExpressionSelector {
 
@@ -19,7 +20,7 @@ public class LombokVarValPostfixTemplate extends PostfixTemplateWithExpressionSe
   }
 
   @Override
-  protected void expandForChooseExpression(@NotNull PsiElement expression, @NotNull Editor editor) {
+  protected void expandForChooseExpression(@Nonnull PsiElement expression, @Nonnull Editor editor) {
     IntroduceVariableHandler handler = new IntroduceLombokVariableHandler(selectedTypeFQN);
     handler.invoke(expression.getProject(), editor, (PsiExpression) expression);
   }

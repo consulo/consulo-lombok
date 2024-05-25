@@ -8,10 +8,10 @@ import com.intellij.java.language.psi.PsiExpression;
 import com.intellij.java.language.psi.PsiType;
 import consulo.application.ApplicationManager;
 import consulo.codeEditor.Editor;
+import consulo.language.editor.refactoring.introduce.inplace.OccurrencesChooser;
 import consulo.language.psi.PsiElement;
 import consulo.language.psi.scope.GlobalSearchScope;
 import consulo.project.Project;
-import consulo.ui.ex.InputValidator;
 
 public class IntroduceLombokVariableHandler extends IntroduceVariableHandler {
   private final String selectedTypeFQN;
@@ -20,22 +20,25 @@ public class IntroduceLombokVariableHandler extends IntroduceVariableHandler {
     this.selectedTypeFQN = selectedTypeFQN;
   }
 
-  /*
-   * This method with OccurrencesChooser.ReplaceChoice parameter exists up to 2017.2
-   * Started from 2017.2 it use JavaReplaceChoice parameter
-   */
   @Override
-  public IntroduceVariableSettings getSettings(Project project, Editor editor, PsiExpression expr,
-                                               PsiExpression[] occurrences, TypeSelectorManagerImpl typeSelectorManager,
-                                               boolean declareFinalIfAll, boolean anyAssignmentLHS, InputValidator validator,
-                                               PsiElement anchor, JavaReplaceChoice replaceChoice) {
+  public IntroduceVariableSettings getSettings(Project project,
+                                               Editor editor,
+                                               PsiExpression expr,
+                                               PsiExpression[] occurrences,
+                                               TypeSelectorManagerImpl typeSelectorManager,
+                                               boolean declareFinalIfAll,
+                                               boolean anyAssignmentLHS,
+                                               com.intellij.java.impl.refactoring.introduceVariable.InputValidator validator,
+                                               PsiElement anchor,
+                                               OccurrencesChooser.ReplaceChoice replaceChoice) {
     final IntroduceVariableSettings variableSettings;
 
     if (ApplicationManager.getApplication().isUnitTestMode()) {
       variableSettings = new UnitTestMockVariableSettings(expr);
-    } else {
+    }
+    else {
       variableSettings = super.getSettings(project, editor, expr, occurrences, typeSelectorManager, declareFinalIfAll,
-        anyAssignmentLHS, validator, anchor, replaceChoice);
+                                           anyAssignmentLHS, validator, anchor, replaceChoice);
     }
 
     return getIntroduceVariableSettings(project, variableSettings);

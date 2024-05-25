@@ -1,16 +1,16 @@
 package de.plushnikov.intellij.plugin.action.lombok;
 
-import com.intellij.psi.PsiClass;
-import com.intellij.psi.PsiMethod;
-import com.intellij.psi.PsiType;
-import com.intellij.psi.PsiTypes;
+import com.intellij.java.language.psi.PsiClass;
+import com.intellij.java.language.psi.PsiMethod;
+import com.intellij.java.language.psi.PsiType;
+import com.intellij.java.language.psi.PsiTypes;
 import de.plushnikov.intellij.plugin.LombokClassNames;
-import org.jetbrains.annotations.NotNull;
+import jakarta.annotation.Nonnull;
 
 public class LombokEqualsAndHashcodeHandler extends BaseLombokHandler {
 
   @Override
-  protected void processClass(@NotNull PsiClass psiClass) {
+  protected void processClass(@Nonnull PsiClass psiClass) {
     final PsiMethod equalsMethod = findPublicNonStaticMethod(psiClass, "equals", PsiTypes.booleanType(),
                                                              PsiType.getJavaLangObject(psiClass.getManager(), psiClass.getResolveScope()));
     if (null != equalsMethod) {

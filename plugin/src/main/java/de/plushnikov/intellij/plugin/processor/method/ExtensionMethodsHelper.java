@@ -1,22 +1,28 @@
 package de.plushnikov.intellij.plugin.processor.method;
 
-import com.intellij.lang.java.JavaLanguage;
-import com.intellij.openapi.diagnostic.Logger;
-import com.intellij.openapi.progress.ProcessCanceledException;
-import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.psi.*;
-import com.intellij.psi.augment.PsiExtensionMethod;
-import com.intellij.psi.infos.MethodCandidateInfo;
-import com.intellij.psi.util.*;
-import com.intellij.util.SmartList;
-import com.intellij.util.containers.ContainerUtil;
+import com.intellij.java.language.JavaLanguage;
+import com.intellij.java.language.psi.*;
+import com.intellij.java.language.psi.augment.PsiExtensionMethod;
+import com.intellij.java.language.psi.infos.MethodCandidateInfo;
+import com.intellij.java.language.psi.util.MethodSignatureBackedByPsiMethod;
+import com.intellij.java.language.psi.util.PsiTypesUtil;
+import consulo.application.util.CachedValueProvider;
+import consulo.component.ProcessCanceledException;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.PsiModificationTracker;
+import consulo.language.psi.util.LanguageCachedValueUtil;
+import consulo.language.psi.util.PsiTreeUtil;
+import consulo.logging.Logger;
+import consulo.util.collection.ContainerUtil;
+import consulo.util.collection.SmartList;
+import consulo.util.lang.StringUtil;
 import de.plushnikov.intellij.plugin.LombokClassNames;
 import de.plushnikov.intellij.plugin.psi.LombokLightMethodBuilder;
 import de.plushnikov.intellij.plugin.psi.LombokLightParameter;
 import de.plushnikov.intellij.plugin.util.PsiAnnotationUtil;
 import de.plushnikov.intellij.plugin.util.PsiClassUtil;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 import java.util.*;
 import java.util.function.BiFunction;
@@ -26,17 +32,17 @@ public final class ExtensionMethodsHelper {
 
   private static final Logger LOG = Logger.getInstance(ExtensionMethodsHelper.class);
 
-  public static List<PsiExtensionMethod> getExtensionMethods(final @NotNull PsiClass targetClass,
-                                                             final @NotNull String nameHint,
-                                                             final @NotNull PsiElement place) {
+  public static List<PsiExtensionMethod> getExtensionMethods(final @Nonnull PsiClass targetClass,
+                                                             final @Nonnull String nameHint,
+                                                             final @Nonnull PsiElement place) {
     if (!(place instanceof PsiMethodCallExpression)) {
       return Collections.emptyList();
     }
     PsiReferenceExpression methodExpression = ((PsiMethodCallExpression)place).getMethodExpression();
     PsiExpression qualifierExpression = methodExpression.getQualifierExpression();
     if (qualifierExpression == null ||
-        !nameHint.equals(methodExpression.getReferenceName()) ||
-        qualifierExpression instanceof PsiReferenceExpression && ((PsiReferenceExpression)qualifierExpression).resolve() instanceof PsiClass) {
+      !nameHint.equals(methodExpression.getReferenceName()) ||
+      qualifierExpression instanceof PsiReferenceExpression && ((PsiReferenceExpression)qualifierExpression).resolve() instanceof PsiClass) {
       return Collections.emptyList();
     }
     List<PsiExtensionMethod> result = new SmartList<>();
@@ -46,12 +52,13 @@ public final class ExtensionMethodsHelper {
       final @Nullable PsiAnnotation annotation = context.getAnnotation(LombokClassNames.EXTENSION_METHOD);
       if (annotation != null) {
 
-        final Set<PsiClass> providers = PsiAnnotationUtil.getAnnotationValues(annotation, PsiAnnotation.DEFAULT_REFERENCED_METHOD_NAME, PsiType.class).stream()
-          .filter(PsiClassType.class::isInstance)
-          .map(PsiClassType.class::cast)
-          .map(PsiClassType::resolve)
-          .filter(Objects::nonNull)
-          .collect(Collectors.toSet());
+        final Set<PsiClass> providers =
+          PsiAnnotationUtil.getAnnotationValues(annotation, PsiAnnotation.DEFAULT_REFERENCED_METHOD_NAME, PsiType.class).stream()
+                           .filter(PsiClassType.class::isInstance)
+                           .map(PsiClassType.class::cast)
+                           .map(PsiClassType::resolve)
+                           .filter(Objects::nonNull)
+                           .collect(Collectors.toSet());
 
         if (!providers.isEmpty()) {
           List<PsiExtensionMethod> extensionMethods = collectExtensionMethods(providers, ((PsiMethodCallExpression)place), targetClass);
@@ -69,15 +76,17 @@ public final class ExtensionMethodsHelper {
   }
 
   private static List<PsiExtensionMethod> collectExtensionMethods(final Set<PsiClass> providers,
-                                                         final PsiMethodCallExpression callExpression,
-                                                         final PsiClass targetClass) {
+                                                                  final PsiMethodCallExpression callExpression,
+                                                                  final PsiClass targetClass) {
     List<PsiExtensionMethod> psiMethods = new ArrayList<>();
-    providers.forEach(providerClass -> providerData(providerClass).forEach(function -> ContainerUtil.addIfNotNull(psiMethods, function.apply(targetClass, callExpression))));
+    providers.forEach(providerClass -> providerData(providerClass).forEach(function -> ContainerUtil.addIfNotNull(psiMethods,
+                                                                                                                  function.apply(targetClass,
+                                                                                                                                 callExpression))));
     return psiMethods;
   }
 
   public static List<BiFunction<PsiClass, PsiMethodCallExpression, PsiExtensionMethod>> providerData(final PsiClass providerClass) {
-    return CachedValuesManager.getCachedValue(providerClass, () -> CachedValueProvider.Result
+    return LanguageCachedValueUtil.getCachedValue(providerClass, () -> CachedValueProvider.Result
       .create(createProviderCandidates(providerClass), PsiModificationTracker.MODIFICATION_COUNT));
   }
 
@@ -85,7 +94,7 @@ public final class ExtensionMethodsHelper {
     final List<BiFunction<PsiClass, PsiMethodCallExpression, PsiExtensionMethod>> result = new ArrayList<>();
     for (PsiMethod providerStaticMethod : PsiClassUtil.collectClassStaticMethodsIntern(providerClass)) {
       if (providerStaticMethod.hasModifierProperty(PsiModifier.PUBLIC)) {
-        PsiParameter @NotNull [] parameters = providerStaticMethod.getParameterList().getParameters();
+        PsiParameter[] parameters = providerStaticMethod.getParameterList().getParameters();
         if (parameters.length > 0 && !(parameters[0].getType() instanceof PsiPrimitiveType)) {
           result.add((targetClass, call) -> createLightMethodBySignature(providerStaticMethod, targetClass, call));
         }
@@ -95,13 +104,14 @@ public final class ExtensionMethodsHelper {
   }
 
   private static PsiExtensionMethod createLightMethodBySignature(PsiMethod staticMethod,
-                                                                       PsiClass targetClass,
-                                                                       PsiMethodCallExpression callExpression) {
+                                                                 PsiClass targetClass,
+                                                                 PsiMethodCallExpression callExpression) {
     if (!staticMethod.getName().equals(callExpression.getMethodExpression().getReferenceName())) return null;
     PsiClass providerClass = Objects.requireNonNull(staticMethod.getContainingClass());
     PsiMethodCallExpression staticMethodCall;
     try {
-      StringBuilder args = new StringBuilder(Objects.requireNonNull(callExpression.getMethodExpression().getQualifierExpression()).getText());
+      StringBuilder args =
+        new StringBuilder(Objects.requireNonNull(callExpression.getMethodExpression().getQualifierExpression()).getText());
       PsiExpression[] expressions = callExpression.getArgumentList().getExpressions();
       if (expressions.length > 0) {
         args.append(", ");
@@ -109,7 +119,8 @@ public final class ExtensionMethodsHelper {
       args.append(StringUtil.join(expressions, expression -> expression.getText(), ","));
 
       staticMethodCall = (PsiMethodCallExpression)JavaPsiFacade.getElementFactory(staticMethod.getProject())
-        .createExpressionFromText(providerClass.getQualifiedName() + "." + staticMethod.getName() + "(" + args + ")", callExpression);
+                                                               .createExpressionFromText(providerClass.getQualifiedName() + "." + staticMethod.getName() + "(" + args + ")",
+                                                                                         callExpression);
     }
     catch (ProcessCanceledException e) {
       throw e;
@@ -128,7 +139,7 @@ public final class ExtensionMethodsHelper {
     final LombokExtensionMethod lightMethod = new LombokExtensionMethod(staticMethod);
     lightMethod
       .addModifiers(PsiModifier.PUBLIC);
-    PsiParameter @NotNull [] parameters = staticMethod.getParameterList().getParameters();
+    PsiParameter[] parameters = staticMethod.getParameterList().getParameters();
 
     if (targetClass.isInterface()) {
       lightMethod.addModifier(PsiModifier.DEFAULT);
@@ -138,7 +149,10 @@ public final class ExtensionMethodsHelper {
 
     for (int i = 1, length = parameters.length; i < length; i++) {
       PsiParameter parameter = parameters[i];
-      lightMethod.addParameter(new LombokLightParameter(parameter.getName(), substitutor.substitute(parameter.getType()), lightMethod, JavaLanguage.INSTANCE));
+      lightMethod.addParameter(new LombokLightParameter(parameter.getName(),
+                                                        substitutor.substitute(parameter.getType()),
+                                                        lightMethod,
+                                                        JavaLanguage.INSTANCE));
     }
 
     PsiClassType[] thrownTypes = staticMethod.getThrowsList().getReferencedTypes();
@@ -147,10 +161,10 @@ public final class ExtensionMethodsHelper {
     }
 
     PsiTypeParameter[] staticMethodTypeParameters = staticMethod.getTypeParameters();
-    HashSet<PsiTypeParameter> initialTypeParameters = ContainerUtil.newHashSet(staticMethodTypeParameters);
+    Set<PsiTypeParameter> initialTypeParameters = Set.of(staticMethodTypeParameters);
     Arrays.stream(staticMethodTypeParameters)
-      .filter(typeParameter -> PsiTypesUtil.mentionsTypeParameters(substitutor.substitute(typeParameter), initialTypeParameters))
-      .forEach(lightMethod::addTypeParameter);
+          .filter(typeParameter -> PsiTypesUtil.mentionsTypeParameters(substitutor.substitute(typeParameter), initialTypeParameters))
+          .forEach(lightMethod::addTypeParameter);
 
     lightMethod.setNavigationElement(staticMethod);
     lightMethod.setContainingClass(targetClass);
@@ -158,18 +172,20 @@ public final class ExtensionMethodsHelper {
   }
 
   private static class LombokExtensionMethod extends LombokLightMethodBuilder implements PsiExtensionMethod {
-    private final @NotNull PsiMethod myStaticMethod;
+    private final @Nonnull PsiMethod myStaticMethod;
 
-    LombokExtensionMethod(@NotNull PsiMethod staticMethod) {
+    LombokExtensionMethod(@Nonnull PsiMethod staticMethod) {
       super(staticMethod.getManager(), staticMethod.getName());
       myStaticMethod = staticMethod;
     }
 
     @Override
-    public boolean isEquivalentTo(final PsiElement another) { return myStaticMethod.isEquivalentTo(another); }
+    public boolean isEquivalentTo(final PsiElement another) {
+      return myStaticMethod.isEquivalentTo(another);
+    }
 
     @Override
-    public @NotNull PsiMethod getTargetMethod() {
+    public @Nonnull PsiMethod getTargetMethod() {
       return myStaticMethod;
     }
 

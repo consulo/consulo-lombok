@@ -8,7 +8,7 @@ import consulo.annotation.component.ExtensionImpl;
 import consulo.language.psi.util.PsiTreeUtil;
 import de.plushnikov.intellij.plugin.LombokClassNames;
 import de.plushnikov.intellij.plugin.util.PsiAnnotationSearchUtil;
-import org.jetbrains.annotations.NotNull;
+import jakarta.annotation.Nonnull;
 
 /**
  * Handler to produce a veto for elements with lombok methods behind
@@ -17,7 +17,7 @@ import org.jetbrains.annotations.NotNull;
 public class LombokCanBeFinalHandler extends CanBeFinalHandler {
 
   @Override
-  public boolean canBeFinal(@NotNull PsiMember member) {
+  public boolean canBeFinal(@Nonnull PsiMember member) {
     if (member instanceof PsiField) {
       if (PsiAnnotationSearchUtil.isAnnotatedWith(member, LombokClassNames.SETTER)) {
         return false;

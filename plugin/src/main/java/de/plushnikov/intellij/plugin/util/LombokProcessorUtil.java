@@ -5,9 +5,9 @@ import com.intellij.java.language.psi.util.PsiUtil;
 import consulo.util.collection.ContainerUtil;
 import consulo.util.lang.StringUtil;
 import de.plushnikov.intellij.plugin.LombokClassNames;
+import jakarta.annotation.Nonnull;
 import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import jakarta.annotation.Nullable;
 
 import java.util.*;
 
@@ -45,45 +45,45 @@ public final class LombokProcessorUtil {
 
   @Nullable
   @PsiModifier.ModifierConstant
-  public static String getMethodModifier(@NotNull PsiAnnotation psiAnnotation) {
+  public static String getMethodModifier(@Nonnull PsiAnnotation psiAnnotation) {
     return getLevelVisibility(psiAnnotation, "value");
   }
 
   @Nullable
   @PsiModifier.ModifierConstant
-  public static String getAccessVisibility(@NotNull PsiAnnotation psiAnnotation) {
+  public static String getAccessVisibility(@Nonnull PsiAnnotation psiAnnotation) {
     return getLevelVisibility(psiAnnotation, "access");
   }
 
   @Nullable
   @PsiModifier.ModifierConstant
-  public static String getLevelVisibility(@NotNull PsiAnnotation psiAnnotation) {
+  public static String getLevelVisibility(@Nonnull PsiAnnotation psiAnnotation) {
     return getLevelVisibility(psiAnnotation, "level");
   }
 
   @Nullable
   @PsiModifier.ModifierConstant
-  private static String getLevelVisibility(@NotNull PsiAnnotation psiAnnotation, @NotNull String parameter) {
+  private static String getLevelVisibility(@Nonnull PsiAnnotation psiAnnotation, @Nonnull String parameter) {
     return convertAccessLevelToJavaModifier(PsiAnnotationUtil.getEnumAnnotationValue(psiAnnotation, parameter, ACCESS_LEVEL_PUBLIC));
   }
 
   @Nullable
-  public static String getAccessLevel(@NotNull PsiAnnotation psiAnnotation, @NotNull String parameter) {
+  public static String getAccessLevel(@Nonnull PsiAnnotation psiAnnotation, @Nonnull String parameter) {
     final String annotationValue = PsiAnnotationUtil.getEnumAnnotationValue(psiAnnotation, parameter, NULL_DEFAULT);
     return NULL_DEFAULT.equals(annotationValue) ? null : VALUE_ACCESS_LEVEL_MAP.get(annotationValue);
   }
 
-  public static boolean isLevelVisible(@NotNull PsiAnnotation psiAnnotation) {
+  public static boolean isLevelVisible(@Nonnull PsiAnnotation psiAnnotation) {
     return null != getLevelVisibility(psiAnnotation);
   }
 
-  public static Iterable<String> getOnX(@NotNull PsiAnnotation psiAnnotation, @NotNull String parameterName) {
+  public static Iterable<String> getOnX(@Nonnull PsiAnnotation psiAnnotation, @Nonnull String parameterName) {
     Collection<String> oldOnX = getOldOnX(psiAnnotation, parameterName);
     Collection<String> newOnX = getNewOnX(psiAnnotation, parameterName + "_");
     return ContainerUtil.concat(oldOnX, newOnX);
   }
 
-  public static Collection<String> getOldOnX(@NotNull PsiAnnotation psiAnnotation, @NotNull String parameterName) {
+  public static Collection<String> getOldOnX(@Nonnull PsiAnnotation psiAnnotation, @Nonnull String parameterName) {
     PsiAnnotationMemberValue onXValue = psiAnnotation.hasAttribute(parameterName) ? psiAnnotation.findAttributeValue(parameterName) : null;
     if (!(onXValue instanceof PsiAnnotation)) {
       return Collections.emptyList();
@@ -92,7 +92,7 @@ public final class LombokProcessorUtil {
     return collectAnnotationStrings(annotations);
   }
 
-  public static Collection<String> getNewOnX(@NotNull PsiAnnotation psiAnnotation, @NotNull String parameterName) {
+  public static Collection<String> getNewOnX(@Nonnull PsiAnnotation psiAnnotation, @Nonnull String parameterName) {
     if (psiAnnotation.hasAttribute(parameterName)) {
       final Collection<PsiAnnotation> annotations =
         PsiAnnotationUtil.getAnnotationValues(psiAnnotation, parameterName, PsiAnnotation.class);
@@ -128,15 +128,15 @@ public final class LombokProcessorUtil {
     return VALUE_ACCESS_LEVEL_MAP.get(value);
   }
 
-  @NotNull
-  public static PsiAnnotation createAnnotationWithAccessLevel(@NotNull PsiModifierListOwner psiModifierListOwner,
+  @Nonnull
+  public static PsiAnnotation createAnnotationWithAccessLevel(@Nonnull PsiModifierListOwner psiModifierListOwner,
                                                               String annotationClassName) {
     Optional<String> value = convertModifierToLombokAccessLevel(psiModifierListOwner);
     return PsiAnnotationUtil.createPsiAnnotation(psiModifierListOwner, value.orElse(""), annotationClassName);
   }
 
-  @NotNull
-  public static Optional<String> convertModifierToLombokAccessLevel(@NotNull PsiModifierListOwner psiModifierListOwner) {
+  @Nonnull
+  public static Optional<String> convertModifierToLombokAccessLevel(@Nonnull PsiModifierListOwner psiModifierListOwner) {
     final PsiModifierList modifierList = psiModifierListOwner.getModifierList();
     if (null != modifierList) {
       final int accessLevelCode = PsiUtil.getAccessLevel(modifierList);

@@ -1,10 +1,12 @@
 package de.plushnikov.intellij.plugin.processor.clazz.log;
 
+import consulo.annotation.component.ExtensionImpl;
 import de.plushnikov.intellij.plugin.LombokClassNames;
 
 /**
  * @author Plushnikov Michail
  */
+@ExtensionImpl
 public class Slf4jProcessor extends AbstractTopicSupportingSimpleLogProcessor {
 
   public static final String LOGGER_TYPE = "org.slf4j.Logger";

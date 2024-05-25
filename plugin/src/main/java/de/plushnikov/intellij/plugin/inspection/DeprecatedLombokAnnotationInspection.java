@@ -4,23 +4,37 @@ import com.intellij.java.analysis.impl.codeInsight.intention.AddAnnotationFix;
 import com.intellij.java.language.psi.JavaElementVisitor;
 import com.intellij.java.language.psi.PsiAnnotation;
 import com.intellij.java.language.psi.PsiModifierListOwner;
+import consulo.annotation.component.ExtensionImpl;
 import consulo.language.editor.inspection.ProblemHighlightType;
 import consulo.language.editor.inspection.ProblemsHolder;
 import consulo.language.psi.PsiElementVisitor;
 import consulo.language.psi.util.PsiTreeUtil;
 import de.plushnikov.intellij.plugin.LombokBundle;
 import de.plushnikov.intellij.plugin.LombokClassNames;
-import org.jetbrains.annotations.NotNull;
+import jakarta.annotation.Nonnull;
 
 /**
  * @author Plushnikov Michail
  */
+@ExtensionImpl
 public class DeprecatedLombokAnnotationInspection extends LombokJavaInspectionBase {
 
-  @NotNull
+  @Nonnull
   @Override
-  protected PsiElementVisitor createVisitor(@NotNull final ProblemsHolder holder, final boolean isOnTheFly) {
+  public String getShortName() {
+    return "DeprecatedLombok";
+  }
+
+  @Nonnull
+  @Override
+  protected PsiElementVisitor createVisitor(@Nonnull final ProblemsHolder holder, final boolean isOnTheFly) {
     return new LombokElementVisitor(holder);
+  }
+
+  @Nonnull
+  @Override
+  public String getDisplayName() {
+    return LombokBundle.message("inspection.deprecated.lombok.display.name");
   }
 
   private static class LombokElementVisitor extends JavaElementVisitor {
@@ -31,7 +45,7 @@ public class DeprecatedLombokAnnotationInspection extends LombokJavaInspectionBa
     }
 
     @Override
-    public void visitAnnotation(final @NotNull PsiAnnotation annotation) {
+    public void visitAnnotation(final @Nonnull PsiAnnotation annotation) {
       checkFor("lombok.experimental.Builder", LombokClassNames.BUILDER, annotation);
       checkFor("lombok.experimental.Value", LombokClassNames.VALUE, annotation);
       checkFor("lombok.experimental.Wither", LombokClassNames.WITH, annotation);

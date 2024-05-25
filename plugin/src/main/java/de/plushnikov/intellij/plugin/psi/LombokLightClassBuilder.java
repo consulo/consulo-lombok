@@ -1,17 +1,16 @@
 package de.plushnikov.intellij.plugin.psi;
 
+import com.intellij.java.language.impl.psi.impl.light.LightPsiClassBuilder;
 import com.intellij.java.language.impl.psi.impl.source.PsiExtensibleClass;
 import com.intellij.java.language.psi.*;
 import consulo.document.util.TextRange;
 import consulo.language.psi.PsiElement;
 import consulo.language.psi.PsiFile;
 import consulo.language.psi.SyntheticElement;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-import sun.tools.jconsole.inspector.IconManager;
 
-import javax.swing.*;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -21,7 +20,6 @@ import java.util.stream.Stream;
 public class LombokLightClassBuilder extends LightPsiClassBuilder implements PsiExtensibleClass, SyntheticElement {
 
   private final String myQualifiedName;
-  private final Icon myBaseIcon;
   private final LombokLightModifierList myModifierList;
 
   private boolean myIsEnum;
@@ -31,15 +29,14 @@ public class LombokLightClassBuilder extends LightPsiClassBuilder implements Psi
   private Function<PsiClass, ? extends Collection<PsiField>> fieldSupplier = c -> Collections.emptyList();
   private Function<PsiClass, ? extends Collection<PsiMethod>> methodSupplier = c -> Collections.emptyList();
 
-  public LombokLightClassBuilder(@NotNull PsiElement context, @NotNull String simpleName, @NotNull String qualifiedName) {
+  public LombokLightClassBuilder(@Nonnull PsiElement context, @Nonnull String simpleName, @Nonnull String qualifiedName) {
     super(context, simpleName);
     myIsEnum = false;
     myQualifiedName = qualifiedName;
-    myBaseIcon = LombokIcons.Nodes.LombokClass;
     myModifierList = new LombokLightModifierList(context.getManager(), context.getLanguage());
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public LombokLightModifierList getModifierList() {
     return myModifierList;
@@ -65,13 +62,6 @@ public class LombokLightClassBuilder extends LightPsiClassBuilder implements Psi
   }
 
   @Override
-  public Icon getElementIcon(final int flags) {
-    RowIcon baseIcon = IconManager.getInstance().createLayeredIcon(this, myBaseIcon,
-                                                                   ElementPresentationUtil.getFlags(this, false));
-    return ElementPresentationUtil.addVisibilityIcon(this, flags, baseIcon);
-  }
-
-  @Override
   public TextRange getTextRange() {
     TextRange r = super.getTextRange();
     return r == null ? TextRange.EMPTY_RANGE : r;
@@ -91,7 +81,8 @@ public class LombokLightClassBuilder extends LightPsiClassBuilder implements Psi
   }
 
   @Override
-  public PsiField @NotNull [] getFields() {
+  @Nonnull
+  public PsiField[] getFields() {
     if (null == myFields) {
       Collection<PsiField> generatedFields = fieldSupplier.apply(this);
       myFields = generatedFields.toArray(PsiField.EMPTY_ARRAY);
@@ -101,7 +92,8 @@ public class LombokLightClassBuilder extends LightPsiClassBuilder implements Psi
   }
 
   @Override
-  public PsiMethod @NotNull [] getMethods() {
+  @Nonnull
+  public PsiMethod[] getMethods() {
     if (null == myMethods) {
       Collection<PsiMethod> generatedMethods = methodSupplier.apply(this);
       myMethods = generatedMethods.toArray(PsiMethod.EMPTY_ARRAY);
@@ -111,17 +103,17 @@ public class LombokLightClassBuilder extends LightPsiClassBuilder implements Psi
   }
 
   @Override
-  public @NotNull List<PsiField> getOwnFields() {
+  public @Nonnull List<PsiField> getOwnFields() {
     return Collections.emptyList();
   }
 
   @Override
-  public @NotNull List<PsiMethod> getOwnMethods() {
+  public @Nonnull List<PsiMethod> getOwnMethods() {
     return Collections.emptyList();
   }
 
   @Override
-  public @NotNull List<PsiClass> getOwnInnerClasses() {
+  public @Nonnull List<PsiClass> getOwnInnerClasses() {
     return Collections.emptyList();
   }
 
@@ -140,17 +132,17 @@ public class LombokLightClassBuilder extends LightPsiClassBuilder implements Psi
     return this;
   }
 
-  public LombokLightClassBuilder withImplicitModifier(@PsiModifier.ModifierConstant @NotNull @NonNls String modifier) {
+  public LombokLightClassBuilder withImplicitModifier(@PsiModifier.ModifierConstant @Nonnull @NonNls String modifier) {
     myModifierList.addImplicitModifierProperty(modifier);
     return this;
   }
 
-  public LombokLightClassBuilder withModifier(@PsiModifier.ModifierConstant @NotNull @NonNls String modifier) {
+  public LombokLightClassBuilder withModifier(@PsiModifier.ModifierConstant @Nonnull @NonNls String modifier) {
     myModifierList.addModifier(modifier);
     return this;
   }
 
-  public LombokLightClassBuilder withContainingClass(@NotNull PsiClass containingClass) {
+  public LombokLightClassBuilder withContainingClass(@Nonnull PsiClass containingClass) {
     setContainingClass(containingClass);
     return this;
   }
@@ -172,7 +164,7 @@ public class LombokLightClassBuilder extends LightPsiClassBuilder implements Psi
     return this;
   }
 
-  public LombokLightClassBuilder withParameterType(@NotNull PsiTypeParameter psiTypeParameter) {
+  public LombokLightClassBuilder withParameterType(@Nonnull PsiTypeParameter psiTypeParameter) {
     getTypeParameterList().addParameter(psiTypeParameter);
     return this;
   }

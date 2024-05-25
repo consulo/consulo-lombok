@@ -1,7 +1,9 @@
 package de.plushnikov.intellij.plugin.processor.clazz;
 
-import com.intellij.openapi.application.ApplicationManager;
-import com.intellij.psi.*;
+import com.intellij.java.language.psi.*;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.language.psi.PsiElement;
+import consulo.lombok.processor.ProcessorUtil;
 import de.plushnikov.intellij.plugin.LombokClassNames;
 import de.plushnikov.intellij.plugin.problem.ProblemSink;
 import de.plushnikov.intellij.plugin.processor.LombokPsiElementUsage;
@@ -9,7 +11,7 @@ import de.plushnikov.intellij.plugin.processor.field.AccessorsInfo;
 import de.plushnikov.intellij.plugin.processor.field.GetterFieldProcessor;
 import de.plushnikov.intellij.plugin.thirdparty.LombokUtils;
 import de.plushnikov.intellij.plugin.util.*;
-import org.jetbrains.annotations.NotNull;
+import jakarta.annotation.Nonnull;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -21,17 +23,18 @@ import java.util.List;
  *
  * @author Plushnikov Michail
  */
+@ExtensionImpl
 public final class GetterProcessor extends AbstractClassProcessor {
   public GetterProcessor() {
     super(PsiMethod.class, LombokClassNames.GETTER);
   }
 
   private static GetterFieldProcessor getGetterFieldProcessor() {
-    return ApplicationManager.getApplication().getService(GetterFieldProcessor.class);
+    return ProcessorUtil.getProcessor(GetterFieldProcessor.class);
   }
 
   @Override
-  protected Collection<String> getNamesOfPossibleGeneratedElements(@NotNull PsiClass psiClass, @NotNull PsiAnnotation psiAnnotation) {
+  protected Collection<String> getNamesOfPossibleGeneratedElements(@Nonnull PsiClass psiClass, @Nonnull PsiAnnotation psiAnnotation) {
     Collection<String> result = new ArrayList<>();
 
     final AccessorsInfo.AccessorsValues classAccessorsValues = AccessorsInfo.getAccessorsValues(psiClass);
@@ -44,7 +47,7 @@ public final class GetterProcessor extends AbstractClassProcessor {
   }
 
   @Override
-  protected boolean validate(@NotNull PsiAnnotation psiAnnotation, @NotNull PsiClass psiClass, @NotNull ProblemSink builder) {
+  protected boolean validate(@Nonnull PsiAnnotation psiAnnotation, @Nonnull PsiClass psiClass, @Nonnull ProblemSink builder) {
     validateAnnotationOnRightType(psiClass, builder);
     validateVisibility(psiAnnotation, builder);
 
@@ -56,31 +59,31 @@ public final class GetterProcessor extends AbstractClassProcessor {
     return builder.success();
   }
 
-  private static void validateAnnotationOnRightType(@NotNull PsiClass psiClass, @NotNull ProblemSink builder) {
+  private static void validateAnnotationOnRightType(@Nonnull PsiClass psiClass, @Nonnull ProblemSink builder) {
     if (psiClass.isAnnotationType() || psiClass.isInterface()) {
       builder.addErrorMessage("inspection.message.getter.only.supported.on.class.enum.or.field.type");
       builder.markFailed();
     }
   }
 
-  private static void validateVisibility(@NotNull PsiAnnotation psiAnnotation, @NotNull ProblemSink builder) {
+  private static void validateVisibility(@Nonnull PsiAnnotation psiAnnotation, @Nonnull ProblemSink builder) {
     if (null == LombokProcessorUtil.getMethodModifier(psiAnnotation)) {
       builder.markFailed();
     }
   }
 
   @Override
-  protected void generatePsiElements(@NotNull PsiClass psiClass,
-                                     @NotNull PsiAnnotation psiAnnotation,
-                                     @NotNull List<? super PsiElement> target) {
+  protected void generatePsiElements(@Nonnull PsiClass psiClass,
+                                     @Nonnull PsiAnnotation psiAnnotation,
+                                     @Nonnull List<? super PsiElement> target) {
     final String methodVisibility = LombokProcessorUtil.getMethodModifier(psiAnnotation);
     if (methodVisibility != null) {
       target.addAll(createFieldGetters(psiClass, methodVisibility));
     }
   }
 
-  @NotNull
-  public Collection<PsiMethod> createFieldGetters(@NotNull PsiClass psiClass, @NotNull String methodModifier) {
+  @Nonnull
+  public Collection<PsiMethod> createFieldGetters(@Nonnull PsiClass psiClass, @Nonnull String methodModifier) {
     Collection<PsiMethod> result = new ArrayList<>();
     final Collection<PsiField> getterFields = filterGetterFields(psiClass);
     GetterFieldProcessor fieldProcessor = getGetterFieldProcessor();
@@ -90,8 +93,8 @@ public final class GetterProcessor extends AbstractClassProcessor {
     return result;
   }
 
-  @NotNull
-  private Collection<PsiField> filterGetterFields(@NotNull PsiClass psiClass) {
+  @Nonnull
+  private Collection<PsiField> filterGetterFields(@Nonnull PsiClass psiClass) {
     final Collection<PsiField> getterFields = new ArrayList<>();
 
     final Collection<PsiMethod> classMethods = PsiClassUtil.collectClassMethodsIntern(psiClass);
@@ -126,7 +129,7 @@ public final class GetterProcessor extends AbstractClassProcessor {
   }
 
   @Override
-  public LombokPsiElementUsage checkFieldUsage(@NotNull PsiField psiField, @NotNull PsiAnnotation psiAnnotation) {
+  public LombokPsiElementUsage checkFieldUsage(@Nonnull PsiField psiField, @Nonnull PsiAnnotation psiAnnotation) {
     final PsiClass containingClass = psiField.getContainingClass();
     if (null != containingClass) {
       if (PsiClassUtil.getNames(filterGetterFields(containingClass)).contains(psiField.getName())) {

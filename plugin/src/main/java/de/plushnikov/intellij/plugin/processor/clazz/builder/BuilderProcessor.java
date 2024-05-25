@@ -1,8 +1,10 @@
 package de.plushnikov.intellij.plugin.processor.clazz.builder;
 
-import com.intellij.openapi.application.ApplicationManager;
-import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.psi.*;
+import com.intellij.java.language.psi.*;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.language.psi.PsiElement;
+import consulo.lombok.processor.ProcessorUtil;
+import consulo.util.lang.StringUtil;
 import de.plushnikov.intellij.plugin.LombokClassNames;
 import de.plushnikov.intellij.plugin.problem.ProblemSink;
 import de.plushnikov.intellij.plugin.processor.LombokPsiElementUsage;
@@ -11,7 +13,7 @@ import de.plushnikov.intellij.plugin.processor.clazz.constructor.AllArgsConstruc
 import de.plushnikov.intellij.plugin.processor.handler.BuilderHandler;
 import de.plushnikov.intellij.plugin.util.PsiAnnotationSearchUtil;
 import de.plushnikov.intellij.plugin.util.PsiClassUtil;
-import org.jetbrains.annotations.NotNull;
+import jakarta.annotation.Nonnull;
 
 import java.util.Collection;
 import java.util.List;
@@ -23,6 +25,7 @@ import java.util.List;
  * @author Tomasz Kalkosiński
  * @author Michail Plushnikov
  */
+@ExtensionImpl
 public class BuilderProcessor extends AbstractClassProcessor {
 
   static final String SINGULAR_CLASS = LombokClassNames.SINGULAR;
@@ -37,11 +40,11 @@ public class BuilderProcessor extends AbstractClassProcessor {
   }
 
   private static AllArgsConstructorProcessor getAllArgsConstructorProcessor() {
-    return ApplicationManager.getApplication().getService(AllArgsConstructorProcessor.class);
+    return ProcessorUtil.getProcessor(AllArgsConstructorProcessor.class);
   }
 
   @Override
-  protected Collection<String> getNamesOfPossibleGeneratedElements(@NotNull PsiClass psiClass, @NotNull PsiAnnotation psiAnnotation) {
+  protected Collection<String> getNamesOfPossibleGeneratedElements(@Nonnull PsiClass psiClass, @Nonnull PsiAnnotation psiAnnotation) {
     final BuilderHandler builderHandler = getBuilderHandler();
 
     final String builderMethodName = builderHandler.getBuilderMethodName(psiAnnotation);
@@ -49,16 +52,16 @@ public class BuilderProcessor extends AbstractClassProcessor {
     return List.of(builderMethodName, BuilderHandler.TO_BUILDER_METHOD_NAME, constructorName);
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  public Collection<PsiAnnotation> collectProcessedAnnotations(@NotNull PsiClass psiClass) {
+  public Collection<PsiAnnotation> collectProcessedAnnotations(@Nonnull PsiClass psiClass) {
     final Collection<PsiAnnotation> result = super.collectProcessedAnnotations(psiClass);
     addJacksonizedAnnotation(psiClass, result);
     addFieldsAnnotation(result, psiClass, SINGULAR_CLASS, BUILDER_DEFAULT_CLASS);
     return result;
   }
 
-  private static void addJacksonizedAnnotation(@NotNull PsiClass psiClass, Collection<PsiAnnotation> result) {
+  private static void addJacksonizedAnnotation(@Nonnull PsiClass psiClass, Collection<PsiAnnotation> result) {
     final PsiAnnotation jacksonizedAnnotation = PsiAnnotationSearchUtil.findAnnotation(psiClass, LombokClassNames.JACKSONIZED);
     if(null!=jacksonizedAnnotation) {
       result.add(jacksonizedAnnotation);
@@ -66,13 +69,13 @@ public class BuilderProcessor extends AbstractClassProcessor {
   }
 
   @Override
-  protected boolean validate(@NotNull PsiAnnotation psiAnnotation, @NotNull PsiClass psiClass, @NotNull ProblemSink builder) {
+  protected boolean validate(@Nonnull PsiAnnotation psiAnnotation, @Nonnull PsiClass psiClass, @Nonnull ProblemSink builder) {
     // we skip validation here, because it will be validated by other BuilderClassProcessor
     return true;//builderHandler.validate(psiClass, psiAnnotation, builder);
   }
 
   @Override
-  protected void generatePsiElements(@NotNull PsiClass psiClass, @NotNull PsiAnnotation psiAnnotation, @NotNull List<? super PsiElement> target) {
+  protected void generatePsiElements(@Nonnull PsiClass psiClass, @Nonnull PsiAnnotation psiAnnotation, @Nonnull List<? super PsiElement> target) {
     if (!psiClass.isRecord()) {
       if (PsiAnnotationSearchUtil.isNotAnnotatedWith(psiClass, LombokClassNames.ALL_ARGS_CONSTRUCTOR,
         LombokClassNames.REQUIRED_ARGS_CONSTRUCTOR, LombokClassNames.NO_ARGS_CONSTRUCTOR)) {
@@ -100,7 +103,7 @@ public class BuilderProcessor extends AbstractClassProcessor {
   }
 
   @Override
-  public LombokPsiElementUsage checkFieldUsage(@NotNull PsiField psiField, @NotNull PsiAnnotation psiAnnotation) {
+  public LombokPsiElementUsage checkFieldUsage(@Nonnull PsiField psiField, @Nonnull PsiAnnotation psiAnnotation) {
     return LombokPsiElementUsage.READ_WRITE;
   }
 }

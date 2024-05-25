@@ -1,22 +1,19 @@
 package de.plushnikov.intellij.plugin.action.inline;
 
-import com.intellij.lang.java.JavaLanguage;
-import com.intellij.openapi.editor.Editor;
-import com.intellij.openapi.project.Project;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiMethod;
-import com.intellij.refactoring.inline.JavaInlineActionHandler;
+import com.intellij.java.impl.refactoring.inline.InlineMethodHandler;
+import com.intellij.java.impl.refactoring.inline.JavaInlineActionHandler;
+import com.intellij.java.language.JavaLanguage;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.codeEditor.Editor;
+import consulo.language.psi.PsiElement;
+import consulo.project.Project;
 import de.plushnikov.intellij.plugin.psi.LombokLightMethodBuilder;
-
-import static com.intellij.refactoring.inline.InlineMethodHandler.performInline;
 
 /**
  * Custom InlineMethodHandler to support lombok generated methods
  */
+@ExtensionImpl
 public class LombokInlineMethodHandler extends JavaInlineActionHandler {
-
-  private LombokInlineMethodHandler() {
-  }
 
   @Override
   public boolean canInlineElement(PsiElement element) {
@@ -25,6 +22,8 @@ public class LombokInlineMethodHandler extends JavaInlineActionHandler {
 
   @Override
   public void inlineElement(final Project project, Editor editor, PsiElement element) {
-    performInline(project, editor, (PsiMethod) element, true);
+    InlineMethodHandler handler = new InlineMethodHandler();
+
+    handler.inlineElement(project, editor, element);
   }
 }

@@ -1,10 +1,10 @@
 package de.plushnikov.intellij.plugin.intention.valvar.to;
 
-import com.intellij.psi.*;
+import com.intellij.java.language.psi.*;
 import de.plushnikov.intellij.plugin.LombokClassNames;
-import org.jetbrains.annotations.NotNull;
+import jakarta.annotation.Nonnull;
 
-import static com.intellij.psi.PsiModifier.FINAL;
+import static com.intellij.java.language.psi.PsiModifier.FINAL;
 
 public class ReplaceExplicitTypeWithValIntentionAction extends AbstractReplaceExplicitTypeWithVariableIntentionAction {
 
@@ -13,7 +13,7 @@ public class ReplaceExplicitTypeWithValIntentionAction extends AbstractReplaceEx
   }
 
   @Override
-  protected boolean isAvailableOnDeclarationCustom(@NotNull PsiDeclarationStatement declarationStatement, @NotNull PsiLocalVariable localVariable) {
+  protected boolean isAvailableOnDeclarationCustom(@Nonnull PsiDeclarationStatement declarationStatement, @Nonnull PsiLocalVariable localVariable) {
     return !(declarationStatement.getParent() instanceof PsiForStatement);
   }
 

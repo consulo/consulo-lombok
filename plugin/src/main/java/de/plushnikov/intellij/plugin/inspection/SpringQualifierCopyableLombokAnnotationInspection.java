@@ -1,6 +1,7 @@
 package de.plushnikov.intellij.plugin.inspection;
 
 import com.intellij.java.language.psi.*;
+import consulo.annotation.component.ExtensionImpl;
 import consulo.language.editor.inspection.ProblemHighlightType;
 import consulo.language.editor.inspection.ProblemsHolder;
 import consulo.language.psi.PsiElement;
@@ -10,20 +11,27 @@ import de.plushnikov.intellij.plugin.LombokClassNames;
 import de.plushnikov.intellij.plugin.lombokconfig.ConfigDiscovery;
 import de.plushnikov.intellij.plugin.lombokconfig.ConfigKey;
 import de.plushnikov.intellij.plugin.util.PsiAnnotationSearchUtil;
-import org.jetbrains.annotations.NotNull;
+import jakarta.annotation.Nonnull;
 
 import java.util.Collection;
 
 /**
  * @author Plushnikov Michail
  */
+@ExtensionImpl
 public class SpringQualifierCopyableLombokAnnotationInspection extends LombokJavaInspectionBase {
 
   private static final String SPRING_QUALIFIER_FQN = "org.springframework.beans.factory.annotation.Qualifier";
 
-  @NotNull
+  @Nonnull
   @Override
-  protected PsiElementVisitor createVisitor(@NotNull final ProblemsHolder holder, final boolean isOnTheFly) {
+  public String getDisplayName() {
+    return LombokBundle.message("inspection.springqualifiercopyable.lombok.display.name");
+  }
+
+  @Nonnull
+  @Override
+  protected PsiElementVisitor createVisitor(@Nonnull final ProblemsHolder holder, final boolean isOnTheFly) {
     return new LombokElementVisitor(holder);
   }
 
@@ -35,7 +43,7 @@ public class SpringQualifierCopyableLombokAnnotationInspection extends LombokJav
     }
 
     @Override
-    public void visitAnnotation(final @NotNull PsiAnnotation annotation) {
+    public void visitAnnotation(final @Nonnull PsiAnnotation annotation) {
       if (annotation.hasQualifiedName(SPRING_QUALIFIER_FQN)) {
 
         PsiAnnotationOwner annotationOwner = annotation.getOwner();

@@ -1,14 +1,14 @@
 package de.plushnikov.intellij.plugin.processor.handler.singular;
 
-import com.intellij.psi.*;
+import com.intellij.java.language.psi.*;
 import de.plushnikov.intellij.plugin.processor.handler.BuilderInfo;
 import de.plushnikov.intellij.plugin.psi.LombokLightFieldBuilder;
 import de.plushnikov.intellij.plugin.psi.LombokLightMethodBuilder;
 import de.plushnikov.intellij.plugin.thirdparty.CapitalizationStrategy;
 import de.plushnikov.intellij.plugin.thirdparty.LombokCopyableAnnotations;
 import de.plushnikov.intellij.plugin.thirdparty.LombokUtils;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -23,7 +23,7 @@ class NonSingularHandler implements BuilderElementHandler {
   }
 
   @Override
-  public Collection<PsiField> renderBuilderFields(@NotNull BuilderInfo info) {
+  public Collection<PsiField> renderBuilderFields(@Nonnull BuilderInfo info) {
     Collection<PsiField> result = new ArrayList<>();
     result.add(new LombokLightFieldBuilder(info.getManager(), info.renderFieldName(), info.getFieldType())
                  .withContainingClass(info.getBuilderClass())
@@ -39,7 +39,7 @@ class NonSingularHandler implements BuilderElementHandler {
   }
 
   @Override
-  public Collection<PsiMethod> renderBuilderMethod(@NotNull BuilderInfo info) {
+  public Collection<PsiMethod> renderBuilderMethod(@Nonnull BuilderInfo info) {
     final String blockText = getAllMethodBody(info);
     final String methodName = calcBuilderMethodName(info);
     final LombokLightMethodBuilder methodBuilder = new LombokLightMethodBuilder(info.getManager(), methodName)
@@ -60,7 +60,7 @@ class NonSingularHandler implements BuilderElementHandler {
   }
 
   @Override
-  public List<String> getBuilderMethodNames(@NotNull String fieldName, @NotNull String prefix, @Nullable PsiAnnotation singularAnnotation,
+  public List<String> getBuilderMethodNames(@Nonnull String fieldName, @Nonnull String prefix, @Nullable PsiAnnotation singularAnnotation,
                                             CapitalizationStrategy capitalizationStrategy) {
     return Collections.singletonList(LombokUtils.buildAccessorName(prefix, fieldName, capitalizationStrategy));
   }
@@ -70,7 +70,7 @@ class NonSingularHandler implements BuilderElementHandler {
     return psiFieldName;
   }
 
-  private static String getAllMethodBody(@NotNull BuilderInfo info) {
+  private static String getAllMethodBody(@Nonnull BuilderInfo info) {
     StringBuilder codeBlockTemplate = new StringBuilder("this.{0} = {1};\n");
     if (info.hasBuilderDefaultAnnotation()) {
       codeBlockTemplate.append("this.{2} = true;\n");
@@ -81,7 +81,7 @@ class NonSingularHandler implements BuilderElementHandler {
   }
 
   @Override
-  public String renderBuildPrepare(@NotNull BuilderInfo info) {
+  public String renderBuildPrepare(@Nonnull BuilderInfo info) {
     if (info.hasBuilderDefaultAnnotation()) {
       return MessageFormat.format(
         """
@@ -97,7 +97,7 @@ class NonSingularHandler implements BuilderElementHandler {
   }
 
   @Override
-  public String renderBuildCall(@NotNull BuilderInfo info) {
+  public String renderBuildCall(@Nonnull BuilderInfo info) {
     if (info.hasBuilderDefaultAnnotation()) {
       return info.renderFieldName();
     }

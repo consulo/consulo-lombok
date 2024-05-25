@@ -1,10 +1,11 @@
 package de.plushnikov.intellij.plugin.processor.handler;
 
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.psi.*;
-import com.intellij.psi.impl.PsiImplUtil;
-import com.intellij.psi.impl.source.PsiClassReferenceType;
+import com.intellij.java.language.impl.psi.impl.PsiImplUtil;
+import com.intellij.java.language.impl.psi.impl.source.PsiClassReferenceType;
+import com.intellij.java.language.psi.*;
+import consulo.language.psi.PsiManager;
+import consulo.project.Project;
+import consulo.util.lang.StringUtil;
 import de.plushnikov.intellij.plugin.LombokClassNames;
 import de.plushnikov.intellij.plugin.lombokconfig.LombokNullAnnotationLibrary;
 import de.plushnikov.intellij.plugin.lombokconfig.LombokNullAnnotationLibraryDefned;
@@ -16,7 +17,7 @@ import de.plushnikov.intellij.plugin.thirdparty.LombokUtils;
 import de.plushnikov.intellij.plugin.util.PsiAnnotationSearchUtil;
 import de.plushnikov.intellij.plugin.util.PsiAnnotationUtil;
 import de.plushnikov.intellij.plugin.util.PsiClassUtil;
-import org.jetbrains.annotations.NotNull;
+import jakarta.annotation.Nonnull;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -56,7 +57,7 @@ public class BuilderInfo {
 
   private LombokNullAnnotationLibrary nullAnnotationLibrary;
 
-  public static BuilderInfo fromPsiParameter(@NotNull PsiParameter psiParameter) {
+  public static BuilderInfo fromPsiParameter(@Nonnull PsiParameter psiParameter) {
     final BuilderInfo result = new BuilderInfo();
 
     result.variableInClass = psiParameter;
@@ -75,11 +76,11 @@ public class BuilderInfo {
     return result;
   }
 
-  private static boolean hasDeprecatedAnnotation(@NotNull PsiModifierListOwner modifierListOwner) {
+  private static boolean hasDeprecatedAnnotation(@Nonnull PsiModifierListOwner modifierListOwner) {
     return PsiAnnotationSearchUtil.isAnnotatedWith(modifierListOwner, Deprecated.class.getName());
   }
 
-  public static BuilderInfo fromPsiField(@NotNull PsiField psiField) {
+  public static BuilderInfo fromPsiField(@Nonnull PsiField psiField) {
     final BuilderInfo result = new BuilderInfo();
 
     result.variableInClass = psiField;
@@ -99,7 +100,7 @@ public class BuilderInfo {
     return result;
   }
 
-  public static BuilderInfo fromPsiRecordComponent(@NotNull PsiRecordComponent psiRecordComponent) {
+  public static BuilderInfo fromPsiRecordComponent(@Nonnull PsiRecordComponent psiRecordComponent) {
     final BuilderInfo result = new BuilderInfo();
 
     result.variableInClass = psiRecordComponent;
@@ -118,11 +119,11 @@ public class BuilderInfo {
     return result;
   }
 
-  private static boolean isDeprecated(@NotNull PsiField psiField) {
+  private static boolean isDeprecated(@Nonnull PsiField psiField) {
     return PsiImplUtil.isDeprecatedByDocTag(psiField) || hasDeprecatedAnnotation(psiField);
   }
 
-  public BuilderInfo withSubstitutor(@NotNull PsiSubstitutor builderSubstitutor) {
+  public BuilderInfo withSubstitutor(@Nonnull PsiSubstitutor builderSubstitutor) {
     fieldInBuilderType = builderSubstitutor.substitute(fieldInBuilderType);
     return this;
   }
@@ -137,18 +138,18 @@ public class BuilderInfo {
     return this;
   }
 
-  public BuilderInfo withBuilderClass(@NotNull PsiClass builderClass) {
+  public BuilderInfo withBuilderClass(@Nonnull PsiClass builderClass) {
     this.builderClass = builderClass;
     this.builderClassType = PsiClassUtil.getTypeWithGenerics(builderClass);
     return this;
   }
 
-  public BuilderInfo withBuilderClassType(@NotNull PsiClassType builderClassType) {
+  public BuilderInfo withBuilderClassType(@Nonnull PsiClassType builderClassType) {
     this.builderClassType = builderClassType;
     return this;
   }
 
-  public BuilderInfo withBuilderChainResult(@NotNull String builderChainResult) {
+  public BuilderInfo withBuilderChainResult(@Nonnull String builderChainResult) {
     this.builderChainResult = builderChainResult;
     return this;
   }

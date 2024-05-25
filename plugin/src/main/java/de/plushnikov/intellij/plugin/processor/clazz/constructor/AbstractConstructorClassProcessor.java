@@ -1,13 +1,14 @@
 package de.plushnikov.intellij.plugin.processor.clazz.constructor;
 
-import com.intellij.codeInsight.daemon.impl.quickfix.SafeDeleteFix;
-import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.psi.*;
-import com.intellij.psi.impl.RecordAugmentProvider;
-import com.intellij.psi.impl.light.LightReferenceListBuilder;
-import com.intellij.psi.impl.light.LightTypeParameterBuilder;
-import com.intellij.psi.util.PsiTypesUtil;
-import com.intellij.util.containers.ContainerUtil;
+import com.intellij.java.impl.codeInsight.daemon.impl.quickfix.SafeDeleteFix;
+import com.intellij.java.language.impl.psi.impl.RecordAugmentProvider;
+import com.intellij.java.language.impl.psi.impl.light.LightReferenceListBuilder;
+import com.intellij.java.language.impl.psi.impl.light.LightTypeParameterBuilder;
+import com.intellij.java.language.psi.*;
+import com.intellij.java.language.psi.util.PsiTypesUtil;
+import consulo.language.psi.PsiElement;
+import consulo.util.collection.ContainerUtil;
+import consulo.util.lang.StringUtil;
 import de.plushnikov.intellij.plugin.LombokClassNames;
 import de.plushnikov.intellij.plugin.lombokconfig.ConfigKey;
 import de.plushnikov.intellij.plugin.problem.ProblemProcessingSink;
@@ -20,8 +21,8 @@ import de.plushnikov.intellij.plugin.thirdparty.LombokAddNullAnnotations;
 import de.plushnikov.intellij.plugin.thirdparty.LombokCopyableAnnotations;
 import de.plushnikov.intellij.plugin.thirdparty.LombokUtils;
 import de.plushnikov.intellij.plugin.util.*;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -34,18 +35,18 @@ import java.util.stream.Collectors;
 public abstract class AbstractConstructorClassProcessor extends AbstractClassProcessor {
   private static final String BUILDER_DEFAULT_ANNOTATION = LombokClassNames.BUILDER_DEFAULT;
 
-  AbstractConstructorClassProcessor(@NotNull String supportedAnnotationClass,
-                                    @NotNull Class<? extends PsiElement> supportedClass) {
+  AbstractConstructorClassProcessor(@Nonnull String supportedAnnotationClass,
+                                    @Nonnull Class<? extends PsiElement> supportedClass) {
     super(supportedClass, supportedAnnotationClass);
   }
 
   @Override
-  public Collection<String> getNamesOfPossibleGeneratedElements(@NotNull PsiClass psiClass, @NotNull PsiAnnotation psiAnnotation) {
+  public Collection<String> getNamesOfPossibleGeneratedElements(@Nonnull PsiClass psiClass, @Nonnull PsiAnnotation psiAnnotation) {
     return List.of(getConstructorName(psiClass), getStaticConstructorName(psiAnnotation));
   }
 
   @Override
-  protected boolean validate(@NotNull PsiAnnotation psiAnnotation, @NotNull PsiClass psiClass, @NotNull ProblemSink builder) {
+  protected boolean validate(@Nonnull PsiAnnotation psiAnnotation, @Nonnull PsiClass psiClass, @Nonnull ProblemSink builder) {
     boolean result = true;
     if (!validateAnnotationOnRightType(psiClass, builder)) {
       result = false;
@@ -60,12 +61,12 @@ public abstract class AbstractConstructorClassProcessor extends AbstractClassPro
     return result;
   }
 
-  private static boolean validateVisibility(@NotNull PsiAnnotation psiAnnotation) {
+  private static boolean validateVisibility(@Nonnull PsiAnnotation psiAnnotation) {
     final String visibility = LombokProcessorUtil.getAccessVisibility(psiAnnotation);
     return null != visibility;
   }
 
-  private static boolean validateAnnotationOnRightType(@NotNull PsiClass psiClass, @NotNull ProblemSink builder) {
+  private static boolean validateAnnotationOnRightType(@Nonnull PsiClass psiClass, @Nonnull ProblemSink builder) {
     boolean result = true;
     if (psiClass.isAnnotationType() || psiClass.isInterface()) {
       builder.addErrorMessage("inspection.message.annotation.only.supported.on.class.or.enum.type");
@@ -74,7 +75,7 @@ public abstract class AbstractConstructorClassProcessor extends AbstractClassPro
     return result;
   }
 
-  public boolean validateBaseClassConstructor(@NotNull PsiClass psiClass, @NotNull ProblemSink builder) {
+  public boolean validateBaseClassConstructor(@Nonnull PsiClass psiClass, @Nonnull ProblemSink builder) {
     if (psiClass instanceof PsiAnonymousClass || psiClass.isEnum()) {
       return true;
     }
@@ -97,10 +98,10 @@ public abstract class AbstractConstructorClassProcessor extends AbstractClassPro
     return false;
   }
 
-  private static boolean validateIsStaticConstructorNotDefined(@NotNull PsiClass psiClass,
+  private static boolean validateIsStaticConstructorNotDefined(@Nonnull PsiClass psiClass,
                                                                @Nullable String staticConstructorName,
-                                                               @NotNull Collection<PsiField> params,
-                                                               @NotNull ProblemSink builder) {
+                                                               @Nonnull Collection<PsiField> params,
+                                                               @Nonnull ProblemSink builder) {
     boolean result = true;
 
     final List<PsiType> paramTypes = new ArrayList<>(params.size());
@@ -129,15 +130,15 @@ public abstract class AbstractConstructorClassProcessor extends AbstractClassPro
     return result;
   }
 
-  public boolean validateIsConstructorNotDefined(@NotNull PsiClass psiClass, @Nullable String staticConstructorName,
-                                                 @NotNull Collection<PsiField> params, @NotNull ProblemSink builder) {
+  public boolean validateIsConstructorNotDefined(@Nonnull PsiClass psiClass, @Nullable String staticConstructorName,
+                                                 @Nonnull Collection<PsiField> params, @Nonnull ProblemSink builder) {
     // Constructor not defined or static constructor not defined
     return validateIsConstructorNotDefined(psiClass, params, builder) ||
            validateIsStaticConstructorNotDefined(psiClass, staticConstructorName, params, builder);
   }
 
-  private boolean validateIsConstructorNotDefined(@NotNull PsiClass psiClass, @NotNull Collection<PsiField> params,
-                                                  @NotNull ProblemSink builder) {
+  private boolean validateIsConstructorNotDefined(@Nonnull PsiClass psiClass, @Nonnull Collection<PsiField> params,
+                                                  @Nonnull ProblemSink builder) {
     boolean result = true;
 
     final List<PsiType> paramTypes = ContainerUtil.map(params, PsiField::getType);
@@ -160,8 +161,8 @@ public abstract class AbstractConstructorClassProcessor extends AbstractClassPro
     return result;
   }
 
-  @NotNull
-  public String getConstructorName(@NotNull PsiClass psiClass) {
+  @Nonnull
+  public String getConstructorName(@Nonnull PsiClass psiClass) {
     return StringUtil.notNullize(psiClass.getName());
   }
 
@@ -177,8 +178,8 @@ public abstract class AbstractConstructorClassProcessor extends AbstractClassPro
     return null;
   }
 
-  @NotNull
-  protected static Collection<PsiField> getAllNotInitializedAndNotStaticFields(@NotNull PsiClass psiClass) {
+  @Nonnull
+  protected static Collection<PsiField> getAllNotInitializedAndNotStaticFields(@Nonnull PsiClass psiClass) {
     Collection<PsiField> allNotInitializedNotStaticFields = new ArrayList<>();
     final boolean classAnnotatedWithValue = PsiAnnotationSearchUtil.isAnnotatedWith(psiClass, LombokClassNames.VALUE);
     Collection<PsiField> fields = psiClass.isRecord() ? RecordAugmentProvider.getFieldAugments(psiClass)
@@ -205,18 +206,18 @@ public abstract class AbstractConstructorClassProcessor extends AbstractClassPro
     return allNotInitializedNotStaticFields;
   }
 
-  @NotNull
-  public static Collection<PsiField> getAllFields(@NotNull PsiClass psiClass) {
+  @Nonnull
+  public static Collection<PsiField> getAllFields(@Nonnull PsiClass psiClass) {
     return getAllNotInitializedAndNotStaticFields(psiClass);
   }
 
-  @NotNull
-  public Collection<PsiField> getRequiredFields(@NotNull PsiClass psiClass) {
+  @Nonnull
+  public Collection<PsiField> getRequiredFields(@Nonnull PsiClass psiClass) {
     return getRequiredFields(psiClass, false);
   }
 
-  @NotNull
-  Collection<PsiField> getRequiredFields(@NotNull PsiClass psiClass, boolean ignoreNonNull) {
+  @Nonnull
+  Collection<PsiField> getRequiredFields(@Nonnull PsiClass psiClass, boolean ignoreNonNull) {
     Collection<PsiField> result = new ArrayList<>();
     final boolean classAnnotatedWithValue = PsiAnnotationSearchUtil.isAnnotatedWith(psiClass, LombokClassNames.VALUE);
 
@@ -234,7 +235,7 @@ public abstract class AbstractConstructorClassProcessor extends AbstractClassPro
     return result;
   }
 
-  private static boolean isFieldFinal(@NotNull PsiField psiField, @NotNull PsiModifierList modifierList, boolean classAnnotatedWithValue) {
+  private static boolean isFieldFinal(@Nonnull PsiField psiField, @Nonnull PsiModifierList modifierList, boolean classAnnotatedWithValue) {
     boolean isFinal = modifierList.hasModifierProperty(PsiModifier.FINAL);
     if (!isFinal && classAnnotatedWithValue) {
       isFinal = PsiAnnotationSearchUtil.isNotAnnotatedWith(psiField, LombokClassNames.NON_FINAL);
@@ -242,18 +243,18 @@ public abstract class AbstractConstructorClassProcessor extends AbstractClassPro
     return isFinal;
   }
 
-  @NotNull
-  protected Collection<PsiMethod> createConstructorMethod(@NotNull PsiClass psiClass,
-                                                          @PsiModifier.ModifierConstant @NotNull String methodModifier,
-                                                          @NotNull PsiAnnotation psiAnnotation,
+  @Nonnull
+  protected Collection<PsiMethod> createConstructorMethod(@Nonnull PsiClass psiClass,
+                                                          @PsiModifier.ModifierConstant @Nonnull String methodModifier,
+                                                          @Nonnull PsiAnnotation psiAnnotation,
                                                           boolean useJavaDefaults,
-                                                          @NotNull Collection<PsiField> params) {
+                                                          @Nonnull Collection<PsiField> params) {
     final String staticName = getStaticConstructorName(psiAnnotation);
 
     return createConstructorMethod(psiClass, methodModifier, psiAnnotation, useJavaDefaults, params, staticName, false);
   }
 
-  protected String getStaticConstructorName(@NotNull PsiAnnotation psiAnnotation) {
+  protected String getStaticConstructorName(@Nonnull PsiAnnotation psiAnnotation) {
     return PsiAnnotationUtil.getStringAnnotationValue(psiAnnotation, "staticName", "");
   }
 
@@ -261,11 +262,11 @@ public abstract class AbstractConstructorClassProcessor extends AbstractClassPro
     return !StringUtil.isEmptyOrSpaces(staticName);
   }
 
-  @NotNull
-  protected Collection<PsiMethod> createConstructorMethod(@NotNull PsiClass psiClass,
-                                                          @PsiModifier.ModifierConstant @NotNull String methodModifier,
-                                                          @NotNull PsiAnnotation psiAnnotation, boolean useJavaDefaults,
-                                                          @NotNull Collection<PsiField> params, @Nullable String staticName,
+  @Nonnull
+  protected Collection<PsiMethod> createConstructorMethod(@Nonnull PsiClass psiClass,
+                                                          @PsiModifier.ModifierConstant @Nonnull String methodModifier,
+                                                          @Nonnull PsiAnnotation psiAnnotation, boolean useJavaDefaults,
+                                                          @Nonnull Collection<PsiField> params, @Nullable String staticName,
                                                           boolean skipConstructorIfAnyConstructorExists) {
     List<PsiMethod> methods = new ArrayList<>();
 
@@ -294,14 +295,14 @@ public abstract class AbstractConstructorClassProcessor extends AbstractClassPro
     return methods;
   }
 
-  private static boolean isAnyConstructorDefined(@NotNull PsiClass psiClass) {
+  private static boolean isAnyConstructorDefined(@Nonnull PsiClass psiClass) {
     Collection<PsiMethod> constructors = PsiClassUtil.collectClassConstructorIntern(psiClass);
     return ContainerUtil.exists(constructors,
                                 psiMethod -> PsiAnnotationSearchUtil.isNotAnnotatedWith(psiMethod, LombokClassNames.TOLERATE));
   }
 
-  private PsiMethod createConstructor(@NotNull PsiClass psiClass, @PsiModifier.ModifierConstant @NotNull String modifier,
-                                      boolean useJavaDefaults, @NotNull Collection<PsiField> params, @NotNull PsiAnnotation psiAnnotation) {
+  private PsiMethod createConstructor(@Nonnull PsiClass psiClass, @PsiModifier.ModifierConstant @Nonnull String modifier,
+                                      boolean useJavaDefaults, @Nonnull Collection<PsiField> params, @Nonnull PsiAnnotation psiAnnotation) {
     LombokLightMethodBuilder constructorBuilder = new LombokLightMethodBuilder(psiClass.getManager(), getConstructorName(psiClass))
       .withConstructor(true)
       .withContainingClass(psiClass)
@@ -411,7 +412,7 @@ public abstract class AbstractConstructorClassProcessor extends AbstractClassPro
     return methodBuilder;
   }
 
-  @NotNull
+  @Nonnull
   private static LightTypeParameterBuilder createTypeParameter(LombokLightMethodBuilder method,
                                                                int index,
                                                                PsiTypeParameter psiClassTypeParameter) {
@@ -425,10 +426,10 @@ public abstract class AbstractConstructorClassProcessor extends AbstractClassPro
     return result;
   }
 
-  @NotNull
-  private static String createStaticCodeBlockText(@NotNull PsiType psiType,
+  @Nonnull
+  private static String createStaticCodeBlockText(@Nonnull PsiType psiType,
                                                   boolean useJavaDefaults,
-                                                  @NotNull final PsiParameterList parameterList) {
+                                                  @Nonnull final PsiParameterList parameterList) {
     final String psiClassName = psiType.getPresentableText();
     final String paramsText = useJavaDefaults ? "" : joinParameters(parameterList);
     return String.format("return new %s(%s);", psiClassName, paramsText);

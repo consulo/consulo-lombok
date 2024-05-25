@@ -1,8 +1,10 @@
 package de.plushnikov.intellij.plugin.processor.clazz.log;
 
-import com.intellij.java.language.psi.PsiAnnotation;
-import com.intellij.java.language.psi.PsiClass;
-import com.intellij.java.language.psi.PsiField;
+import com.intellij.java.language.psi.*;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.PsiManager;
+import consulo.project.Project;
+import consulo.util.lang.StringUtil;
 import de.plushnikov.intellij.plugin.lombokconfig.ConfigDiscovery;
 import de.plushnikov.intellij.plugin.lombokconfig.ConfigKey;
 import de.plushnikov.intellij.plugin.problem.ProblemSink;
@@ -10,8 +12,8 @@ import de.plushnikov.intellij.plugin.processor.clazz.AbstractClassProcessor;
 import de.plushnikov.intellij.plugin.psi.LombokLightFieldBuilder;
 import de.plushnikov.intellij.plugin.util.PsiAnnotationUtil;
 import de.plushnikov.intellij.plugin.util.PsiClassUtil;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -30,8 +32,8 @@ public abstract class AbstractLogProcessor extends AbstractClassProcessor {
     NULL,
     UNKNOWN;
 
-    @NotNull
-    static LoggerInitializerParameter find(@NotNull String parameter) {
+    @Nonnull
+    static LoggerInitializerParameter find(@Nonnull String parameter) {
       return switch (parameter) {
         case "TYPE" -> TYPE;
         case "NAME" -> NAME;
@@ -42,21 +44,21 @@ public abstract class AbstractLogProcessor extends AbstractClassProcessor {
     }
   }
 
-  AbstractLogProcessor(@NotNull String supportedAnnotationClass) {
+  AbstractLogProcessor(@Nonnull String supportedAnnotationClass) {
     super(PsiField.class, supportedAnnotationClass);
   }
 
   @Override
-  protected Collection<String> getNamesOfPossibleGeneratedElements(@NotNull PsiClass psiClass, @NotNull PsiAnnotation psiAnnotation) {
+  protected Collection<String> getNamesOfPossibleGeneratedElements(@Nonnull PsiClass psiClass, @Nonnull PsiAnnotation psiAnnotation) {
     return Collections.singleton(getLoggerName(psiClass));
   }
 
-  @NotNull
-  public static String getLoggerName(@NotNull PsiClass psiClass) {
+  @Nonnull
+  public static String getLoggerName(@Nonnull PsiClass psiClass) {
     return ConfigDiscovery.getInstance().getStringLombokConfigProperty(ConfigKey.LOG_FIELDNAME, psiClass);
   }
 
-  public static boolean isLoggerStatic(@NotNull PsiClass psiClass) {
+  public static boolean isLoggerStatic(@Nonnull PsiClass psiClass) {
     return ConfigDiscovery.getInstance().getBooleanLombokConfigProperty(ConfigKey.LOG_FIELD_IS_STATIC, psiClass);
   }
 
@@ -64,22 +66,22 @@ public abstract class AbstractLogProcessor extends AbstractClassProcessor {
    * Nullable because it can be called before validation.
    */
   @Nullable
-  public abstract String getLoggerType(@NotNull PsiClass psiClass);
+  public abstract String getLoggerType(@Nonnull PsiClass psiClass);
 
   /**
    * Call only after validation.
    */
-  @NotNull
-  abstract String getLoggerInitializer(@NotNull PsiClass psiClass);
+  @Nonnull
+  abstract String getLoggerInitializer(@Nonnull PsiClass psiClass);
 
   /**
    * Call only after validation.
    */
-  @NotNull
-  abstract List<LoggerInitializerParameter> getLoggerInitializerParameters(@NotNull PsiClass psiClass, boolean topicPresent);
+  @Nonnull
+  abstract List<LoggerInitializerParameter> getLoggerInitializerParameters(@Nonnull PsiClass psiClass, boolean topicPresent);
 
   @Override
-  protected boolean validate(@NotNull PsiAnnotation psiAnnotation, @NotNull PsiClass psiClass, @NotNull ProblemSink builder) {
+  protected boolean validate(@Nonnull PsiAnnotation psiAnnotation, @Nonnull PsiClass psiClass, @Nonnull ProblemSink builder) {
     boolean result = true;
     if (psiClass.isInterface() || psiClass.isAnnotationType()) {
       builder.addErrorMessage("inspection.message.s.legal.only.on.classes.enums", getSupportedAnnotationClasses()[0]);
@@ -96,13 +98,13 @@ public abstract class AbstractLogProcessor extends AbstractClassProcessor {
   }
 
   @Override
-  protected void generatePsiElements(@NotNull PsiClass psiClass,
-                                     @NotNull PsiAnnotation psiAnnotation,
-                                     @NotNull List<? super PsiElement> target) {
+  protected void generatePsiElements(@Nonnull PsiClass psiClass,
+                                     @Nonnull PsiAnnotation psiAnnotation,
+                                     @Nonnull List<? super PsiElement> target) {
     target.add(createLoggerField(psiClass, psiAnnotation));
   }
 
-  private LombokLightFieldBuilder createLoggerField(@NotNull PsiClass psiClass, @NotNull PsiAnnotation psiAnnotation) {
+  private LombokLightFieldBuilder createLoggerField(@Nonnull PsiClass psiClass, @Nonnull PsiAnnotation psiAnnotation) {
     // called only after validation succeeded
     final Project project = psiClass.getProject();
     final PsiManager manager = psiClass.getContainingFile().getManager();
@@ -130,8 +132,8 @@ public abstract class AbstractLogProcessor extends AbstractClassProcessor {
     return loggerField;
   }
 
-  @NotNull
-  private String createLoggerInitializeParameters(@NotNull PsiClass psiClass, @NotNull PsiAnnotation psiAnnotation) {
+  @Nonnull
+  private String createLoggerInitializeParameters(@Nonnull PsiClass psiClass, @Nonnull PsiAnnotation psiAnnotation) {
     final StringBuilder parametersBuilder = new StringBuilder();
     final String topic = PsiAnnotationUtil.getStringAnnotationValue(psiAnnotation, "topic", "");
     final boolean topicPresent = !StringUtil.isEmptyOrSpaces(topic);
@@ -159,7 +161,7 @@ public abstract class AbstractLogProcessor extends AbstractClassProcessor {
     return parametersBuilder.toString();
   }
 
-  private static boolean hasFieldByName(@NotNull PsiClass psiClass, @NotNull String fieldName) {
+  private static boolean hasFieldByName(@Nonnull PsiClass psiClass, @Nonnull String fieldName) {
     final Collection<PsiField> psiFields = PsiClassUtil.collectClassFieldsIntern(psiClass);
     for (PsiField psiField : psiFields) {
       if (fieldName.equals(psiField.getName())) {

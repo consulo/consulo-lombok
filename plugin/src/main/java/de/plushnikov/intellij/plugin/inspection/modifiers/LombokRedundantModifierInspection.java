@@ -1,13 +1,15 @@
 package de.plushnikov.intellij.plugin.inspection.modifiers;
 
-import com.intellij.codeInspection.ProblemHighlightType;
-import com.intellij.codeInspection.ProblemsHolder;
-import com.intellij.psi.*;
-import com.intellij.psi.util.PsiTreeUtil;
-import com.siyeh.ig.fixes.RemoveModifierFix;
+import com.intellij.java.impl.ig.fixes.RemoveModifierFix;
+import com.intellij.java.language.psi.*;
+import consulo.language.editor.inspection.ProblemHighlightType;
+import consulo.language.editor.inspection.ProblemsHolder;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.PsiElementVisitor;
+import consulo.language.psi.util.PsiTreeUtil;
 import de.plushnikov.intellij.plugin.inspection.LombokJavaInspectionBase;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 import java.util.Arrays;
 import java.util.Optional;
@@ -22,9 +24,9 @@ public abstract class LombokRedundantModifierInspection extends LombokJavaInspec
     this.redundantModifiersInfo = redundantModifiersInfo;
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  protected PsiElementVisitor createVisitor(@NotNull ProblemsHolder holder, boolean isOnTheFly) {
+  protected PsiElementVisitor createVisitor(@Nonnull ProblemsHolder holder, boolean isOnTheFly) {
     return new LombokRedundantModifiersVisitor(holder);
   }
 
@@ -36,35 +38,35 @@ public abstract class LombokRedundantModifierInspection extends LombokJavaInspec
     }
 
     @Override
-    public void visitClass(@NotNull PsiClass aClass) {
+    public void visitClass(@Nonnull PsiClass aClass) {
       super.visitClass(aClass);
 
       this.visit(aClass);
     }
 
     @Override
-    public void visitField(@NotNull PsiField field) {
+    public void visitField(@Nonnull PsiField field) {
       super.visitField(field);
 
       this.visit(field);
     }
 
     @Override
-    public void visitMethod(@NotNull PsiMethod method) {
+    public void visitMethod(@Nonnull PsiMethod method) {
       super.visitMethod(method);
 
       this.visit(method);
     }
 
     @Override
-    public void visitLocalVariable(@NotNull PsiLocalVariable variable) {
+    public void visitLocalVariable(@Nonnull PsiLocalVariable variable) {
       super.visitLocalVariable(variable);
 
       this.visit(variable);
     }
 
     @Override
-    public void visitParameter(@NotNull PsiParameter parameter) {
+    public void visitParameter(@Nonnull PsiParameter parameter) {
       super.visitParameter(parameter);
 
       this.visit(parameter);
@@ -95,13 +97,13 @@ public abstract class LombokRedundantModifierInspection extends LombokJavaInspec
           for (String modifier : redundantModifiersInfo.getModifiers()) {
             if (psiModifierList.hasExplicitModifier(modifier)) {
               final Optional<PsiElement> psiModifier = Arrays.stream(psiModifierList.getChildren())
-                .filter(psiElement -> modifier.equals(psiElement.getText()))
-                .findFirst();
+                                                                                  .filter(psiElement -> modifier.equals(psiElement.getText()))
+                                                                                  .findFirst();
 
               psiModifier.ifPresent(psiElement -> holder.registerProblem(psiElement,
-                redundantModifiersInfo.getDescription(),
-                ProblemHighlightType.WARNING,
-                new RemoveModifierFix(modifier))
+                                                                         redundantModifiersInfo.getDescription(),
+                                                                         ProblemHighlightType.WARNING,
+                                                                         new RemoveModifierFix(modifier))
               );
             }
           }

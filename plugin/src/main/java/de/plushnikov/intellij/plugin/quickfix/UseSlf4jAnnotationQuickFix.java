@@ -10,7 +10,7 @@ import consulo.language.psi.search.ReferencesSearch;
 import consulo.language.psi.util.PsiTreeUtil;
 import consulo.project.Project;
 import de.plushnikov.intellij.plugin.LombokClassNames;
-import org.jetbrains.annotations.NotNull;
+import jakarta.annotation.Nonnull;
 
 import java.util.Collection;
 
@@ -18,17 +18,17 @@ import static de.plushnikov.intellij.plugin.processor.clazz.log.AbstractLogProce
 
 public class UseSlf4jAnnotationQuickFix extends AddAnnotationFix implements IntentionAction {
 
-  @NotNull
+  @Nonnull
   private final SmartPsiElementPointer<PsiNamedElement> elementToRemove;
 
-  public UseSlf4jAnnotationQuickFix(@NotNull PsiNamedElement elementToRemove, @NotNull PsiClass containingClass) {
+  public UseSlf4jAnnotationQuickFix(@Nonnull PsiNamedElement elementToRemove, @Nonnull PsiClass containingClass) {
     super(LombokClassNames.SLF_4_J, containingClass);
     this.elementToRemove = SmartPointerManager.getInstance(elementToRemove.getProject()).createSmartPsiElementPointer(elementToRemove);
   }
 
   @Override
-  public void invoke(@NotNull Project project, @NotNull PsiFile file, @NotNull PsiElement startElement,
-                     @NotNull PsiElement endElement) {
+  public void invoke(@Nonnull Project project, @Nonnull PsiFile file, @Nonnull PsiElement startElement,
+                     @Nonnull PsiElement endElement) {
     super.invoke(project, file, startElement, endElement);
 
     final PsiNamedElement psiNamedElement = elementToRemove.getElement();

@@ -1,13 +1,15 @@
 package de.plushnikov.intellij.plugin.processor;
 
-import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.psi.*;
-import com.intellij.psi.util.PsiTreeUtil;
+import com.intellij.java.language.psi.*;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.util.PsiTreeUtil;
+import consulo.util.lang.StringUtil;
 import de.plushnikov.intellij.plugin.LombokClassNames;
 import de.plushnikov.intellij.plugin.problem.LombokProblem;
 import de.plushnikov.intellij.plugin.problem.ProblemValidationSink;
 import de.plushnikov.intellij.plugin.util.PsiAnnotationUtil;
-import org.jetbrains.annotations.NotNull;
+import jakarta.annotation.Nonnull;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -17,21 +19,22 @@ import java.util.Collections;
  *
  * @author Plushnikov Michail
  */
+@ExtensionImpl
 public class CleanupProcessor extends AbstractProcessor {
 
   public CleanupProcessor() {
     super(PsiElement.class, LombokClassNames.CLEANUP);
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  public Collection<PsiAnnotation> collectProcessedAnnotations(@NotNull PsiClass psiClass) {
+  public Collection<PsiAnnotation> collectProcessedAnnotations(@Nonnull PsiClass psiClass) {
     return Collections.emptyList();
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  public Collection<LombokProblem> verifyAnnotation(@NotNull PsiAnnotation psiAnnotation) {
+  public Collection<LombokProblem> verifyAnnotation(@Nonnull PsiAnnotation psiAnnotation) {
     // TODO warning: "You're assigning an auto-cleanup variable to something else. This is a bad idea."
     final ProblemValidationSink problemNewBuilder = new ProblemValidationSink();
 
@@ -54,9 +57,9 @@ public class CleanupProcessor extends AbstractProcessor {
     return problemNewBuilder.getProblems();
   }
 
-  private static void validateCleanUpMethodExists(@NotNull PsiLocalVariable psiVariable,
-                                                  @NotNull String cleanupName,
-                                                  @NotNull ProblemValidationSink problemNewBuilder) {
+  private static void validateCleanUpMethodExists(@Nonnull PsiLocalVariable psiVariable,
+                                                  @Nonnull String cleanupName,
+                                                  @Nonnull ProblemValidationSink problemNewBuilder) {
     final PsiType psiType = psiVariable.getType();
     if (psiType instanceof PsiClassType psiClassType) {
       final PsiClass psiClassOfField = psiClassType.resolve();
@@ -80,7 +83,7 @@ public class CleanupProcessor extends AbstractProcessor {
     }
   }
 
-  private static void validateInitializerExist(@NotNull ProblemValidationSink problemNewBuilder, @NotNull PsiLocalVariable psiVariable) {
+  private static void validateInitializerExist(@Nonnull ProblemValidationSink problemNewBuilder, @Nonnull PsiLocalVariable psiVariable) {
     if (!psiVariable.hasInitializer()) {
       problemNewBuilder.addErrorMessage("inspection.message.cleanup.variable.declarations.need.to.be.initialized");
     }

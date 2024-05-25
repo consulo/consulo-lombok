@@ -5,6 +5,7 @@ import com.intellij.java.language.impl.psi.impl.source.PsiExtensibleClass;
 import com.intellij.java.language.psi.*;
 import com.intellij.java.language.psi.augment.PsiAugmentProvider;
 import com.intellij.java.language.psi.augment.PsiExtensionMethod;
+import consulo.annotation.component.ExtensionImpl;
 import consulo.language.psi.PsiCompiledElement;
 import consulo.language.psi.PsiElement;
 import de.plushnikov.intellij.plugin.LombokClassNames;
@@ -14,8 +15,8 @@ import de.plushnikov.intellij.plugin.processor.ValProcessor;
 import de.plushnikov.intellij.plugin.processor.method.ExtensionMethodsHelper;
 import de.plushnikov.intellij.plugin.processor.modifier.ModifierProcessor;
 import de.plushnikov.intellij.plugin.util.PsiAnnotationSearchUtil;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 import java.util.*;
 
@@ -26,6 +27,7 @@ import static de.plushnikov.intellij.plugin.util.LombokLibraryUtil.hasLombokLibr
  *
  * @author Plushnikov Michail
  */
+@ExtensionImpl
 public class LombokAugmentProvider extends PsiAugmentProvider {
   private static final class Holder {
     static final Collection<ModifierProcessor> modifierProcessors = LombokProcessorManager.getLombokModifierProcessors();
@@ -34,9 +36,9 @@ public class LombokAugmentProvider extends PsiAugmentProvider {
   public LombokAugmentProvider() {
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  protected Set<String> transformModifiers(@NotNull PsiModifierList modifierList, @NotNull final Set<String> modifiers) {
+  protected Set<String> transformModifiers(@Nonnull PsiModifierList modifierList, @Nonnull final Set<String> modifiers) {
     // skip if no lombok library is present
     if (!hasLombokLibrary(modifierList.getProject())) {
       return modifiers;
@@ -56,7 +58,7 @@ public class LombokAugmentProvider extends PsiAugmentProvider {
   }
 
   @Override
-  public boolean canInferType(@NotNull PsiTypeElement typeElement) {
+  public boolean canInferType(@Nonnull PsiTypeElement typeElement) {
     return hasLombokLibrary(typeElement.getProject()) && ValProcessor.canInferType(typeElement);
   }
 
@@ -67,27 +69,27 @@ public class LombokAugmentProvider extends PsiAugmentProvider {
   //see de.plushnikov.intellij.plugin.inspection.DataFlowInspectionTest.testDefaultBuilderFinalValueInspectionIsAlwaysThat
   //see de.plushnikov.intellij.plugin.inspection.PointlessBooleanExpressionInspectionTest.testPointlessBooleanExpressionBuilderDefault
   @Override
-  protected boolean fieldInitializerMightBeChanged(@NotNull PsiField field) {
+  protected boolean fieldInitializerMightBeChanged(@Nonnull PsiField field) {
     return PsiAnnotationSearchUtil.isAnnotatedWith(field, LombokClassNames.BUILDER_DEFAULT);
   }
 
   @Nullable
   @Override
-  protected PsiType inferType(@NotNull PsiTypeElement typeElement) {
+  protected PsiType inferType(@Nonnull PsiTypeElement typeElement) {
     return hasLombokLibrary(typeElement.getProject()) ? ValProcessor.inferType(typeElement) : null;
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  public <Psi extends PsiElement> List<Psi> getAugments(@NotNull PsiElement element,
-                                                        @NotNull final Class<Psi> type) {
+  public <Psi extends PsiElement> List<Psi> getAugments(@Nonnull PsiElement element,
+                                                        @Nonnull final Class<Psi> type) {
     return getAugments(element, type, null);
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  public <Psi extends PsiElement> List<Psi> getAugments(@NotNull PsiElement element,
-                                                        @NotNull final Class<Psi> type,
+  public <Psi extends PsiElement> List<Psi> getAugments(@Nonnull PsiElement element,
+                                                        @Nonnull final Class<Psi> type,
                                                         @Nullable String nameHint) {
     final List<Psi> emptyResult = Collections.emptyList();
     if ((type != PsiClass.class && type != PsiField.class && type != PsiMethod.class) || !(element instanceof PsiExtensibleClass)
@@ -115,7 +117,7 @@ public class LombokAugmentProvider extends PsiAugmentProvider {
     return getPsis(psiClass, type, nameHint);
   }
 
-  @NotNull
+  @Nonnull
   private static <Psi extends PsiElement> List<Psi> getPsis(PsiClass psiClass, Class<Psi> type, String nameHint) {
     final List<Psi> result = new ArrayList<>();
     for (Processor processor : LombokProcessorManager.getProcessors(type)) {
@@ -128,9 +130,9 @@ public class LombokAugmentProvider extends PsiAugmentProvider {
   }
 
   @Override
-  protected List<PsiExtensionMethod> getExtensionMethods(@NotNull PsiClass aClass,
-                                                         @NotNull String nameHint,
-                                                         @NotNull PsiElement context) {
+  protected List<PsiExtensionMethod> getExtensionMethods(@Nonnull PsiClass aClass,
+                                                         @Nonnull String nameHint,
+                                                         @Nonnull PsiElement context) {
     if (!hasLombokLibrary(context.getProject())) {
       return Collections.emptyList();
     }

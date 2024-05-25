@@ -1,6 +1,7 @@
 package de.plushnikov.intellij.plugin.inspection;
 
 import com.intellij.java.language.psi.*;
+import consulo.annotation.component.ExtensionImpl;
 import consulo.language.editor.inspection.ProblemHighlightType;
 import consulo.language.editor.inspection.ProblemsHolder;
 import consulo.language.psi.PsiElement;
@@ -11,7 +12,7 @@ import de.plushnikov.intellij.plugin.processor.LombokProcessorManager;
 import de.plushnikov.intellij.plugin.processor.Processor;
 import de.plushnikov.intellij.plugin.processor.ValProcessor;
 import de.plushnikov.intellij.plugin.psi.LombokLightMethodBuilder;
-import org.jetbrains.annotations.NotNull;
+import jakarta.annotation.Nonnull;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -19,14 +20,17 @@ import java.util.HashSet;
 /**
  * @author Plushnikov Michail
  */
+@ExtensionImpl
 public class LombokInspection extends LombokJavaInspectionBase {
-
-  public LombokInspection() {
+  @Nonnull
+  @Override
+  public String getDisplayName() {
+    return LombokBundle.message("inspection.lombok.display.name");
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  protected PsiElementVisitor createVisitor(@NotNull final ProblemsHolder holder, final boolean isOnTheFly) {
+  protected PsiElementVisitor createVisitor(@Nonnull final ProblemsHolder holder, final boolean isOnTheFly) {
     return new LombokElementVisitor(holder);
   }
 
@@ -39,21 +43,21 @@ public class LombokInspection extends LombokJavaInspectionBase {
     }
 
     @Override
-    public void visitLocalVariable(@NotNull PsiLocalVariable variable) {
+    public void visitLocalVariable(@Nonnull PsiLocalVariable variable) {
       super.visitLocalVariable(variable);
 
       valProcessor.verifyVariable(variable, holder);
     }
 
     @Override
-    public void visitParameter(@NotNull PsiParameter parameter) {
+    public void visitParameter(@Nonnull PsiParameter parameter) {
       super.visitParameter(parameter);
 
       valProcessor.verifyParameter(parameter, holder);
     }
 
     @Override
-    public void visitAnnotation(@NotNull PsiAnnotation annotation) {
+    public void visitAnnotation(@Nonnull PsiAnnotation annotation) {
       super.visitAnnotation(annotation);
 
       final Collection<LombokProblem> problems = new HashSet<>();
@@ -72,7 +76,7 @@ public class LombokInspection extends LombokJavaInspectionBase {
      * Produce an error if resolved constructor method is build by lombok and contains some arguments
      */
     @Override
-    public void visitMethodCallExpression(@NotNull PsiMethodCallExpression methodCall) {
+    public void visitMethodCallExpression(@Nonnull PsiMethodCallExpression methodCall) {
       super.visitMethodCallExpression(methodCall);
 
       PsiExpressionList list = methodCall.getArgumentList();

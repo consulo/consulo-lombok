@@ -1,8 +1,10 @@
 package de.plushnikov.intellij.plugin.extension;
 
-import com.intellij.psi.*;
-import com.intellij.refactoring.rename.RenameJavaVariableProcessor;
-import com.intellij.util.containers.ContainerUtil;
+import com.intellij.java.impl.refactoring.rename.RenameJavaVariableProcessor;
+import com.intellij.java.language.psi.*;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.language.psi.PsiElement;
+import consulo.util.collection.ContainerUtil;
 import de.plushnikov.intellij.plugin.LombokClassNames;
 import de.plushnikov.intellij.plugin.processor.field.AccessorsInfo;
 import de.plushnikov.intellij.plugin.processor.handler.BuilderHandler;
@@ -14,16 +16,17 @@ import de.plushnikov.intellij.plugin.psi.LombokLightMethodBuilder;
 import de.plushnikov.intellij.plugin.thirdparty.LombokUtils;
 import de.plushnikov.intellij.plugin.util.PsiAnnotationSearchUtil;
 import de.plushnikov.intellij.plugin.util.PsiAnnotationUtil;
-import org.jetbrains.annotations.NotNull;
+import jakarta.annotation.Nonnull;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+@ExtensionImpl
 public class LombokRenameFieldReferenceProcessor extends RenameJavaVariableProcessor {
 
   @Override
-  public boolean canProcessElement(@NotNull PsiElement element) {
+  public boolean canProcessElement(@Nonnull PsiElement element) {
     if (element instanceof PsiField && !(element instanceof LombokLightFieldBuilder)) {
       final PsiClass containingClass = ((PsiField)element).getContainingClass();
       if (null != containingClass) {
@@ -35,7 +38,7 @@ public class LombokRenameFieldReferenceProcessor extends RenameJavaVariableProce
   }
 
   @Override
-  public void prepareRenaming(@NotNull PsiElement element, @NotNull String newFieldName, @NotNull Map<PsiElement, String> allRenames) {
+  public void prepareRenaming(@Nonnull PsiElement element, @Nonnull String newFieldName, @Nonnull Map<PsiElement, String> allRenames) {
     final PsiField psiField = (PsiField)element;
     final PsiClass containingClass = psiField.getContainingClass();
     final String currentFieldName = psiField.getName();

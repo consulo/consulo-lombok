@@ -6,7 +6,7 @@ import consulo.language.editor.action.CodeInsightActionHandler;
 import consulo.language.psi.PsiFile;
 import consulo.project.Project;
 import de.plushnikov.intellij.plugin.util.LombokLibraryUtil;
-import org.jetbrains.annotations.NotNull;
+import jakarta.annotation.Nonnull;
 
 public abstract class BaseLombokAction extends BaseGenerateAction {
 
@@ -15,7 +15,7 @@ public abstract class BaseLombokAction extends BaseGenerateAction {
   }
 
   @Override
-  protected boolean isValidForFile(@NotNull Project project, @NotNull Editor editor, @NotNull PsiFile file) {
+  protected boolean isValidForFile(@Nonnull Project project, @Nonnull Editor editor, @Nonnull PsiFile file) {
     return file.isWritable() && super.isValidForFile(project, editor, file) &&
            LombokLibraryUtil.hasLombokLibrary(project);
   }

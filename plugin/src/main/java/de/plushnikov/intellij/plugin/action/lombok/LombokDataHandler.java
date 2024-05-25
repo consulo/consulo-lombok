@@ -2,7 +2,7 @@ package de.plushnikov.intellij.plugin.action.lombok;
 
 import com.intellij.java.language.psi.PsiClass;
 import de.plushnikov.intellij.plugin.LombokClassNames;
-import org.jetbrains.annotations.NotNull;
+import jakarta.annotation.Nonnull;
 
 public class LombokDataHandler extends BaseLombokHandler {
 
@@ -15,7 +15,7 @@ public class LombokDataHandler extends BaseLombokHandler {
   }
 
   @Override
-  protected void processClass(@NotNull PsiClass psiClass) {
+  protected void processClass(@Nonnull PsiClass psiClass) {
     for (BaseLombokHandler handler : handlers) {
       handler.processClass(psiClass);
     }

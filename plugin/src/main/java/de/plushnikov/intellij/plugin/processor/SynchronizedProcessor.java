@@ -1,16 +1,17 @@
 package de.plushnikov.intellij.plugin.processor;
 
-import com.intellij.openapi.util.NlsSafe;
-import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.psi.*;
-import com.intellij.psi.util.PsiTreeUtil;
+import com.intellij.java.language.psi.*;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.util.PsiTreeUtil;
+import consulo.util.lang.StringUtil;
 import de.plushnikov.intellij.plugin.LombokClassNames;
 import de.plushnikov.intellij.plugin.problem.LombokProblem;
 import de.plushnikov.intellij.plugin.problem.ProblemSink;
 import de.plushnikov.intellij.plugin.problem.ProblemValidationSink;
 import de.plushnikov.intellij.plugin.quickfix.PsiQuickFixFactory;
 import de.plushnikov.intellij.plugin.util.PsiAnnotationUtil;
-import org.jetbrains.annotations.NotNull;
+import jakarta.annotation.Nonnull;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -20,21 +21,22 @@ import java.util.Collections;
  *
  * @author Plushnikov Michail
  */
+@ExtensionImpl
 public class SynchronizedProcessor extends AbstractProcessor {
 
   public SynchronizedProcessor() {
     super(PsiElement.class, LombokClassNames.SYNCHRONIZED);
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  public Collection<PsiAnnotation> collectProcessedAnnotations(@NotNull PsiClass psiClass) {
+  public Collection<PsiAnnotation> collectProcessedAnnotations(@Nonnull PsiClass psiClass) {
     return Collections.emptyList();
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  public Collection<LombokProblem> verifyAnnotation(@NotNull PsiAnnotation psiAnnotation) {
+  public Collection<LombokProblem> verifyAnnotation(@Nonnull PsiAnnotation psiAnnotation) {
     final ProblemValidationSink problemBuilder = new ProblemValidationSink();
 
     PsiMethod psiMethod = PsiTreeUtil.getParentOfType(psiAnnotation, PsiMethod.class);
@@ -48,7 +50,10 @@ public class SynchronizedProcessor extends AbstractProcessor {
         else {
           if (psiMethod.hasModifierProperty(PsiModifier.ABSTRACT)) {
             problemBuilder.addErrorMessage("inspection.message.synchronized.legal.only.on.concrete.methods")
-              .withLocalQuickFixes(() -> PsiQuickFixFactory.createModifierListFix(psiMethod, PsiModifier.ABSTRACT, false, false));
+                          .withLocalQuickFixes(() -> PsiQuickFixFactory.createModifierListFix(psiMethod,
+                                                                                              PsiModifier.ABSTRACT,
+                                                                                              false,
+                                                                                              false));
           }
           else {
             validateReferencedField(problemBuilder, psiAnnotation, psiMethod, containingClass);
@@ -60,9 +65,9 @@ public class SynchronizedProcessor extends AbstractProcessor {
     return problemBuilder.getProblems();
   }
 
-  private static void validateReferencedField(@NotNull ProblemSink problemNewBuilder, @NotNull PsiAnnotation psiAnnotation,
-                                              @NotNull PsiMethod psiMethod, @NotNull PsiClass containingClass) {
-    @NlsSafe final String lockFieldName = PsiAnnotationUtil.getStringAnnotationValue(psiAnnotation, "value", "");
+  private static void validateReferencedField(@Nonnull ProblemSink problemNewBuilder, @Nonnull PsiAnnotation psiAnnotation,
+                                              @Nonnull PsiMethod psiMethod, @Nonnull PsiClass containingClass) {
+    final String lockFieldName = PsiAnnotationUtil.getStringAnnotationValue(psiAnnotation, "value", "");
     if (StringUtil.isNotEmpty(lockFieldName)) {
       final boolean isStatic = psiMethod.hasModifierProperty(PsiModifier.STATIC);
 
@@ -70,7 +75,7 @@ public class SynchronizedProcessor extends AbstractProcessor {
       if (null != lockField) {
         if (isStatic && !lockField.hasModifierProperty(PsiModifier.STATIC)) {
           problemNewBuilder.addErrorMessage("inspection.message.synchronized.field.is.not.static", lockFieldName)
-            .withLocalQuickFixes(() -> PsiQuickFixFactory.createModifierListFix(lockField, PsiModifier.STATIC, true, false));
+                           .withLocalQuickFixes(() -> PsiQuickFixFactory.createModifierListFix(lockField, PsiModifier.STATIC, true, false));
         }
       }
       else {
@@ -85,8 +90,8 @@ public class SynchronizedProcessor extends AbstractProcessor {
           modifiers = new String[]{PsiModifier.PRIVATE, PsiModifier.FINAL};
         }
         problemNewBuilder.addErrorMessage("inspection.message.field.s.does.not.exist", lockFieldName)
-          .withLocalQuickFixes(() -> PsiQuickFixFactory.createNewFieldFix(containingClass, lockFieldName, javaLangObjectType,
-                                                                          "new Object()", modifiers));
+                         .withLocalQuickFixes(() -> PsiQuickFixFactory.createNewFieldFix(containingClass, lockFieldName, javaLangObjectType,
+                                                                                         "new Object()", modifiers));
       }
     }
   }

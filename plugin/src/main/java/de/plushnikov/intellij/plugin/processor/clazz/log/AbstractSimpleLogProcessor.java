@@ -1,57 +1,57 @@
 package de.plushnikov.intellij.plugin.processor.clazz.log;
 
 import com.intellij.java.language.psi.PsiClass;
-import org.jetbrains.annotations.NotNull;
+import jakarta.annotation.Nonnull;
 
 import java.util.Collections;
 import java.util.List;
 
 abstract class AbstractSimpleLogProcessor extends AbstractLogProcessor {
-  @NotNull
+  @Nonnull
   private final String loggerType;
-  @NotNull
+  @Nonnull
   private final String loggerInitializer;
 
   AbstractSimpleLogProcessor(
-    @NotNull String supportedAnnotationClass,
-    @NotNull String loggerType,
-    @NotNull String loggerInitializer
+    @Nonnull String supportedAnnotationClass,
+    @Nonnull String loggerType,
+    @Nonnull String loggerInitializer
   ) {
     super(supportedAnnotationClass);
     this.loggerType = loggerType;
     this.loggerInitializer = loggerInitializer;
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  public final String getLoggerType(@NotNull PsiClass psiClass) {
+  public final String getLoggerType(@Nonnull PsiClass psiClass) {
     return loggerType;
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  final String getLoggerInitializer(@NotNull PsiClass psiClass) {
+  final String getLoggerInitializer(@Nonnull PsiClass psiClass) {
     return loggerInitializer;
   }
 }
 
 abstract class AbstractTopicSupportingSimpleLogProcessor extends AbstractSimpleLogProcessor {
-  @NotNull
+  @Nonnull
   private final LoggerInitializerParameter defaultParameter;
 
   AbstractTopicSupportingSimpleLogProcessor(
-    @NotNull String supportedAnnotationClass,
-    @NotNull String loggerType,
-    @NotNull String loggerInitializer,
-    @NotNull LoggerInitializerParameter defaultParameter
+    @Nonnull String supportedAnnotationClass,
+    @Nonnull String loggerType,
+    @Nonnull String loggerInitializer,
+    @Nonnull LoggerInitializerParameter defaultParameter
   ) {
     super(supportedAnnotationClass, loggerType, loggerInitializer);
     this.defaultParameter = defaultParameter;
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  final List<LoggerInitializerParameter> getLoggerInitializerParameters(@NotNull PsiClass psiClass, boolean topicPresent) {
+  final List<LoggerInitializerParameter> getLoggerInitializerParameters(@Nonnull PsiClass psiClass, boolean topicPresent) {
     return Collections.singletonList(topicPresent ? LoggerInitializerParameter.TOPIC : defaultParameter);
   }
 }

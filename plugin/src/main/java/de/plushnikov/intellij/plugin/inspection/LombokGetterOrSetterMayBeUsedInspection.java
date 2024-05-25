@@ -15,10 +15,10 @@ import consulo.language.psi.PsiElement;
 import consulo.language.psi.PsiElementVisitor;
 import consulo.project.Project;
 import consulo.util.lang.Pair;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -27,9 +27,9 @@ import java.util.Objects;
 
 public abstract class LombokGetterOrSetterMayBeUsedInspection extends LombokJavaInspectionBase {
 
-  @NotNull
+  @Nonnull
   @Override
-  protected PsiElementVisitor createVisitor(@NotNull final ProblemsHolder holder, final boolean isOnTheFly) {
+  protected PsiElementVisitor createVisitor(@Nonnull final ProblemsHolder holder, final boolean isOnTheFly) {
     return new LombokGetterOrSetterMayBeUsedVisitor(holder, null);
   }
 
@@ -47,11 +47,11 @@ public abstract class LombokGetterOrSetterMayBeUsedInspection extends LombokJava
     }
 
     @Override
-    public void visitJavaFile(@NotNull PsiJavaFile psiJavaFile) {
+    public void visitJavaFile(@Nonnull PsiJavaFile psiJavaFile) {
     }
 
     @Override
-    public void visitClass(@NotNull PsiClass psiClass) {
+    public void visitClass(@Nonnull PsiClass psiClass) {
       List<PsiField> annotatedFields = new ArrayList<>();
       List<Pair<PsiField, PsiMethod>> instanceCandidates = new ArrayList<>();
       List<Pair<PsiField, PsiMethod>> staticCandidates = new ArrayList<>();
@@ -96,7 +96,7 @@ public abstract class LombokGetterOrSetterMayBeUsedInspection extends LombokJava
       }
     }
 
-    public void visitMethodForFix(@NotNull PsiMethod psiMethod) {
+    public void visitMethodForFix(@Nonnull PsiMethod psiMethod) {
       List<Pair<PsiField, PsiMethod>> fieldsAndMethods = new ArrayList<>();
       if (!processMethod(psiMethod, fieldsAndMethods, fieldsAndMethods)) return;
       if (!fieldsAndMethods.isEmpty()) {
@@ -106,9 +106,9 @@ public abstract class LombokGetterOrSetterMayBeUsedInspection extends LombokJava
     }
 
     private void warnOrFix(
-      @NotNull PsiClass psiClass,
-      @NotNull List<Pair<PsiField, PsiMethod>> fieldsAndMethods,
-      @NotNull List<PsiField> annotatedFields
+      @Nonnull PsiClass psiClass,
+      @Nonnull List<Pair<PsiField, PsiMethod>> fieldsAndMethods,
+      @Nonnull List<PsiField> annotatedFields
     ) {
       if (myHolder != null) {
         String className = psiClass.getName();
@@ -125,7 +125,7 @@ public abstract class LombokGetterOrSetterMayBeUsedInspection extends LombokJava
       }
     }
 
-    private void warnOrFix(@NotNull PsiField field, @NotNull PsiMethod method) {
+    private void warnOrFix(@Nonnull PsiField field, @Nonnull PsiMethod method) {
       if (myHolder != null) {
         String fieldName = field.getName();
         final LocalQuickFix fix = new LombokGetterOrSetterMayBeUsedFix(fieldName);
@@ -139,28 +139,28 @@ public abstract class LombokGetterOrSetterMayBeUsedInspection extends LombokJava
   }
 
   private class LombokGetterOrSetterMayBeUsedFix implements LocalQuickFix {
-    private final @NotNull String myText;
+    private final @Nonnull String myText;
 
-    private LombokGetterOrSetterMayBeUsedFix(@NotNull String text) {
+    private LombokGetterOrSetterMayBeUsedFix(@Nonnull String text) {
       myText = text;
     }
 
     @Nls(capitalization = Nls.Capitalization.Sentence)
-    @NotNull
+    @Nonnull
     @Override
     public String getName() {
       return getFixName(myText);
     }
 
     @Nls(capitalization = Nls.Capitalization.Sentence)
-    @NotNull
+    @Nonnull
     @Override
     public String getFamilyName() {
       return getFixFamilyName();
     }
 
     @Override
-    public void applyFix(@NotNull Project project, @NotNull ProblemDescriptor descriptor) {
+    public void applyFix(@Nonnull Project project, @Nonnull ProblemDescriptor descriptor) {
       final PsiElement element = descriptor.getPsiElement();
       if (element instanceof PsiMethod) {
         new LombokGetterOrSetterMayBeUsedVisitor(null, this).visitMethodForFix((PsiMethod)element);
@@ -170,13 +170,13 @@ public abstract class LombokGetterOrSetterMayBeUsedInspection extends LombokJava
       }
     }
 
-    private void effectivelyDoFix(@NotNull PsiField field, @NotNull PsiMethod method) {
+    private void effectivelyDoFix(@Nonnull PsiField field, @Nonnull PsiMethod method) {
       if (!addLombokAnnotation(field)) return;
       removeMethodAndMoveJavaDoc(field, method);
     }
 
-    public void effectivelyDoFix(@NotNull PsiClass aClass, @NotNull List<Pair<PsiField, PsiMethod>> fieldsAndMethods,
-                                 @NotNull List<PsiField> annotatedFields) {
+    public void effectivelyDoFix(@Nonnull PsiClass aClass, @Nonnull List<Pair<PsiField, PsiMethod>> fieldsAndMethods,
+                                 @Nonnull List<PsiField> annotatedFields) {
       if (!addLombokAnnotation(aClass)) return;
       for (Pair<PsiField, PsiMethod> fieldAndMethod : fieldsAndMethods) {
         PsiField field = fieldAndMethod.getFirst();
@@ -191,7 +191,7 @@ public abstract class LombokGetterOrSetterMayBeUsedInspection extends LombokJava
       }
     }
 
-    private boolean addLombokAnnotation(@NotNull PsiModifierListOwner fieldOrClass) {
+    private boolean addLombokAnnotation(@Nonnull PsiModifierListOwner fieldOrClass) {
       final PsiModifierList modifierList = fieldOrClass.getModifierList();
       if (modifierList == null) {
         return false;
@@ -204,7 +204,7 @@ public abstract class LombokGetterOrSetterMayBeUsedInspection extends LombokJava
       return true;
     }
 
-    private void removeMethodAndMoveJavaDoc(@NotNull PsiField field, @NotNull PsiMethod method) {
+    private void removeMethodAndMoveJavaDoc(@Nonnull PsiField field, @Nonnull PsiMethod method) {
       final PsiElementFactory factory = JavaPsiFacade.getElementFactory(field.getProject());
       CommentTracker tracker = new CommentTracker();
       PsiDocComment methodJavaDoc = method.getDocComment();
@@ -212,10 +212,10 @@ public abstract class LombokGetterOrSetterMayBeUsedInspection extends LombokJava
         tracker.text(methodJavaDoc);
         PsiDocComment fieldJavaDoc = field.getDocComment();
         List<String> methodJavaDocTokens = Arrays.stream(methodJavaDoc.getChildren())
-          .filter(e -> e instanceof PsiDocToken)
-          .map(PsiElement::getText)
-          .filter(text -> !text.matches("\\s*\\*\\s*"))
-          .toList();
+                                                 .filter(e -> e instanceof PsiDocToken)
+                                                 .map(PsiElement::getText)
+                                                 .filter(text -> !text.matches("\\s*\\*\\s*"))
+                                                 .toList();
         methodJavaDocTokens = methodJavaDocTokens.subList(1, methodJavaDocTokens.size() - 1);
         String javaDocMethodText = String.join("\n* ", methodJavaDocTokens);
         PsiDocTag[] methodTags = methodJavaDoc.findTagsByName(getTagName());
@@ -233,10 +233,10 @@ public abstract class LombokGetterOrSetterMayBeUsedInspection extends LombokJava
           field.getParent().addBefore(fieldJavaDoc, field);
         }
         else {
-          @NotNull PsiElement @NotNull [] fieldJavaDocChildren = Arrays.stream(fieldJavaDoc.getChildren())
-            .filter(e -> e instanceof PsiDocToken)
-            .toArray(PsiElement[]::new);
-          @NotNull PsiElement fieldJavaDocChild = fieldJavaDocChildren[fieldJavaDocChildren.length - 2];
+          @Nonnull PsiElement[] fieldJavaDocChildren = Arrays.stream(fieldJavaDoc.getChildren())
+                                                             .filter(e -> e instanceof PsiDocToken)
+                                                             .toArray(PsiElement[]::new);
+          @Nonnull PsiElement fieldJavaDocChild = fieldJavaDocChildren[fieldJavaDocChildren.length - 2];
           PsiDocComment newMethodJavaDoc =
             factory.createDocCommentFromText("/**\n* -- " + getJavaDocMethodMarkup() + " --\n* " + javaDocMethodText + "\n*/");
           PsiElement[] tokens = newMethodJavaDoc.getChildren();
@@ -254,30 +254,30 @@ public abstract class LombokGetterOrSetterMayBeUsedInspection extends LombokJava
     }
   }
 
-  @NotNull
+  @Nonnull
   protected abstract String getTagName();
 
-  @NotNull
+  @Nonnull
   protected abstract String getJavaDocMethodMarkup();
 
-  @NotNull
+  @Nonnull
   protected abstract @NonNls String getAnnotationName();
 
-  @NotNull
+  @Nonnull
   protected abstract @Nls String getFieldErrorMessage(String fieldName);
 
-  @NotNull
+  @Nonnull
   protected abstract @Nls String getClassErrorMessage(String className);
 
   protected abstract boolean processMethod(
-    @NotNull PsiMethod method,
-    @NotNull List<Pair<PsiField, PsiMethod>> instanceCandidates,
-    @NotNull List<Pair<PsiField, PsiMethod>> staticCandidates
+    @Nonnull PsiMethod method,
+    @Nonnull List<Pair<PsiField, PsiMethod>> instanceCandidates,
+    @Nonnull List<Pair<PsiField, PsiMethod>> staticCandidates
   );
 
-  @NotNull
+  @Nonnull
   protected abstract @Nls String getFixName(String text);
 
-  @NotNull
+  @Nonnull
   protected abstract @Nls String getFixFamilyName();
 }

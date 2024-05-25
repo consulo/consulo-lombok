@@ -1,7 +1,7 @@
 package de.plushnikov.intellij.plugin.lombokconfig;
 
 import consulo.util.lang.StringUtil;
-import org.jetbrains.annotations.Nullable;
+import jakarta.annotation.Nullable;
 
 public class LombokNullAnnotationLibraryCustom implements LombokNullAnnotationLibrary {
   private final String nonNullAnnotation;

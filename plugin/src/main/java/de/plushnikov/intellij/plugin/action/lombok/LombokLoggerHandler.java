@@ -3,13 +3,13 @@ package de.plushnikov.intellij.plugin.action.lombok;
 import com.intellij.java.language.psi.PsiClass;
 import com.intellij.java.language.psi.PsiField;
 import com.intellij.java.language.psi.PsiModifier;
-import consulo.application.ApplicationManager;
 import consulo.language.editor.refactoring.rename.RenameProcessor;
+import consulo.lombok.processor.ProcessorUtil;
 import consulo.ui.ex.awt.DialogWrapper;
 import consulo.ui.ex.awt.Messages;
 import de.plushnikov.intellij.plugin.LombokBundle;
 import de.plushnikov.intellij.plugin.processor.clazz.log.*;
-import org.jetbrains.annotations.NotNull;
+import jakarta.annotation.Nonnull;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -17,17 +17,17 @@ import java.util.Collection;
 public class LombokLoggerHandler extends BaseLombokHandler {
 
   @Override
-  protected void processClass(@NotNull PsiClass psiClass) {
+  protected void processClass(@Nonnull PsiClass psiClass) {
     final Collection<AbstractLogProcessor> logProcessors = Arrays.asList(
-      ApplicationManager.getApplication().getService(CommonsLogProcessor.class),
-      ApplicationManager.getApplication().getService(JBossLogProcessor.class),
-      ApplicationManager.getApplication().getService(Log4jProcessor.class),
-      ApplicationManager.getApplication().getService(Log4j2Processor.class),
-      ApplicationManager.getApplication().getService(LogProcessor.class),
-      ApplicationManager.getApplication().getService(Slf4jProcessor.class),
-      ApplicationManager.getApplication().getService(XSlf4jProcessor.class),
-      ApplicationManager.getApplication().getService(FloggerProcessor.class),
-      ApplicationManager.getApplication().getService(CustomLogProcessor.class));
+      ProcessorUtil.getProcessor(CommonsLogProcessor.class),
+      ProcessorUtil.getProcessor(JBossLogProcessor.class),
+      ProcessorUtil.getProcessor(Log4jProcessor.class),
+      ProcessorUtil.getProcessor(Log4j2Processor.class),
+      ProcessorUtil.getProcessor(LogProcessor.class),
+      ProcessorUtil.getProcessor(Slf4jProcessor.class),
+      ProcessorUtil.getProcessor(XSlf4jProcessor.class),
+      ProcessorUtil.getProcessor(FloggerProcessor.class),
+      ProcessorUtil.getProcessor(CustomLogProcessor.class));
 
     final String lombokLoggerName = AbstractLogProcessor.getLoggerName(psiClass);
     final boolean lombokLoggerIsStatic = AbstractLogProcessor.isLoggerStatic(psiClass);
@@ -45,10 +45,10 @@ public class LombokLoggerHandler extends BaseLombokHandler {
     }
   }
 
-  private static void processLoggerField(@NotNull PsiField psiField,
-                                         @NotNull PsiClass psiClass,
-                                         @NotNull AbstractLogProcessor logProcessor,
-                                         @NotNull String lombokLoggerName) {
+  private static void processLoggerField(@Nonnull PsiField psiField,
+                                         @Nonnull PsiClass psiClass,
+                                         @Nonnull AbstractLogProcessor logProcessor,
+                                         @Nonnull String lombokLoggerName) {
     if (!lombokLoggerName.equals(psiField.getName())) {
       RenameProcessor processor = new RenameProcessor(psiField.getProject(), psiField, lombokLoggerName, false, false);
       processor.doRun();
@@ -59,18 +59,18 @@ public class LombokLoggerHandler extends BaseLombokHandler {
     psiField.delete();
   }
 
-  private static boolean checkLoggerField(@NotNull PsiField psiField, @NotNull String lombokLoggerName, boolean lombokLoggerIsStatic) {
+  private static boolean checkLoggerField(@Nonnull PsiField psiField, @Nonnull String lombokLoggerName, boolean lombokLoggerIsStatic) {
     if (!isValidLoggerField(psiField, lombokLoggerName, lombokLoggerIsStatic)) {
       String messageText =
         LombokBundle.message("dialog.message.logger.field.s.not.private.sfinal.field.named.s.refactor.anyway", psiField.getName(),
                              lombokLoggerIsStatic ? 1 : 0, lombokLoggerName);
-      int result = Messages.showOkCancelDialog(messageText, LombokBundle.message("dialog.title.attention"), Messages.getOkButton(), Messages.getCancelButton(), Messages.getQuestionIcon());
+      int result = Messages.showOkCancelDialog(messageText, LombokBundle.message("dialog.title.attention"), Messages.getQuestionIcon());
       return DialogWrapper.OK_EXIT_CODE == result;
     }
     return true;
   }
 
-  private static boolean isValidLoggerField(@NotNull PsiField psiField, @NotNull String lombokLoggerName, boolean lombokLoggerIsStatic) {
+  private static boolean isValidLoggerField(@Nonnull PsiField psiField, @Nonnull String lombokLoggerName, boolean lombokLoggerIsStatic) {
     boolean isPrivate = psiField.hasModifierProperty(PsiModifier.PRIVATE);
     boolean isStatic = lombokLoggerIsStatic == psiField.hasModifierProperty(PsiModifier.STATIC);
     boolean isFinal = psiField.hasModifierProperty(PsiModifier.FINAL);

@@ -4,7 +4,7 @@ import com.intellij.java.language.impl.psi.impl.light.LightParameterListBuilder;
 import consulo.language.Language;
 import consulo.language.psi.PsiManager;
 import consulo.language.psi.SyntheticElement;
-import org.jetbrains.annotations.Nullable;
+import jakarta.annotation.Nullable;
 
 import java.util.Arrays;
 

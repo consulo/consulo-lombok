@@ -1,11 +1,16 @@
 package de.plushnikov.intellij.plugin.processor.clazz.builder;
 
-import com.intellij.psi.*;
+import com.intellij.java.language.psi.PsiAnnotation;
+import com.intellij.java.language.psi.PsiClass;
+import com.intellij.java.language.psi.PsiField;
+import com.intellij.java.language.psi.PsiMethod;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.language.psi.PsiElement;
 import de.plushnikov.intellij.plugin.LombokClassNames;
 import de.plushnikov.intellij.plugin.processor.handler.BuilderInfo;
 import de.plushnikov.intellij.plugin.util.PsiClassUtil;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 import java.util.Collection;
 import java.util.List;
@@ -16,6 +21,7 @@ import java.util.stream.Collectors;
  *
  * @author Michail Plushnikov
  */
+@ExtensionImpl
 public class BuilderPreDefinedInnerClassFieldProcessor extends AbstractBuilderPreDefinedInnerClassProcessor {
 
   public BuilderPreDefinedInnerClassFieldProcessor() {
@@ -23,7 +29,7 @@ public class BuilderPreDefinedInnerClassFieldProcessor extends AbstractBuilderPr
   }
 
   @Override
-  protected Collection<? extends PsiElement> generatePsiElements(@NotNull PsiClass psiParentClass, @Nullable PsiMethod psiParentMethod, @NotNull PsiAnnotation psiAnnotation, @NotNull PsiClass psiBuilderClass) {
+  protected Collection<? extends PsiElement> generatePsiElements(@Nonnull PsiClass psiParentClass, @Nullable PsiMethod psiParentMethod, @Nonnull PsiAnnotation psiAnnotation, @Nonnull PsiClass psiBuilderClass) {
     final Collection<String> existedFieldNames = PsiClassUtil.collectClassFieldsIntern(psiBuilderClass).stream()
       .map(PsiField::getName)
       .collect(Collectors.toSet());

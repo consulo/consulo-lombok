@@ -2,6 +2,8 @@
  * @author VISTALL
  * @since 18/05/2023
  */
-module consulo.lombok {
+open module consulo.lombok {
+  requires consulo.ide.api;
+  
   requires consulo.java;
 }

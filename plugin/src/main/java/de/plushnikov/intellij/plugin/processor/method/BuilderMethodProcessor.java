@@ -1,13 +1,14 @@
 package de.plushnikov.intellij.plugin.processor.method;
 
-import com.intellij.psi.PsiAnnotation;
-import com.intellij.psi.PsiClass;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiMethod;
+import com.intellij.java.language.psi.PsiAnnotation;
+import com.intellij.java.language.psi.PsiClass;
+import com.intellij.java.language.psi.PsiMethod;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.language.psi.PsiElement;
 import de.plushnikov.intellij.plugin.LombokClassNames;
 import de.plushnikov.intellij.plugin.problem.ProblemSink;
 import de.plushnikov.intellij.plugin.processor.handler.BuilderHandler;
-import org.jetbrains.annotations.NotNull;
+import jakarta.annotation.Nonnull;
 
 import java.util.List;
 
@@ -18,6 +19,7 @@ import java.util.List;
  * @author Tomasz Kalkosiński
  * @author Michail Plushnikov
  */
+@ExtensionImpl
 public class BuilderMethodProcessor extends AbstractMethodProcessor {
 
   public BuilderMethodProcessor() {
@@ -25,7 +27,7 @@ public class BuilderMethodProcessor extends AbstractMethodProcessor {
   }
 
   @Override
-  protected boolean validate(@NotNull PsiAnnotation psiAnnotation, @NotNull PsiMethod psiMethod, @NotNull ProblemSink problemSink) {
+  protected boolean validate(@Nonnull PsiAnnotation psiAnnotation, @Nonnull PsiMethod psiMethod, @Nonnull ProblemSink problemSink) {
     // we skip validation here, because it will be validated by other BuilderClassProcessor
     return true;//builderHandler.validate(psiMethod, psiAnnotation, builder);
   }
@@ -34,14 +36,14 @@ public class BuilderMethodProcessor extends AbstractMethodProcessor {
    * Checks the given annotation to be supported 'Builder' annotation
    */
   @Override
-  protected boolean checkAnnotationFQN(@NotNull PsiClass psiClass, @NotNull PsiAnnotation psiAnnotation, @NotNull PsiMethod psiMethod) {
+  protected boolean checkAnnotationFQN(@Nonnull PsiClass psiClass, @Nonnull PsiAnnotation psiAnnotation, @Nonnull PsiMethod psiMethod) {
     return BuilderHandler.checkAnnotationFQN(psiClass, psiAnnotation, psiMethod);
   }
 
   @Override
-  protected void processIntern(@NotNull PsiMethod psiMethod,
-                               @NotNull PsiAnnotation psiAnnotation,
-                               @NotNull List<? super PsiElement> target) {
+  protected void processIntern(@Nonnull PsiMethod psiMethod,
+                               @Nonnull PsiAnnotation psiAnnotation,
+                               @Nonnull List<? super PsiElement> target) {
     final PsiClass psiClass = psiMethod.getContainingClass();
     final BuilderHandler builderHandler = getHandler();
     if (null != psiClass) {

@@ -1,19 +1,26 @@
 package de.plushnikov.intellij.plugin.settings;
 
+import consulo.annotation.component.ComponentScope;
+import consulo.annotation.component.ServiceAPI;
+import consulo.annotation.component.ServiceImpl;
 import consulo.application.ApplicationManager;
 import consulo.component.persist.PersistentStateComponent;
 import consulo.component.persist.State;
 import consulo.component.persist.Storage;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import jakarta.inject.Singleton;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 /**
  * Persistent global settings object for the Lombok plugin.
  */
+@Singleton
 @State(
   name = "LombokSettings",
   storages = @Storage("lombok-plugin.xml")
 )
+@ServiceAPI(ComponentScope.APPLICATION)
+@ServiceImpl
 public class LombokSettings implements PersistentStateComponent<LombokPluginState> {
 
   /**
@@ -34,7 +41,7 @@ public class LombokSettings implements PersistentStateComponent<LombokPluginStat
   }
 
   @Override
-  public void loadState(@NotNull LombokPluginState element) {
+  public void loadState(@Nonnull LombokPluginState element) {
     myState = element;
   }
 

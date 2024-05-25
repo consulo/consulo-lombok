@@ -5,8 +5,8 @@ import com.intellij.java.language.psi.*;
 import consulo.language.psi.PsiElement;
 import consulo.language.psi.util.PsiTreeUtil;
 import consulo.util.lang.StringUtil;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -20,13 +20,13 @@ import java.util.Collections;
  */
 public final class PsiAnnotationUtil {
 
-  @NotNull
-  public static PsiAnnotation createPsiAnnotation(@NotNull PsiModifierListOwner psiModifierListOwner, String annotationClassName) {
+  @Nonnull
+  public static PsiAnnotation createPsiAnnotation(@Nonnull PsiModifierListOwner psiModifierListOwner, String annotationClassName) {
     return createPsiAnnotation(psiModifierListOwner, "", annotationClassName);
   }
 
-  @NotNull
-  public static PsiAnnotation createPsiAnnotation(@NotNull PsiModifierListOwner psiModifierListOwner,
+  @Nonnull
+  public static PsiAnnotation createPsiAnnotation(@Nonnull PsiModifierListOwner psiModifierListOwner,
                                                   @Nullable String value,
                                                   String annotationClassName) {
     final PsiElementFactory elementFactory = JavaPsiFacade.getElementFactory(psiModifierListOwner.getProject());
@@ -35,8 +35,8 @@ public final class PsiAnnotationUtil {
     return elementFactory.createAnnotationFromText("@" + annotationClassName + valueString, psiClass);
   }
 
-  @NotNull
-  public static <T> Collection<T> getAnnotationValues(@NotNull PsiAnnotation psiAnnotation, @NotNull String parameter, @NotNull Class<T> asClass) {
+  @Nonnull
+  public static <T> Collection<T> getAnnotationValues(@Nonnull PsiAnnotation psiAnnotation, @Nonnull String parameter, @Nonnull Class<T> asClass) {
     Collection<T> result = Collections.emptyList();
     PsiAnnotationMemberValue attributeValue = psiAnnotation.findAttributeValue(parameter);
     if (attributeValue instanceof PsiArrayInitializerMemberValue) {
@@ -58,27 +58,27 @@ public final class PsiAnnotationUtil {
     return result;
   }
 
-  public static boolean hasDeclaredProperty(@NotNull PsiAnnotation psiAnnotation, @NotNull String parameter) {
+  public static boolean hasDeclaredProperty(@Nonnull PsiAnnotation psiAnnotation, @Nonnull String parameter) {
     return null != psiAnnotation.findDeclaredAttributeValue(parameter);
   }
 
-  public static boolean getBooleanAnnotationValue(@NotNull PsiAnnotation psiAnnotation, @NotNull String parameter, boolean defaultValue) {
-    final Boolean result = psiAnnotation.hasAttribute(parameter) ? AnnotationUtil.getBooleanAttributeValue(psiAnnotation, parameter) : null;
+  public static boolean getBooleanAnnotationValue(@Nonnull PsiAnnotation psiAnnotation, @Nonnull String parameter, boolean defaultValue) {
+    final Boolean result = psiAnnotation.findAttributeValue(parameter) != null ? AnnotationUtil.getBooleanAttributeValue(psiAnnotation, parameter) : null;
     return result == null ? defaultValue : result;
   }
 
-  public static String getStringAnnotationValue(@NotNull PsiAnnotation psiAnnotation, @NotNull String parameter, @NotNull String defaultValue) {
+  public static String getStringAnnotationValue(@Nonnull PsiAnnotation psiAnnotation, @Nonnull String parameter, @Nonnull String defaultValue) {
     final String result = AnnotationUtil.getDeclaredStringAttributeValue(psiAnnotation, parameter);
     return result != null ? result : defaultValue;
   }
 
-  public static String getEnumAnnotationValue(@NotNull PsiAnnotation psiAnnotation, @NotNull String attributeName, @NotNull String defaultValue) {
+  public static String getEnumAnnotationValue(@Nonnull PsiAnnotation psiAnnotation, @Nonnull String attributeName, @Nonnull String defaultValue) {
     PsiAnnotationMemberValue attrValue = psiAnnotation.findDeclaredAttributeValue(attributeName);
     String result = attrValue != null ? resolveElementValue(attrValue, String.class) : null;
     return result != null ? result : defaultValue;
   }
 
-  public static int getIntAnnotationValue(@NotNull PsiAnnotation psiAnnotation, @NotNull String attributeName, int defaultValue) {
+  public static int getIntAnnotationValue(@Nonnull PsiAnnotation psiAnnotation, @Nonnull String attributeName, int defaultValue) {
     PsiAnnotationMemberValue attrValue = psiAnnotation.findDeclaredAttributeValue(attributeName);
     PsiConstantEvaluationHelper evaluationHelper = JavaPsiFacade.getInstance(psiAnnotation.getProject()).getConstantEvaluationHelper();
     Object result = evaluationHelper.computeConstantExpression(attrValue);
@@ -86,7 +86,7 @@ public final class PsiAnnotationUtil {
   }
 
   @Nullable
-  private static <T> T resolveElementValue(@NotNull PsiElement psiElement, @NotNull Class<T> asClass) {
+  private static <T> T resolveElementValue(@Nonnull PsiElement psiElement, @Nonnull Class<T> asClass) {
     T value = null;
     if (psiElement instanceof PsiReferenceExpression) {
       final PsiElement resolved = ((PsiReferenceExpression) psiElement).resolve();
@@ -127,7 +127,7 @@ public final class PsiAnnotationUtil {
   }
 
   @Nullable
-  public static Boolean getDeclaredBooleanAnnotationValue(@NotNull PsiAnnotation psiAnnotation, @NotNull String parameter) {
+  public static Boolean getDeclaredBooleanAnnotationValue(@Nonnull PsiAnnotation psiAnnotation, @Nonnull String parameter) {
     PsiAnnotationMemberValue attributeValue = psiAnnotation.findDeclaredAttributeValue(parameter);
     final JavaPsiFacade javaPsiFacade = JavaPsiFacade.getInstance(psiAnnotation.getProject());
     Object constValue = javaPsiFacade.getConstantEvaluationHelper().computeConstantExpression(attributeValue);

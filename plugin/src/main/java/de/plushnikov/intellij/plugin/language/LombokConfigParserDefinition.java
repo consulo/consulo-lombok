@@ -16,7 +16,6 @@ import de.plushnikov.intellij.plugin.language.parser.LombokConfigParser;
 import de.plushnikov.intellij.plugin.language.psi.LombokConfigFile;
 import de.plushnikov.intellij.plugin.language.psi.LombokConfigTypes;
 import jakarta.annotation.Nonnull;
-import org.jetbrains.annotations.NotNull;
 
 @ExtensionImpl
 public class LombokConfigParserDefinition implements ParserDefinition {
@@ -27,42 +26,42 @@ public class LombokConfigParserDefinition implements ParserDefinition {
 
   private static final IFileElementType FILE = new IFileElementType(Language.findInstance(LombokConfigLanguage.class));
 
-  @NotNull
+  @Nonnull
   @Override
   public Lexer createLexer(LanguageVersion languageVersion) {
     return new LombokConfigLexerAdapter();
   }
 
   @Override
-  @NotNull
+  @Nonnull
   public TokenSet getCommentTokens(LanguageVersion languageVersion) {
     return LombokConfigParserTokenSets.COMMENTS;
   }
 
   @Override
-  @NotNull
+  @Nonnull
   public TokenSet getStringLiteralElements(LanguageVersion languageVersion) {
     return TokenSet.EMPTY;
   }
 
   @Override
-  @NotNull
+  @Nonnull
   public PsiParser createParser(final LanguageVersion languageVersion) {
     return new LombokConfigParser();
   }
 
   @Override
-  public @NotNull IFileElementType getFileNodeType() {
+  public @Nonnull IFileElementType getFileNodeType() {
     return FILE;
   }
 
   @Override
-  public @NotNull PsiFile createFile(@NotNull FileViewProvider viewProvider) {
+  public @Nonnull PsiFile createFile(@Nonnull FileViewProvider viewProvider) {
     return new LombokConfigFile(viewProvider);
   }
 
   @Override
-  @NotNull
+  @Nonnull
   public PsiElement createElement(ASTNode node) {
     return LombokConfigTypes.Factory.createElement(node);
   }

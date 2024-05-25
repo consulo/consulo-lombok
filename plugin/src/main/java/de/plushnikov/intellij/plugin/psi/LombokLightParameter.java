@@ -10,7 +10,7 @@ import consulo.document.util.TextRange;
 import consulo.language.Language;
 import consulo.language.psi.PsiElement;
 import consulo.language.psi.SyntheticElement;
-import org.jetbrains.annotations.NotNull;
+import jakarta.annotation.Nonnull;
 
 import java.util.Objects;
 import java.util.stream.Stream;
@@ -21,26 +21,31 @@ import java.util.stream.Stream;
 public class LombokLightParameter extends LightParameter implements SyntheticElement {
   private final LombokLightIdentifier myNameIdentifier;
 
-  public LombokLightParameter(@NotNull String name, @NotNull PsiType type, @NotNull PsiElement declarationScope) {
+  public LombokLightParameter(@Nonnull String name, @Nonnull PsiType type, @Nonnull PsiElement declarationScope) {
     this(name, type, declarationScope, JavaLanguage.INSTANCE);
   }
 
-  public LombokLightParameter(@NotNull String name,
-                              @NotNull PsiType type,
-                              @NotNull PsiElement declarationScope,
-                              @NotNull Language language) {
-    super(name, type, declarationScope, language, new LombokLightModifierList(declarationScope.getManager(), language), type instanceof PsiEllipsisType);
+  public LombokLightParameter(@Nonnull String name,
+                              @Nonnull PsiType type,
+                              @Nonnull PsiElement declarationScope,
+                              @Nonnull Language language) {
+    super(name,
+          type,
+          declarationScope,
+          language,
+          new LombokLightModifierList(declarationScope.getManager(), language),
+          type instanceof PsiEllipsisType);
     myNameIdentifier = new LombokLightIdentifier(declarationScope.getManager(), name);
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public String getName() {
     return myNameIdentifier.getText();
   }
 
   @Override
-  public PsiElement setName(@NotNull String name) {
+  public PsiElement setName(@Nonnull String name) {
     myNameIdentifier.setText(name);
     return this;
   }
@@ -51,11 +56,11 @@ public class LombokLightParameter extends LightParameter implements SyntheticEle
   }
 
   @Override
-  public @NotNull LombokLightModifierList getModifierList() {
+  public @Nonnull LombokLightModifierList getModifierList() {
     return (LombokLightModifierList)super.getModifierList();
   }
 
-  public LombokLightParameter withAnnotation(@NotNull String annotation) {
+  public LombokLightParameter withAnnotation(@Nonnull String annotation) {
     getModifierList().addAnnotation(annotation);
     return this;
   }
@@ -67,7 +72,7 @@ public class LombokLightParameter extends LightParameter implements SyntheticEle
   }
 
   @Override
-  public @NotNull LombokLightParameter setModifiers(@NotNull String @NotNull ... modifiers) {
+  public @Nonnull LombokLightParameter setModifiers(@Nonnull String... modifiers) {
     final LombokLightModifierList lombokLightModifierList = getModifierList();
     lombokLightModifierList.clearModifiers();
     Stream.of(modifiers).forEach(lombokLightModifierList::addModifier);

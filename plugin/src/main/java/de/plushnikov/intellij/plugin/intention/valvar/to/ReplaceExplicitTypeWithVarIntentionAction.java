@@ -3,7 +3,7 @@ package de.plushnikov.intellij.plugin.intention.valvar.to;
 import com.intellij.java.language.psi.*;
 import consulo.language.psi.PsiElement;
 import de.plushnikov.intellij.plugin.LombokClassNames;
-import org.jetbrains.annotations.NotNull;
+import jakarta.annotation.Nonnull;
 
 import static com.intellij.java.language.psi.PsiModifier.FINAL;
 
@@ -14,7 +14,7 @@ public class ReplaceExplicitTypeWithVarIntentionAction extends AbstractReplaceEx
   }
 
   @Override
-  protected boolean isAvailableOnDeclarationCustom(@NotNull PsiDeclarationStatement declarationStatement, @NotNull PsiLocalVariable localVariable) {
+  protected boolean isAvailableOnDeclarationCustom(@Nonnull PsiDeclarationStatement declarationStatement, @Nonnull PsiLocalVariable localVariable) {
     return isNotFinal(localVariable);
   }
 
@@ -23,7 +23,7 @@ public class ReplaceExplicitTypeWithVarIntentionAction extends AbstractReplaceEx
   }
 
   @Override
-  public boolean isAvailableOnVariable(@NotNull PsiVariable psiVariable) {
+  public boolean isAvailableOnVariable(@Nonnull PsiVariable psiVariable) {
     if (!(psiVariable instanceof PsiParameter psiParameter)) {
       return false;
     }
@@ -35,7 +35,7 @@ public class ReplaceExplicitTypeWithVarIntentionAction extends AbstractReplaceEx
     return typeElement != null && !typeElement.isInferredType() && isNotFinal(psiParameter);
   }
 
-  private static boolean isNotFinal(@NotNull PsiVariable variable) {
+  private static boolean isNotFinal(@Nonnull PsiVariable variable) {
     PsiModifierList modifierList = variable.getModifierList();
     return modifierList == null || !modifierList.hasExplicitModifier(FINAL);
   }

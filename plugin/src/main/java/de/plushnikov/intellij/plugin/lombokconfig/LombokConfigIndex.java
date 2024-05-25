@@ -17,7 +17,7 @@ import de.plushnikov.intellij.plugin.language.psi.LombokConfigCleaner;
 import de.plushnikov.intellij.plugin.language.psi.LombokConfigFile;
 import de.plushnikov.intellij.plugin.language.psi.LombokConfigProperty;
 import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
+import jakarta.annotation.Nonnull;
 
 import java.io.DataInput;
 import java.io.DataOutput;
@@ -31,19 +31,19 @@ public class LombokConfigIndex extends FileBasedIndexExtension<ConfigKey, Config
   @NonNls
   public static final ID<ConfigKey, ConfigValue> NAME = ID.create("LombokConfigIndex");
 
-  @NotNull
+  @Nonnull
   @Override
   public ID<ConfigKey, ConfigValue> getName() {
     return NAME;
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public DataIndexer<ConfigKey, ConfigValue, FileContent> getIndexer() {
     return new DataIndexer<>() {
-      @NotNull
+      @Nonnull
       @Override
-      public Map<ConfigKey, ConfigValue> map(@NotNull FileContent inputData) {
+      public Map<ConfigKey, ConfigValue> map(@Nonnull FileContent inputData) {
         Map<ConfigKey, ConfigValue> result = Collections.emptyMap();
 
         final VirtualFile directoryFile = inputData.getFile().getParent();
@@ -94,18 +94,18 @@ public class LombokConfigIndex extends FileBasedIndexExtension<ConfigKey, Config
     };
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public KeyDescriptor<ConfigKey> getKeyDescriptor() {
     return new EnumDataDescriptor<>(ConfigKey.class);
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public DataExternalizer<ConfigValue> getValueExternalizer() {
     return new DataExternalizer<>() {
       @Override
-      public void save(@NotNull DataOutput out, ConfigValue configValue) throws IOException {
+      public void save(@Nonnull DataOutput out, ConfigValue configValue) throws IOException {
         var isNotNullValue = configValue.getValue() != null;
         out.writeBoolean(isNotNullValue);
         if (isNotNullValue) {
@@ -115,14 +115,14 @@ public class LombokConfigIndex extends FileBasedIndexExtension<ConfigKey, Config
       }
 
       @Override
-      public ConfigValue read(@NotNull DataInput in) throws IOException {
+      public ConfigValue read(@Nonnull DataInput in) throws IOException {
         var isNotNullValue = in.readBoolean();
         return new ConfigValue(isNotNullValue ? EnumeratorStringDescriptor.INSTANCE.read(in) : null, in.readBoolean());
       }
     };
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public FileBasedIndex.InputFilter getInputFilter() {
     return new DefaultFileTypeSpecificInputFilter(LombokConfigFileType.INSTANCE);

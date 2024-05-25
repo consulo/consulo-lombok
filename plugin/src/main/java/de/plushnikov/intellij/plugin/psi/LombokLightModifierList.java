@@ -11,8 +11,8 @@ import consulo.language.Language;
 import consulo.language.psi.PsiManager;
 import consulo.language.psi.SyntheticElement;
 import consulo.language.util.IncorrectOperationException;
+import jakarta.annotation.Nonnull;
 import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
@@ -24,11 +24,11 @@ public class LombokLightModifierList extends LightModifierList implements Synthe
   private final Map<String, PsiAnnotation> myAnnotations;
   private final Set<String> myImplicitModifiers;
 
-  public LombokLightModifierList(@NotNull PsiManager manager) {
+  public LombokLightModifierList(@Nonnull PsiManager manager) {
     this(manager, JavaLanguage.INSTANCE);
   }
 
-  public LombokLightModifierList(@NotNull PsiManager manager, @NotNull Language language) {
+  public LombokLightModifierList(@Nonnull PsiManager manager, @Nonnull Language language) {
     this(manager, language, Collections.emptyList());
   }
 
@@ -39,16 +39,16 @@ public class LombokLightModifierList extends LightModifierList implements Synthe
   }
 
   @Override
-  public boolean hasModifierProperty(@NotNull String name) {
+  public boolean hasModifierProperty(@Nonnull String name) {
     return myImplicitModifiers.contains(name) || super.hasModifierProperty(name);
   }
 
-  public void addImplicitModifierProperty(@PsiModifier.ModifierConstant @NotNull @NonNls String implicitModifier) {
+  public void addImplicitModifierProperty(@PsiModifier.ModifierConstant @Nonnull @NonNls String implicitModifier) {
     myImplicitModifiers.add(implicitModifier);
   }
 
   @Override
-  public void setModifierProperty(@PsiModifier.ModifierConstant @NotNull @NonNls String name, boolean value) throws IncorrectOperationException {
+  public void setModifierProperty(@PsiModifier.ModifierConstant @Nonnull @NonNls String name, boolean value) throws IncorrectOperationException {
     if (value) {
       addModifier(name);
     } else {
@@ -58,7 +58,7 @@ public class LombokLightModifierList extends LightModifierList implements Synthe
     }
   }
 
-  private void removeModifier(@PsiModifier.ModifierConstant @NotNull @NonNls String name) {
+  private void removeModifier(@PsiModifier.ModifierConstant @Nonnull @NonNls String name) {
     final Collection<String> myModifiers = collectAllModifiers();
     myModifiers.remove(name);
 
@@ -80,18 +80,18 @@ public class LombokLightModifierList extends LightModifierList implements Synthe
   }
 
   @Override
-  public void checkSetModifierProperty(@PsiModifier.ModifierConstant @NotNull @NonNls String name, boolean value) throws IncorrectOperationException {
+  public void checkSetModifierProperty(@PsiModifier.ModifierConstant @Nonnull @NonNls String name, boolean value) throws IncorrectOperationException {
     throw new IncorrectOperationException();
   }
 
-  public LombokLightModifierList withAnnotation(@NotNull PsiAnnotation psiAnnotation) {
+  public LombokLightModifierList withAnnotation(@Nonnull PsiAnnotation psiAnnotation) {
     myAnnotations.put(psiAnnotation.getQualifiedName(), psiAnnotation);
     return this;
   }
 
   @Override
-  @NotNull
-  public PsiAnnotation addAnnotation(@NotNull @NonNls String qualifiedName) {
+  @Nonnull
+  public PsiAnnotation addAnnotation(@Nonnull @NonNls String qualifiedName) {
     final PsiElementFactory elementFactory = JavaPsiFacade.getElementFactory(getProject());
     final PsiAnnotation psiAnnotation = elementFactory.createAnnotationFromText('@' + qualifiedName, null);
     myAnnotations.put(qualifiedName, psiAnnotation);
@@ -99,12 +99,13 @@ public class LombokLightModifierList extends LightModifierList implements Synthe
   }
 
   @Override
-  public PsiAnnotation findAnnotation(@NotNull String qualifiedName) {
+  public PsiAnnotation findAnnotation(@Nonnull String qualifiedName) {
     return myAnnotations.get(qualifiedName);
   }
 
   @Override
-  public PsiAnnotation @NotNull [] getAnnotations() {
+  @Nonnull
+  public PsiAnnotation[] getAnnotations() {
     PsiAnnotation[] result = PsiAnnotation.EMPTY_ARRAY;
     if (!myAnnotations.isEmpty()) {
       Collection<PsiAnnotation> annotations = myAnnotations.values();

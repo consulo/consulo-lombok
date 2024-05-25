@@ -4,7 +4,7 @@ import consulo.annotation.component.ExtensionImpl;
 import consulo.language.Commenter;
 import consulo.language.Language;
 import jakarta.annotation.Nonnull;
-import org.jetbrains.annotations.Nullable;
+import jakarta.annotation.Nullable;
 
 @ExtensionImpl
 public class LombokConfigCommentor implements Commenter {

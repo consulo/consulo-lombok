@@ -8,8 +8,8 @@ import de.plushnikov.intellij.plugin.lombokconfig.ConfigKey;
 import de.plushnikov.intellij.plugin.psi.LombokLightModifierList;
 import de.plushnikov.intellij.plugin.util.LombokProcessorUtil;
 import de.plushnikov.intellij.plugin.util.PsiAnnotationSearchUtil;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 import java.util.*;
 
@@ -30,8 +30,8 @@ public enum LombokCopyableAnnotations {
   }
 
   public static void copyOnXAnnotations(@Nullable PsiAnnotation processedAnnotation,
-                                        @NotNull PsiModifierList modifierList,
-                                        @NotNull String onXParameterName) {
+                                        @Nonnull PsiModifierList modifierList,
+                                        @Nonnull String onXParameterName) {
     if (processedAnnotation == null) {
       return;
     }
@@ -40,7 +40,7 @@ public enum LombokCopyableAnnotations {
     annotationsToAdd.forEach(modifierList::addAnnotation);
   }
 
-  public @NotNull <T extends PsiModifierListOwner & PsiMember> List<PsiAnnotation> collectCopyableAnnotations(@NotNull T psiFromElement) {
+  public @Nonnull <T extends PsiModifierListOwner & PsiMember> List<PsiAnnotation> collectCopyableAnnotations(@Nonnull T psiFromElement) {
     final PsiAnnotation[] fieldAnnotations = psiFromElement.getAnnotations();
     if (0 == fieldAnnotations.length) {
       // nothing to copy if no annotations defined
@@ -83,9 +83,9 @@ public enum LombokCopyableAnnotations {
     return result;
   }
 
-  public static <T extends PsiModifierListOwner & PsiMember> void copyCopyableAnnotations(@NotNull T fromPsiElement,
-                                                                                          @NotNull LombokLightModifierList toModifierList,
-                                                                                          @NotNull LombokCopyableAnnotations copyableAnnotations) {
+  public static <T extends PsiModifierListOwner & PsiMember> void copyCopyableAnnotations(@Nonnull T fromPsiElement,
+                                                                                          @Nonnull LombokLightModifierList toModifierList,
+                                                                                          @Nonnull LombokCopyableAnnotations copyableAnnotations) {
     List<PsiAnnotation> annotationsToAdd = copyableAnnotations.collectCopyableAnnotations(fromPsiElement);
     annotationsToAdd.forEach(toModifierList::withAnnotation);
   }

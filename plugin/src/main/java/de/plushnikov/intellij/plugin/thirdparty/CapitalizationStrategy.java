@@ -1,6 +1,6 @@
 package de.plushnikov.intellij.plugin.thirdparty;
 
-import com.intellij.openapi.util.text.StringUtil;
+import consulo.util.lang.StringUtil;
 
 /**
  * Used for lombok configuration to determine how to transform field names when turning them into accessor method names and vice versa.

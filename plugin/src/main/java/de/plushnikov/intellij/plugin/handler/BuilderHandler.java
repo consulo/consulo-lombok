@@ -5,12 +5,11 @@ import consulo.language.psi.PsiElement;
 import consulo.language.psi.util.PsiTreeUtil;
 import de.plushnikov.intellij.plugin.LombokClassNames;
 import de.plushnikov.intellij.plugin.util.PsiAnnotationSearchUtil;
-import org.jetbrains.annotations.NotNull;
-
+import jakarta.annotation.Nonnull;
 
 public final class BuilderHandler {
 
-  public static boolean isDefaultBuilderValue(@NotNull PsiElement highlightedElement) {
+  public static boolean isDefaultBuilderValue(@Nonnull PsiElement highlightedElement) {
     PsiField field = PsiTreeUtil.getParentOfType(highlightedElement, PsiField.class);
     if (field == null) {
       return false;

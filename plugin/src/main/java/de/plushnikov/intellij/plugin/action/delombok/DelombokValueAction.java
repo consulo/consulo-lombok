@@ -1,13 +1,13 @@
 package de.plushnikov.intellij.plugin.action.delombok;
 
-import com.intellij.openapi.application.ApplicationManager;
+import consulo.lombok.processor.ProcessorUtil;
 import de.plushnikov.intellij.plugin.processor.clazz.ValueProcessor;
-import org.jetbrains.annotations.NotNull;
+import jakarta.annotation.Nonnull;
 
 public class DelombokValueAction extends AbstractDelombokAction {
   @Override
-  @NotNull
+  @Nonnull
   protected DelombokHandler createHandler() {
-    return new DelombokHandler(ApplicationManager.getApplication().getService(ValueProcessor.class));
+    return new DelombokHandler(ProcessorUtil.getProcessor(ValueProcessor.class));
   }
 }

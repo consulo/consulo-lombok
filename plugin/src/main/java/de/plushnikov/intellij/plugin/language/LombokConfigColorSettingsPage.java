@@ -3,12 +3,11 @@ package de.plushnikov.intellij.plugin.language;
 import consulo.annotation.component.ExtensionImpl;
 import consulo.colorScheme.TextAttributesKey;
 import consulo.colorScheme.setting.AttributesDescriptor;
-import consulo.colorScheme.setting.ColorDescriptor;
 import consulo.language.editor.colorScheme.setting.ColorSettingsPage;
 import consulo.language.editor.highlight.SyntaxHighlighter;
 import de.plushnikov.intellij.plugin.LombokBundle;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 import java.util.Map;
 
@@ -22,13 +21,13 @@ public class LombokConfigColorSettingsPage implements ColorSettingsPage {
     new AttributesDescriptor(LombokBundle.message("color.settings.value"), LombokConfigSyntaxHighlighter.VALUE),
   };
 
-  @NotNull
+  @Nonnull
   @Override
   public SyntaxHighlighter getHighlighter() {
     return new LombokConfigSyntaxHighlighter();
   }
 
-  @NotNull
+  @Nonnull
   @Override
   public String getDemoText() {
     return """
@@ -52,16 +51,12 @@ public class LombokConfigColorSettingsPage implements ColorSettingsPage {
   }
 
   @Override
-  public AttributesDescriptor @NotNull [] getAttributeDescriptors() {
+  @Nonnull
+  public AttributesDescriptor[] getAttributeDescriptors() {
     return DESCRIPTORS;
   }
 
-  @Override
-  public ColorDescriptor @NotNull [] getColorDescriptors() {
-    return ColorDescriptor.EMPTY_ARRAY;
-  }
-
-  @NotNull
+  @Nonnull
   @Override
   public String getDisplayName() {
     return LombokBundle.message("configurable.name.lombok.config");

@@ -15,28 +15,30 @@ import consulo.project.Project;
 import consulo.ui.ex.action.AnAction;
 import consulo.ui.ex.action.AnActionEvent;
 import consulo.ui.ex.action.Presentation;
+import consulo.ui.ex.action.UpdateInBackground;
 import consulo.undoRedo.CommandProcessor;
 import consulo.util.collection.ContainerUtil;
 import consulo.virtualFileSystem.VirtualFile;
+import consulo.virtualFileSystem.util.VirtualFileUtil;
 import consulo.virtualFileSystem.util.VirtualFileVisitor;
 import de.plushnikov.intellij.plugin.util.LombokLibraryUtil;
 import de.plushnikov.intellij.plugin.util.PsiClassUtil;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 import java.util.Collection;
 
-public abstract class AbstractDelombokAction extends AnAction {
+public abstract class AbstractDelombokAction extends AnAction implements UpdateInBackground {
   private DelombokHandler myHandler;
 
   protected AbstractDelombokAction() {
     //default constructor
   }
 
-  @Override
-  public @NotNull ActionUpdateThread getActionUpdateThread() {
-    return ActionUpdateThread.BGT;
-  }
+//  @Override
+//  public @NotNull ActionUpdateThread getActionUpdateThread() {
+//    return ActionUpdateThread.BGT;
+//  }
 
   protected abstract DelombokHandler createHandler();
 
@@ -48,7 +50,7 @@ public abstract class AbstractDelombokAction extends AnAction {
   }
 
   @Override
-  public void actionPerformed(@NotNull AnActionEvent event) {
+  public void actionPerformed(@Nonnull AnActionEvent event) {
     final Project project = event.getData(Project.KEY);
     if (project == null) {
       return;
@@ -58,7 +60,7 @@ public abstract class AbstractDelombokAction extends AnAction {
     psiDocumentManager.commitAllDocuments();
 
     final DataContext dataContext = event.getDataContext();
-    final Editor editor = CommonDataKeys.EDITOR.getData(dataContext);
+    final Editor editor = dataContext.getData(CommonDataKeys.EDITOR);
 
     if (null != editor) {
       final PsiFile psiFile = PsiUtilBase.getPsiFileInEditor(editor, project);
@@ -69,7 +71,7 @@ public abstract class AbstractDelombokAction extends AnAction {
         }
       }
     } else {
-      final VirtualFile[] files = CommonDataKeys.VIRTUAL_FILE_ARRAY.getData(dataContext);
+      final VirtualFile[] files = dataContext.getData(CommonDataKeys.VIRTUAL_FILE_ARRAY);
       if (null != files) {
         for (VirtualFile file : files) {
           if (file.isDirectory()) {
@@ -82,10 +84,10 @@ public abstract class AbstractDelombokAction extends AnAction {
     }
   }
 
-  private void processDirectory(@NotNull final Project project, @NotNull VirtualFile vFile) {
-    VfsUtilCore.visitChildrenRecursively(vFile, new VirtualFileVisitor<Void>() {
+  private void processDirectory(@Nonnull final Project project, @Nonnull VirtualFile vFile) {
+    VirtualFileUtil.visitChildrenRecursively(vFile, new VirtualFileVisitor<Void>() {
       @Override
-      public boolean visitFile(@NotNull VirtualFile file) {
+      public boolean visitFile(@Nonnull VirtualFile file) {
         if (!file.isDirectory()) {
           processFile(project, file);
         }
@@ -104,11 +106,11 @@ public abstract class AbstractDelombokAction extends AnAction {
     }
   }
 
-  protected void process(@NotNull final Project project, @NotNull final PsiJavaFile psiJavaFile) {
+  protected void process(@Nonnull final Project project, @Nonnull final PsiJavaFile psiJavaFile) {
     executeCommand(project, () -> getHandler().invoke(project, psiJavaFile));
   }
 
-  protected void process(@NotNull final Project project, @NotNull final PsiFile psiFile, @NotNull final PsiClass psiClass) {
+  protected void process(@Nonnull final Project project, @Nonnull final PsiFile psiFile, @Nonnull final PsiClass psiClass) {
     executeCommand(project, () -> getHandler().invoke(project, psiFile, psiClass));
   }
 
@@ -118,17 +120,17 @@ public abstract class AbstractDelombokAction extends AnAction {
   }
 
   @Override
-  public void update(@NotNull AnActionEvent event) {
+  public void update(@Nonnull AnActionEvent event) {
     final Presentation presentation = event.getPresentation();
     final DataContext dataContext = event.getDataContext();
 
-    final Project project = event.getProject();
+    final Project project = event.getData(Project.KEY);
     if (project == null || !LombokLibraryUtil.hasLombokLibrary(project)) {
       presentation.setEnabled(false);
       return;
     }
 
-    final Editor editor = CommonDataKeys.EDITOR.getData(dataContext);
+    final Editor editor = dataContext.getData(CommonDataKeys.EDITOR);
     if (null != editor) {
       final PsiFile file = PsiUtilBase.getPsiFileInEditor(editor, project);
       presentation.setEnabled(file != null && isValidForFile(editor, file));
@@ -136,7 +138,7 @@ public abstract class AbstractDelombokAction extends AnAction {
     }
 
     boolean isValid = false;
-    final VirtualFile[] files = CommonDataKeys.VIRTUAL_FILE_ARRAY.getData(dataContext);
+    final VirtualFile[] files = dataContext.getData(CommonDataKeys.VIRTUAL_FILE_ARRAY);
     if (null != files) {
       PsiManager psiManager = PsiManager.getInstance(project);
       for (VirtualFile file : files) {
@@ -159,7 +161,7 @@ public abstract class AbstractDelombokAction extends AnAction {
     presentation.setEnabled(isValid);
   }
 
-  private boolean isValidForClass(@NotNull PsiClass psiClass) {
+  private boolean isValidForClass(@Nonnull PsiClass psiClass) {
     if (psiClass.isInterface()) {
       return false;
     }
@@ -182,7 +184,7 @@ public abstract class AbstractDelombokAction extends AnAction {
     return target instanceof SyntheticElement ? null : target;
   }
 
-  private boolean isValidForFile(@NotNull Editor editor, @NotNull PsiFile file) {
+  private boolean isValidForFile(@Nonnull Editor editor, @Nonnull PsiFile file) {
     if (!(file instanceof PsiJavaFile)) {
       return false;
     }
@@ -197,7 +199,6 @@ public abstract class AbstractDelombokAction extends AnAction {
     return targetClass != null && isValidForClass(targetClass);
   }
 
-  @NlsContexts.Command
   private String getCommandName() {
     String text = getTemplatePresentation().getText();
     return text == null ? "" : text;

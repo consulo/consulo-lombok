@@ -4,7 +4,6 @@ import com.intellij.java.language.impl.psi.impl.RecordAugmentProvider;
 import com.intellij.java.language.psi.*;
 import com.intellij.java.language.psi.util.MethodSignatureBackedByPsiMethod;
 import consulo.application.util.CachedValueProvider;
-import consulo.application.util.CachedValuesManager;
 import consulo.language.psi.PsiElement;
 import consulo.language.psi.PsiModificationTracker;
 import consulo.language.psi.util.LanguageCachedValueUtil;
@@ -21,8 +20,8 @@ import de.plushnikov.intellij.plugin.thirdparty.LombokUtils;
 import de.plushnikov.intellij.plugin.util.LombokProcessorUtil;
 import de.plushnikov.intellij.plugin.util.PsiAnnotationSearchUtil;
 import de.plushnikov.intellij.plugin.util.PsiClassUtil;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -36,20 +35,20 @@ import java.util.List;
  */
 public abstract class AbstractFieldProcessor extends AbstractProcessor implements FieldProcessor {
 
-  AbstractFieldProcessor(@NotNull Class<? extends PsiElement> supportedClass,
-                         @NotNull String supportedAnnotationClass) {
+  AbstractFieldProcessor(@Nonnull Class<? extends PsiElement> supportedClass,
+                         @Nonnull String supportedAnnotationClass) {
     super(supportedClass, supportedAnnotationClass);
   }
 
-  AbstractFieldProcessor(@NotNull Class<? extends PsiElement> supportedClass,
-                         @NotNull String supportedAnnotationClass,
-                         @NotNull String equivalentAnnotationClass) {
+  AbstractFieldProcessor(@Nonnull Class<? extends PsiElement> supportedClass,
+                         @Nonnull String supportedAnnotationClass,
+                         @Nonnull String equivalentAnnotationClass) {
     super(supportedClass, supportedAnnotationClass, equivalentAnnotationClass);
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  public List<? super PsiElement> process(@NotNull PsiClass psiClass, @Nullable String nameHint) {
+  public List<? super PsiElement> process(@Nonnull PsiClass psiClass, @Nullable String nameHint) {
     List<? super PsiElement> result = new ArrayList<>();
     Collection<PsiField> fields = psiClass.isRecord() ? RecordAugmentProvider.getFieldAugments(psiClass)
                                                       : PsiClassUtil.collectClassFieldsIntern(psiClass);
@@ -66,8 +65,8 @@ public abstract class AbstractFieldProcessor extends AbstractProcessor implement
     return result;
   }
 
-  private boolean possibleToGenerateElementNamed(@Nullable String nameHint, @NotNull PsiClass psiClass,
-                                                 @NotNull PsiAnnotation psiAnnotation, @NotNull PsiField psiField) {
+  private boolean possibleToGenerateElementNamed(@Nullable String nameHint, @Nonnull PsiClass psiClass,
+                                                 @Nonnull PsiAnnotation psiAnnotation, @Nonnull PsiField psiField) {
     if (null == nameHint) {
       return true;
     }
@@ -75,17 +74,17 @@ public abstract class AbstractFieldProcessor extends AbstractProcessor implement
     return namesOfGeneratedElements.isEmpty() || namesOfGeneratedElements.contains(nameHint);
   }
 
-  protected abstract Collection<String> getNamesOfPossibleGeneratedElements(@NotNull PsiClass psiClass,
-                                                                   @NotNull PsiAnnotation psiAnnotation,
-                                                                   @NotNull PsiField psiField);
+  protected abstract Collection<String> getNamesOfPossibleGeneratedElements(@Nonnull PsiClass psiClass,
+                                                                   @Nonnull PsiAnnotation psiAnnotation,
+                                                                   @Nonnull PsiField psiField);
 
-  protected abstract void generatePsiElements(@NotNull PsiField psiField,
-                                              @NotNull PsiAnnotation psiAnnotation,
-                                              @NotNull List<? super PsiElement> target);
+  protected abstract void generatePsiElements(@Nonnull PsiField psiField,
+                                              @Nonnull PsiAnnotation psiAnnotation,
+                                              @Nonnull List<? super PsiElement> target);
 
-  @NotNull
+  @Nonnull
   @Override
-  public Collection<PsiAnnotation> collectProcessedAnnotations(@NotNull PsiClass psiClass) {
+  public Collection<PsiAnnotation> collectProcessedAnnotations(@Nonnull PsiClass psiClass) {
     List<PsiAnnotation> result = new ArrayList<>();
     for (PsiField psiField : PsiClassUtil.collectClassFieldsIntern(psiClass)) {
       PsiAnnotation psiAnnotation = PsiAnnotationSearchUtil.findAnnotation(psiField, getSupportedAnnotationClasses());
@@ -96,9 +95,9 @@ public abstract class AbstractFieldProcessor extends AbstractProcessor implement
     return result;
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  public Collection<LombokProblem> verifyAnnotation(@NotNull PsiAnnotation psiAnnotation) {
+  public Collection<LombokProblem> verifyAnnotation(@Nonnull PsiAnnotation psiAnnotation) {
     Collection<LombokProblem> result = Collections.emptyList();
 
     PsiField psiField = PsiTreeUtil.getParentOfType(psiAnnotation, PsiField.class);
@@ -111,14 +110,14 @@ public abstract class AbstractFieldProcessor extends AbstractProcessor implement
     return result;
   }
 
-  protected abstract boolean validate(@NotNull PsiAnnotation psiAnnotation, @NotNull PsiField psiField, @NotNull ProblemSink builder);
+  protected abstract boolean validate(@Nonnull PsiAnnotation psiAnnotation, @Nonnull PsiField psiField, @Nonnull ProblemSink builder);
 
-  protected void validateOnXAnnotations(@NotNull PsiAnnotation psiAnnotation,
-                                        @NotNull PsiField psiField,
-                                        @NotNull ProblemSink problemSink,
-                                        @NotNull String parameterName) {
+  protected void validateOnXAnnotations(@Nonnull PsiAnnotation psiAnnotation,
+                                        @Nonnull PsiField psiField,
+                                        @Nonnull ProblemSink problemSink,
+                                        @Nonnull String parameterName) {
     if (problemSink.deepValidation()) {
-      final @NotNull List<PsiAnnotation> copyableAnnotations = LombokCopyableAnnotations.BASE_COPYABLE.collectCopyableAnnotations(psiField);
+      final @Nonnull List<PsiAnnotation> copyableAnnotations = LombokCopyableAnnotations.BASE_COPYABLE.collectCopyableAnnotations(psiField);
 
       if (!copyableAnnotations.isEmpty()) {
         final Iterable<String> onXAnnotations = LombokProcessorUtil.getOnX(psiAnnotation, parameterName);
@@ -141,8 +140,8 @@ public abstract class AbstractFieldProcessor extends AbstractProcessor implement
     }
   }
 
-  protected boolean validateExistingMethods(@NotNull PsiField psiField,
-                                            @NotNull ProblemSink builder,
+  protected boolean validateExistingMethods(@Nonnull PsiField psiField,
+                                            @Nonnull ProblemSink builder,
                                             boolean isGetter) {
 
     final PsiClass psiClass = psiField.getContainingClass();

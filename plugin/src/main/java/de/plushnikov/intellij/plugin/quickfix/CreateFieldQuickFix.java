@@ -7,13 +7,13 @@ import com.intellij.java.language.psi.*;
 import consulo.codeEditor.Editor;
 import consulo.language.editor.WriteCommandAction;
 import consulo.language.editor.inspection.LocalQuickFixOnPsiElement;
+import consulo.language.editor.util.LanguageUndoUtil;
 import consulo.language.psi.PsiElement;
 import consulo.language.psi.PsiFile;
 import consulo.project.Project;
-import consulo.undoRedo.util.UndoUtil;
 import de.plushnikov.intellij.plugin.LombokBundle;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -29,7 +29,7 @@ public class CreateFieldQuickFix extends LocalQuickFixOnPsiElement {
   private final String myInitializerText;
   private final Collection<String> myModifiers;
 
-  public CreateFieldQuickFix(@NotNull PsiClass psiClass, @NotNull String name, @NotNull PsiType psiType, @Nullable String initializerText, String... modifiers) {
+  public CreateFieldQuickFix(@Nonnull PsiClass psiClass, @Nonnull String name, @Nonnull PsiType psiType, @Nullable String initializerText, String... modifiers) {
     super(psiClass);
     myName = name;
     myType = psiType;
@@ -38,23 +38,23 @@ public class CreateFieldQuickFix extends LocalQuickFixOnPsiElement {
   }
 
   @Override
-  @NotNull
+  @Nonnull
   public String getText() {
     return LombokBundle.message("intention.name.create.new.field.s", myName);
   }
 
   @Override
-  @NotNull
+  @Nonnull
   public String getFamilyName() {
     return getText();
   }
 
   @Override
-  public void invoke(@NotNull Project project, @NotNull PsiFile psiFile, @NotNull PsiElement startElement, @NotNull PsiElement endElement) {
+  public void invoke(@Nonnull Project project, @Nonnull PsiFile psiFile, @Nonnull PsiElement startElement, @Nonnull PsiElement endElement) {
     final PsiClass myClass = (PsiClass) startElement;
     final Editor editor = CodeInsightUtil.positionCursor(project, psiFile, myClass.getLBrace());
     if (editor != null) {
-      WriteCommandAction.writeCommandAction(project, psiFile).run(() ->
+      WriteCommandAction.writeCommandAction(psiFile).run(() ->
         {
           final PsiElementFactory psiElementFactory = JavaPsiFacade.getElementFactory(project);
           final PsiField psiField = psiElementFactory.createField(myName, myType);
@@ -77,7 +77,7 @@ public class CreateFieldQuickFix extends LocalQuickFixOnPsiElement {
             editor.getCaretModel().moveToOffset(psiMember.getTextRange().getEndOffset());
           }
 
-          UndoUtil.markPsiFileForUndo(psiFile);
+          LanguageUndoUtil.markPsiFileForUndo(psiFile);
         }
       );
     }

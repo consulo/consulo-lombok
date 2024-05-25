@@ -1,20 +1,20 @@
 package de.plushnikov.intellij.plugin.action.delombok;
 
-import com.intellij.openapi.application.ApplicationManager;
+import consulo.lombok.processor.ProcessorUtil;
 import de.plushnikov.intellij.plugin.processor.clazz.fieldnameconstants.FieldNameConstantsOldProcessor;
 import de.plushnikov.intellij.plugin.processor.clazz.fieldnameconstants.FieldNameConstantsPredefinedInnerClassFieldProcessor;
 import de.plushnikov.intellij.plugin.processor.clazz.fieldnameconstants.FieldNameConstantsProcessor;
 import de.plushnikov.intellij.plugin.processor.field.FieldNameConstantsFieldProcessor;
-import org.jetbrains.annotations.NotNull;
+import jakarta.annotation.Nonnull;
 
 public class DelombokFieldNameConstantsAction extends AbstractDelombokAction {
   @Override
-  @NotNull
+  @Nonnull
   protected DelombokHandler createHandler() {
     return new DelombokHandler(true,
-                               ApplicationManager.getApplication().getService(FieldNameConstantsOldProcessor.class),
-                               ApplicationManager.getApplication().getService(FieldNameConstantsFieldProcessor.class),
-                               ApplicationManager.getApplication().getService(FieldNameConstantsProcessor.class),
-                               ApplicationManager.getApplication().getService(FieldNameConstantsPredefinedInnerClassFieldProcessor.class));
+                               ProcessorUtil.getProcessor(FieldNameConstantsOldProcessor.class),
+                               ProcessorUtil.getProcessor(FieldNameConstantsFieldProcessor.class),
+                               ProcessorUtil.getProcessor(FieldNameConstantsProcessor.class),
+                               ProcessorUtil.getProcessor(FieldNameConstantsPredefinedInnerClassFieldProcessor.class));
   }
 }

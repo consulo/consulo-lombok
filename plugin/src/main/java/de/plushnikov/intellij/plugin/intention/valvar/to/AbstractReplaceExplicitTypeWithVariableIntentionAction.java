@@ -1,6 +1,7 @@
 package de.plushnikov.intellij.plugin.intention.valvar.to;
 
 import com.intellij.java.analysis.impl.codeInspection.RemoveRedundantTypeArgumentsUtil;
+import com.intellij.java.impl.refactoring.IntroduceVariableUtil;
 import com.intellij.java.language.psi.*;
 import com.intellij.java.language.psi.util.PsiUtil;
 import consulo.language.codeStyle.CodeStyleManager;
@@ -10,7 +11,7 @@ import consulo.util.lang.StringUtil;
 import de.plushnikov.intellij.plugin.LombokBundle;
 import de.plushnikov.intellij.plugin.intention.valvar.AbstractValVarIntentionAction;
 import org.jetbrains.annotations.Nls;
-import org.jetbrains.annotations.NotNull;
+import jakarta.annotation.Nonnull;
 
 public abstract class AbstractReplaceExplicitTypeWithVariableIntentionAction extends AbstractValVarIntentionAction {
 
@@ -21,9 +22,8 @@ public abstract class AbstractReplaceExplicitTypeWithVariableIntentionAction ext
   }
 
   @Nls(capitalization = Nls.Capitalization.Sentence)
-  @NotNull
   @Override
-  public String getFamilyName() {
+  public String getText() {
     return LombokBundle.message("replace.explicit.type.with.0.lombok", StringUtil.getShortName(variableClassName));
   }
 
@@ -53,7 +53,7 @@ public abstract class AbstractReplaceExplicitTypeWithVariableIntentionAction ext
     return isAvailableOnDeclarationCustom(context, localVariable);
   }
 
-  protected abstract boolean isAvailableOnDeclarationCustom(@NotNull PsiDeclarationStatement context,@NotNull PsiLocalVariable localVariable);
+  protected abstract boolean isAvailableOnDeclarationCustom(@Nonnull PsiDeclarationStatement context, @Nonnull PsiLocalVariable localVariable);
 
   @Override
   public void invokeOnDeclarationStatement(PsiDeclarationStatement declarationStatement) {

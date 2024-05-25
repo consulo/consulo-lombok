@@ -8,16 +8,22 @@ import consulo.language.ast.TokenType;
 import consulo.language.editor.highlight.SyntaxHighlighterBase;
 import consulo.language.lexer.Lexer;
 import de.plushnikov.intellij.plugin.language.psi.LombokConfigTypes;
-import org.jetbrains.annotations.NotNull;
+import jakarta.annotation.Nonnull;
 
 public class LombokConfigSyntaxHighlighter extends SyntaxHighlighterBase {
-  public static final TextAttributesKey CLEAR = TextAttributesKey.createTextAttributesKey("LOMBOK_CLEAN", DefaultLanguageHighlighterColors.CONSTANT);
-  public static final TextAttributesKey SEPARATOR = TextAttributesKey.createTextAttributesKey("LOMBOK_SEPARATOR", DefaultLanguageHighlighterColors.OPERATION_SIGN);
-  public static final TextAttributesKey KEY = TextAttributesKey.createTextAttributesKey("LOMBOK_KEY", DefaultLanguageHighlighterColors.KEYWORD);
-  public static final TextAttributesKey VALUE = TextAttributesKey.createTextAttributesKey("LOMBOK_VALUE", DefaultLanguageHighlighterColors.STRING);
-  public static final TextAttributesKey COMMENT = TextAttributesKey.createTextAttributesKey("LOMBOK_COMMENT", DefaultLanguageHighlighterColors.LINE_COMMENT);
+  public static final TextAttributesKey CLEAR =
+    TextAttributesKey.createTextAttributesKey("LOMBOK_CLEAN", DefaultLanguageHighlighterColors.CONSTANT);
+  public static final TextAttributesKey SEPARATOR =
+    TextAttributesKey.createTextAttributesKey("LOMBOK_SEPARATOR", DefaultLanguageHighlighterColors.OPERATION_SIGN);
+  public static final TextAttributesKey KEY =
+    TextAttributesKey.createTextAttributesKey("LOMBOK_KEY", DefaultLanguageHighlighterColors.KEYWORD);
+  public static final TextAttributesKey VALUE =
+    TextAttributesKey.createTextAttributesKey("LOMBOK_VALUE", DefaultLanguageHighlighterColors.STRING);
+  public static final TextAttributesKey COMMENT =
+    TextAttributesKey.createTextAttributesKey("LOMBOK_COMMENT", DefaultLanguageHighlighterColors.LINE_COMMENT);
 
-  private static final TextAttributesKey BAD_CHARACTER = TextAttributesKey.createTextAttributesKey("LOMBOK_BAD_CHARACTER", HighlighterColors.BAD_CHARACTER);
+  private static final TextAttributesKey BAD_CHARACTER =
+    TextAttributesKey.createTextAttributesKey("LOMBOK_BAD_CHARACTER", HighlighterColors.BAD_CHARACTER);
 
   private static final TextAttributesKey[] BAD_CHAR_KEYS = new TextAttributesKey[]{BAD_CHARACTER};
   private static final TextAttributesKey[] SEPARATOR_KEYS = new TextAttributesKey[]{SEPARATOR};
@@ -27,27 +33,34 @@ public class LombokConfigSyntaxHighlighter extends SyntaxHighlighterBase {
   private static final TextAttributesKey[] CLEAR_KEYS = new TextAttributesKey[]{CLEAR};
   private static final TextAttributesKey[] EMPTY_KEYS = new TextAttributesKey[0];
 
-  @NotNull
+  @Nonnull
   @Override
   public Lexer getHighlightingLexer() {
     return new LombokConfigLexerAdapter();
   }
 
   @Override
-  public TextAttributesKey @NotNull [] getTokenHighlights(IElementType tokenType) {
+  @Nonnull
+  public TextAttributesKey[] getTokenHighlights(IElementType tokenType) {
     if (tokenType.equals(LombokConfigTypes.SEPARATOR) || tokenType.equals(LombokConfigTypes.SIGN)) {
       return SEPARATOR_KEYS;
-    } else if (tokenType.equals(LombokConfigTypes.CLEAR)) {
+    }
+    else if (tokenType.equals(LombokConfigTypes.CLEAR)) {
       return CLEAR_KEYS;
-    } else if (tokenType.equals(LombokConfigTypes.KEY)) {
+    }
+    else if (tokenType.equals(LombokConfigTypes.KEY)) {
       return KEY_KEYS;
-    } else if (tokenType.equals(LombokConfigTypes.VALUE)) {
+    }
+    else if (tokenType.equals(LombokConfigTypes.VALUE)) {
       return VALUE_KEYS;
-    } else if (tokenType.equals(LombokConfigTypes.COMMENT)) {
+    }
+    else if (tokenType.equals(LombokConfigTypes.COMMENT)) {
       return COMMENT_KEYS;
-    } else if (tokenType.equals(TokenType.BAD_CHARACTER)) {
+    }
+    else if (tokenType.equals(TokenType.BAD_CHARACTER)) {
       return BAD_CHAR_KEYS;
-    } else {
+    }
+    else {
       return EMPTY_KEYS;
     }
   }

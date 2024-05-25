@@ -3,49 +3,63 @@ package de.plushnikov.intellij.plugin.inspection;
 
 import com.intellij.java.language.psi.*;
 import com.intellij.java.language.psi.util.PsiUtil;
+import consulo.annotation.component.ExtensionImpl;
 import consulo.language.psi.util.PsiTreeUtil;
 import consulo.util.lang.Pair;
 import consulo.util.lang.StringUtil;
 import de.plushnikov.intellij.plugin.LombokBundle;
 import de.plushnikov.intellij.plugin.LombokClassNames;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
 import java.util.List;
 
-import static com.intellij.util.ObjectUtils.tryCast;
+import static consulo.util.lang.ObjectUtil.tryCast;
 
+@ExtensionImpl
 public class LombokGetterMayBeUsedInspection extends LombokGetterOrSetterMayBeUsedInspection {
   @Override
-  @NotNull
+  @Nonnull
   protected String getTagName() {
     return "return";
   }
 
+  @Nonnull
   @Override
-  @NotNull
+  public String getShortName() {
+    return "LombokGetterMayBeUsed";
+  }
+
+  @Nonnull
+  @Override
+  public String getDisplayName() {
+    return LombokBundle.message("inspection.lombok.getter.may.be.used.display.name");
+  }
+
+  @Override
+  @Nonnull
   protected String getJavaDocMethodMarkup() {
     return "GETTER";
   }
 
   @Override
-  @NotNull
+  @Nonnull
   protected @NonNls String getAnnotationName() {
     return LombokClassNames.GETTER;
   }
 
   @Override
-  @NotNull
+  @Nonnull
   protected @Nls String getFieldErrorMessage(String fieldName) {
     return LombokBundle.message("inspection.lombok.getter.may.be.used.display.field.message",
                                 fieldName);
   }
 
   @Override
-  @NotNull
+  @Nonnull
   protected @Nls String getClassErrorMessage(String className) {
     return LombokBundle.message("inspection.lombok.getter.may.be.used.display.class.message",
                                 className);
@@ -53,25 +67,25 @@ public class LombokGetterMayBeUsedInspection extends LombokGetterOrSetterMayBeUs
 
   @Override
   protected boolean processMethod(
-    @NotNull PsiMethod method,
-    @NotNull List<Pair<PsiField, PsiMethod>> instanceCandidates,
-    @NotNull List<Pair<PsiField, PsiMethod>> staticCandidates
+    @Nonnull PsiMethod method,
+    @Nonnull List<Pair<PsiField, PsiMethod>> instanceCandidates,
+    @Nonnull List<Pair<PsiField, PsiMethod>> staticCandidates
   ) {
     final PsiType returnType = method.getReturnType();
     if (!method.hasModifierProperty(PsiModifier.PUBLIC)
-        || method.isConstructor()
-        || method.hasParameters()
-        || method.getThrowsTypes().length != 0
-        || method.hasModifierProperty(PsiModifier.FINAL)
-        || method.hasModifierProperty(PsiModifier.ABSTRACT)
-        || method.hasModifierProperty(PsiModifier.SYNCHRONIZED)
-        || method.hasModifierProperty(PsiModifier.NATIVE)
-        || method.hasModifierProperty(PsiModifier.STRICTFP)
-        || method.getAnnotations().length != 0
-        || PsiTypes.voidType().equals(returnType)
-        || returnType == null
-        || returnType.getAnnotations().length != 0
-        || !method.isWritable()) {
+      || method.isConstructor()
+      || method.hasParameters()
+      || method.getThrowsTypes().length != 0
+      || method.hasModifierProperty(PsiModifier.FINAL)
+      || method.hasModifierProperty(PsiModifier.ABSTRACT)
+      || method.hasModifierProperty(PsiModifier.SYNCHRONIZED)
+      || method.hasModifierProperty(PsiModifier.NATIVE)
+      || method.hasModifierProperty(PsiModifier.STRICTFP)
+      || method.getAnnotations().length != 0
+      || PsiTypes.voidType().equals(returnType)
+      || returnType == null
+      || returnType.getAnnotations().length != 0
+      || !method.isWritable()) {
       return false;
     }
     final String methodName = method.getName();
@@ -88,7 +102,8 @@ public class LombokGetterMayBeUsedInspection extends LombokGetterOrSetterMayBeUs
     if (method.getBody() == null) {
       return false;
     }
-    final PsiStatement @NotNull [] methodStatements = Arrays.stream(method.getBody().getStatements()).filter(e -> !(e instanceof PsiEmptyStatement)).toArray(PsiStatement[]::new);
+    final PsiStatement[] methodStatements =
+      Arrays.stream(method.getBody().getStatements()).filter(e -> !(e instanceof PsiEmptyStatement)).toArray(PsiStatement[]::new);
     if (methodStatements.length != 1) {
       return false;
     }
@@ -110,7 +125,8 @@ public class LombokGetterMayBeUsedInspection extends LombokGetterOrSetterMayBeUs
     if (qualifier != null) {
       if (thisExpression == null) {
         return false;
-      } else if (thisExpression.getQualifier() != null) {
+      }
+      else if (thisExpression.getQualifier() != null) {
         if (!thisExpression.getQualifier().isReferenceTo(psiClass)) {
           return false;
         }
@@ -124,27 +140,28 @@ public class LombokGetterMayBeUsedInspection extends LombokGetterOrSetterMayBeUs
     final boolean isMethodStatic = method.hasModifierProperty(PsiModifier.STATIC);
     final PsiField field = psiClass.findFieldByName(fieldIdentifier, false);
     if (field == null
-        || !field.isWritable()
-        || isMethodStatic != field.hasModifierProperty(PsiModifier.STATIC)
-        || !field.getType().equals(returnType)) {
+      || !field.isWritable()
+      || isMethodStatic != field.hasModifierProperty(PsiModifier.STATIC)
+      || !field.getType().equals(returnType)) {
       return false;
     }
     if (isMethodStatic) {
       staticCandidates.add(Pair.pair(field, method));
-    } else {
+    }
+    else {
       instanceCandidates.add(Pair.pair(field, method));
     }
     return true;
   }
 
   @Override
-  @NotNull
+  @Nonnull
   protected @Nls String getFixName(String text) {
     return LombokBundle.message("inspection.lombok.getter.may.be.used.display.fix.name", text);
   }
 
   @Override
-  @NotNull
+  @Nonnull
   protected @Nls String getFixFamilyName() {
     return LombokBundle.message("inspection.lombok.getter.may.be.used.display.fix.family.name");
   }

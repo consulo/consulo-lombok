@@ -1,15 +1,15 @@
 package de.plushnikov.intellij.plugin.processor.handler.singular;
 
-import com.intellij.psi.PsiType;
-import com.intellij.psi.PsiVariable;
-import com.intellij.util.containers.ContainerUtil;
+import com.intellij.java.language.psi.PsiType;
+import com.intellij.java.language.psi.PsiVariable;
+import consulo.util.collection.ContainerUtil;
 import de.plushnikov.intellij.plugin.util.PsiTypeUtil;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 import java.util.Set;
 
-import static com.intellij.util.containers.ContainerUtil.union;
+import static consulo.util.collection.ContainerUtil.union;
 import static java.util.Set.of;
 
 public final class SingularHandlerFactory {
@@ -40,12 +40,12 @@ public final class SingularHandlerFactory {
     return qualifiedName == null || !containsOrAnyEndsWith(VALID_SINGULAR_TYPES, qualifiedName);
   }
 
-  private static boolean containsOrAnyEndsWith(@NotNull Set<String> elements, @NotNull String className) {
+  private static boolean containsOrAnyEndsWith(@Nonnull Set<String> elements, @Nonnull String className) {
     return elements.contains(className) || ContainerUtil.exists(elements, t -> t.endsWith("." + className));
   }
 
-  @NotNull
-  public static BuilderElementHandler getHandlerFor(@NotNull PsiVariable psiVariable, boolean hasSingularAnnotation) {
+  @Nonnull
+  public static BuilderElementHandler getHandlerFor(@Nonnull PsiVariable psiVariable, boolean hasSingularAnnotation) {
     if (!hasSingularAnnotation) {
       return new NonSingularHandler();
     }

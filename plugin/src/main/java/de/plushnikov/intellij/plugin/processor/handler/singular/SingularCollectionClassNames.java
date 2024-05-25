@@ -1,6 +1,6 @@
 package de.plushnikov.intellij.plugin.processor.handler.singular;
 
-import com.intellij.psi.CommonClassNames;
+import com.intellij.java.language.psi.CommonClassNames;
 
 interface SingularCollectionClassNames {
   String GUAVA_IMMUTABLE_COLLECTION = "com.google.common.collect.ImmutableCollection";

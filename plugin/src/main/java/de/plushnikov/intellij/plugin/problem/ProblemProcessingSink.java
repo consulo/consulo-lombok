@@ -1,6 +1,6 @@
 package de.plushnikov.intellij.plugin.problem;
 
-import org.jetbrains.annotations.NotNull;
+import jakarta.annotation.Nonnull;
 
 /**
  * @author Plushnikov Michail
@@ -25,12 +25,12 @@ public class ProblemProcessingSink implements ProblemSink {
   }
 
   @Override
-  public LombokProblem addWarningMessage(@NotNull String key, Object @NotNull ... params) {
+  public LombokProblem addWarningMessage(@Nonnull String key, @Nonnull Object ... params) {
     return LombokProblem.BLACKHOLE;
   }
 
   @Override
-  public LombokProblem addErrorMessage(@NotNull String key, Object @NotNull ... params) {
+  public LombokProblem addErrorMessage(@Nonnull String key, @Nonnull Object... params) {
     return LombokProblem.BLACKHOLE;
   }
 }

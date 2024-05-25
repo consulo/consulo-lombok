@@ -1,11 +1,12 @@
 package de.plushnikov.intellij.plugin.processor.clazz.builder;
 
-import com.intellij.psi.PsiAnnotation;
-import com.intellij.psi.PsiClass;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiMethod;
+import com.intellij.java.language.psi.PsiAnnotation;
+import com.intellij.java.language.psi.PsiClass;
+import com.intellij.java.language.psi.PsiMethod;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.language.psi.PsiElement;
 import de.plushnikov.intellij.plugin.LombokClassNames;
-import org.jetbrains.annotations.NotNull;
+import jakarta.annotation.Nonnull;
 
 import java.util.Collection;
 
@@ -14,6 +15,7 @@ import java.util.Collection;
  *
  * @author Michail Plushnikov
  */
+@ExtensionImpl
 public class SuperBuilderPreDefinedInnerClassMethodProcessor extends AbstractSuperBuilderPreDefinedInnerClassProcessor {
 
   public SuperBuilderPreDefinedInnerClassMethodProcessor() {
@@ -21,12 +23,12 @@ public class SuperBuilderPreDefinedInnerClassMethodProcessor extends AbstractSup
   }
 
   @Override
-  protected Collection<? extends PsiElement> generatePsiElementsOfBaseBuilderClass(@NotNull PsiClass psiParentClass, @NotNull PsiAnnotation psiAnnotation, @NotNull PsiClass psiBuilderClass) {
+  protected Collection<? extends PsiElement> generatePsiElementsOfBaseBuilderClass(@Nonnull PsiClass psiParentClass, @Nonnull PsiAnnotation psiAnnotation, @Nonnull PsiClass psiBuilderClass) {
     return getBuilderHandler().createAllMethodsOfBaseBuilder(psiParentClass, psiAnnotation, psiBuilderClass);
   }
 
   @Override
-  protected Collection<? extends PsiElement> generatePsiElementsOfImplBuilderClass(@NotNull PsiClass psiParentClass, @NotNull PsiAnnotation psiAnnotation, @NotNull PsiClass psiBuilderClass) {
+  protected Collection<? extends PsiElement> generatePsiElementsOfImplBuilderClass(@Nonnull PsiClass psiParentClass, @Nonnull PsiAnnotation psiAnnotation, @Nonnull PsiClass psiBuilderClass) {
     return getBuilderHandler().createAllMethodsOfImplBuilder(psiParentClass, psiAnnotation, psiBuilderClass);
   }
 

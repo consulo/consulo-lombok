@@ -11,8 +11,8 @@ import de.plushnikov.intellij.plugin.psi.LombokLightFieldBuilder;
 import de.plushnikov.intellij.plugin.util.LombokProcessorUtil;
 import de.plushnikov.intellij.plugin.util.PsiAnnotationSearchUtil;
 import de.plushnikov.intellij.plugin.util.PsiAnnotationUtil;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 import java.util.Set;
 
@@ -26,11 +26,11 @@ import java.util.Set;
 public class FieldDefaultsModifierProcessor implements ModifierProcessor {
 
   private static ConfigDiscovery getConfigDiscovery() {
-    return ApplicationManager.getApplication().getService(ConfigDiscovery.class);
+    return ApplicationManager.getApplication().getInstance(ConfigDiscovery.class);
   }
 
   @Override
-  public boolean isSupported(@NotNull PsiModifierList modifierList) {
+  public boolean isSupported(@Nonnull PsiModifierList modifierList) {
     // FieldDefaults only change modifiers of class fields
     // but not for enum constants or lombok generated fields
     final PsiElement psiElement = modifierList.getParent();
@@ -44,7 +44,7 @@ public class FieldDefaultsModifierProcessor implements ModifierProcessor {
   }
 
   @Override
-  public void transformModifiers(@NotNull PsiModifierList modifierList, @NotNull final Set<String> modifiers) {
+  public void transformModifiers(@Nonnull PsiModifierList modifierList, @Nonnull final Set<String> modifiers) {
     if (modifiers.contains(PsiModifier.STATIC) || UtilityClassModifierProcessor.isModifierListSupported(modifierList)) {
       return; // skip static fields
     }
@@ -55,7 +55,7 @@ public class FieldDefaultsModifierProcessor implements ModifierProcessor {
     }
 
     @Nullable final PsiAnnotation fieldDefaultsAnnotation = PsiAnnotationSearchUtil.findAnnotation(searchableClass,
-                                                                                                   LombokClassNames.FIELD_DEFAULTS);
+                                                                                                                      LombokClassNames.FIELD_DEFAULTS);
     final boolean isConfigDefaultFinal = isConfigDefaultFinal(searchableClass);
     final boolean isConfigDefaultPrivate = isConfigDefaultPrivate(searchableClass);
 
@@ -98,7 +98,7 @@ public class FieldDefaultsModifierProcessor implements ModifierProcessor {
     return getConfigDiscovery().getBooleanLombokConfigProperty(ConfigKey.FIELDDEFAULTS_PRIVATE, searchableClass);
   }
 
-  private static boolean shouldMakeFinal(@NotNull PsiField parentField,
+  private static boolean shouldMakeFinal(@Nonnull PsiField parentField,
                                          @Nullable PsiAnnotation fieldDefaultsAnnotation,
                                          boolean isConfigDefaultFinal) {
     return shouldMakeFinalByDefault(fieldDefaultsAnnotation, isConfigDefaultFinal)
@@ -117,7 +117,7 @@ public class FieldDefaultsModifierProcessor implements ModifierProcessor {
    * If explicit visibility modifier is set - no point to continue.
    * If @PackagePrivate is requested, leave the field as is.
    */
-  private static boolean canChangeVisibility(@NotNull PsiField parentField, @NotNull PsiModifierList modifierList) {
+  private static boolean canChangeVisibility(@Nonnull PsiField parentField, @Nonnull PsiModifierList modifierList) {
     return !hasExplicitAccessModifier(modifierList)
       && !PsiAnnotationSearchUtil.isAnnotatedWith(parentField, LombokClassNames.PACKAGE_PRIVATE);
   }
@@ -133,7 +133,7 @@ public class FieldDefaultsModifierProcessor implements ModifierProcessor {
     return accessLevelFromAnnotation;
   }
 
-  private static boolean hasExplicitAccessModifier(@NotNull PsiModifierList modifierList) {
+  private static boolean hasExplicitAccessModifier(@Nonnull PsiModifierList modifierList) {
     return modifierList.hasExplicitModifier(PsiModifier.PUBLIC)
       || modifierList.hasExplicitModifier(PsiModifier.PRIVATE)
       || modifierList.hasExplicitModifier(PsiModifier.PROTECTED);

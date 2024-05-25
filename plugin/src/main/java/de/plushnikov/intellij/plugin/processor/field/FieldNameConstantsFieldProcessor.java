@@ -1,7 +1,10 @@
 package de.plushnikov.intellij.plugin.processor.field;
 
-import com.intellij.psi.*;
-import com.intellij.psi.search.GlobalSearchScope;
+import com.intellij.java.language.psi.*;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.PsiManager;
+import consulo.language.psi.scope.GlobalSearchScope;
 import de.plushnikov.intellij.plugin.LombokClassNames;
 import de.plushnikov.intellij.plugin.lombokconfig.ConfigDiscovery;
 import de.plushnikov.intellij.plugin.lombokconfig.ConfigKey;
@@ -11,7 +14,7 @@ import de.plushnikov.intellij.plugin.psi.LombokLightFieldBuilder;
 import de.plushnikov.intellij.plugin.thirdparty.LombokUtils;
 import de.plushnikov.intellij.plugin.util.LombokProcessorUtil;
 import de.plushnikov.intellij.plugin.util.PsiAnnotationUtil;
-import org.jetbrains.annotations.NotNull;
+import jakarta.annotation.Nonnull;
 
 import java.util.Collection;
 import java.util.List;
@@ -23,6 +26,7 @@ import java.util.List;
  *
  * @author Plushnikov Michail
  */
+@ExtensionImpl
 public final class FieldNameConstantsFieldProcessor extends AbstractFieldProcessor {
   private static final String CONFIG_DEFAULT = " CONFIG DEFAULT ";
 
@@ -31,27 +35,27 @@ public final class FieldNameConstantsFieldProcessor extends AbstractFieldProcess
   }
 
   @Override
-  protected boolean supportAnnotationVariant(@NotNull PsiAnnotation psiAnnotation) {
+  protected boolean supportAnnotationVariant(@Nonnull PsiAnnotation psiAnnotation) {
     // old version of @FieldNameConstants has attributes "prefix" and "suffix", the new one not
     return null != psiAnnotation.findAttributeValue("prefix");
   }
 
   @Override
-  protected Collection<String> getNamesOfPossibleGeneratedElements(@NotNull PsiClass psiClass,
-                                                                   @NotNull PsiAnnotation psiAnnotation,
-                                                                   @NotNull PsiField psiField) {
+  protected Collection<String> getNamesOfPossibleGeneratedElements(@Nonnull PsiClass psiClass,
+                                                                   @Nonnull PsiAnnotation psiAnnotation,
+                                                                   @Nonnull PsiField psiField) {
     final String generatedElementName = calcFieldConstantName(psiField, psiAnnotation, psiClass);
     return List.of(generatedElementName);
   }
 
   @Override
-  protected boolean validate(@NotNull PsiAnnotation psiAnnotation, @NotNull PsiField psiField, @NotNull ProblemSink builder) {
+  protected boolean validate(@Nonnull PsiAnnotation psiAnnotation, @Nonnull PsiField psiField, @Nonnull ProblemSink builder) {
     return LombokProcessorUtil.isLevelVisible(psiAnnotation) && checkIfFieldNameIsValidAndWarn(psiAnnotation, psiField, builder);
   }
 
-  public static boolean checkIfFieldNameIsValidAndWarn(@NotNull PsiAnnotation psiAnnotation,
-                                                       @NotNull PsiField psiField,
-                                                       @NotNull ProblemSink builder) {
+  public static boolean checkIfFieldNameIsValidAndWarn(@Nonnull PsiAnnotation psiAnnotation,
+                                                       @Nonnull PsiField psiField,
+                                                       @Nonnull ProblemSink builder) {
     final boolean isValid = isValidFieldNameConstant(psiAnnotation, psiField);
     if (!isValid) {
       builder.addWarningMessage("inspection.message.not.generating.constant");
@@ -59,7 +63,7 @@ public final class FieldNameConstantsFieldProcessor extends AbstractFieldProcess
     return isValid;
   }
 
-  private static boolean isValidFieldNameConstant(@NotNull PsiAnnotation psiAnnotation, @NotNull PsiField psiField) {
+  private static boolean isValidFieldNameConstant(@Nonnull PsiAnnotation psiAnnotation, @Nonnull PsiField psiField) {
     final PsiClass psiClass = psiField.getContainingClass();
     if (null != psiClass) {
       final String fieldName = calcFieldConstantName(psiField, psiAnnotation, psiClass);
@@ -69,17 +73,17 @@ public final class FieldNameConstantsFieldProcessor extends AbstractFieldProcess
   }
 
   @Override
-  protected void generatePsiElements(@NotNull PsiField psiField, @NotNull PsiAnnotation psiAnnotation, @NotNull List<? super PsiElement> target) {
+  protected void generatePsiElements(@Nonnull PsiField psiField, @Nonnull PsiAnnotation psiAnnotation, @Nonnull List<? super PsiElement> target) {
     final PsiClass psiClass = psiField.getContainingClass();
     if (null != psiClass) {
       target.add(createFieldNameConstant(psiField, psiClass, psiAnnotation));
     }
   }
 
-  @NotNull
-  public static PsiField createFieldNameConstant(@NotNull PsiField psiField,
-                                                 @NotNull PsiClass psiClass,
-                                                 @NotNull PsiAnnotation psiAnnotation) {
+  @Nonnull
+  public static PsiField createFieldNameConstant(@Nonnull PsiField psiField,
+                                                 @Nonnull PsiClass psiClass,
+                                                 @Nonnull PsiAnnotation psiAnnotation) {
     final PsiManager manager = psiClass.getContainingFile().getManager();
     final PsiType psiFieldType = PsiType.getJavaLangString(manager, GlobalSearchScope.allScope(psiClass.getProject()));
 
@@ -101,8 +105,8 @@ public final class FieldNameConstantsFieldProcessor extends AbstractFieldProcess
     return fieldNameConstant;
   }
 
-  @NotNull
-  private static String calcFieldConstantName(@NotNull PsiField psiField, @NotNull PsiAnnotation psiAnnotation, @NotNull PsiClass psiClass) {
+  @Nonnull
+  private static String calcFieldConstantName(@Nonnull PsiField psiField, @Nonnull PsiAnnotation psiAnnotation, @Nonnull PsiClass psiClass) {
     String prefix = PsiAnnotationUtil.getStringAnnotationValue(psiAnnotation, "prefix", CONFIG_DEFAULT);
     String suffix = PsiAnnotationUtil.getStringAnnotationValue(psiAnnotation, "suffix", CONFIG_DEFAULT);
 
@@ -118,7 +122,7 @@ public final class FieldNameConstantsFieldProcessor extends AbstractFieldProcess
   }
 
   @Override
-  public LombokPsiElementUsage checkFieldUsage(@NotNull PsiField psiField, @NotNull PsiAnnotation psiAnnotation) {
+  public LombokPsiElementUsage checkFieldUsage(@Nonnull PsiField psiField, @Nonnull PsiAnnotation psiAnnotation) {
     return LombokPsiElementUsage.USAGE;
   }
 }

@@ -1,9 +1,8 @@
 package de.plushnikov.intellij.plugin.problem;
 
-import com.intellij.codeInspection.ProblemHighlightType;
-import com.intellij.codeInspection.util.InspectionMessage;
+import consulo.language.editor.inspection.ProblemHighlightType;
 import de.plushnikov.intellij.plugin.LombokBundle;
-import org.jetbrains.annotations.NotNull;
+import jakarta.annotation.Nonnull;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -35,16 +34,16 @@ public class ProblemValidationSink implements ProblemSink {
   }
 
   @Override
-  public LombokProblemInstance addWarningMessage(@NotNull String key, Object @NotNull ... params) {
+  public LombokProblemInstance addWarningMessage(@Nonnull String key, @Nonnull Object... params) {
     return addProblem(LombokBundle.message(key, params), ProblemHighlightType.GENERIC_ERROR_OR_WARNING);
   }
 
   @Override
-  public LombokProblemInstance addErrorMessage(@NotNull String key, Object @NotNull ... params) {
+  public LombokProblemInstance addErrorMessage(@Nonnull String key, @Nonnull Object... params) {
     return addProblem(LombokBundle.message(key, params), ProblemHighlightType.GENERIC_ERROR);
   }
 
-  private LombokProblemInstance addProblem(@InspectionMessage String message,
+  private LombokProblemInstance addProblem(String message,
                                            ProblemHighlightType highlightType) {
     final LombokProblemInstance lombokProblem = new LombokProblemInstance(message, highlightType);
     problems.add(lombokProblem);

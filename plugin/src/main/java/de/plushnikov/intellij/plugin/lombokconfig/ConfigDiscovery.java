@@ -1,9 +1,11 @@
 package de.plushnikov.intellij.plugin.lombokconfig;
 
 import com.intellij.java.language.psi.PsiClass;
+import consulo.annotation.component.ComponentScope;
+import consulo.annotation.component.ServiceAPI;
+import consulo.annotation.component.ServiceImpl;
 import consulo.application.ApplicationManager;
 import consulo.application.util.CachedValueProvider;
-import consulo.application.util.CachedValuesManager;
 import consulo.application.util.ConcurrentFactoryMap;
 import consulo.language.psi.PsiFile;
 import consulo.language.psi.scope.GlobalSearchScope;
@@ -13,18 +15,22 @@ import consulo.language.psi.util.LanguageCachedValueUtil;
 import consulo.project.Project;
 import consulo.util.lang.StringUtil;
 import consulo.virtualFileSystem.VirtualFile;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.inject.Singleton;
+import jakarta.annotation.Nullable;
 
 import java.util.*;
 
+@Singleton
+@ServiceAPI(ComponentScope.APPLICATION)
+@ServiceImpl
 public class ConfigDiscovery {
-  @NotNull
+  @Nonnull
   public static ConfigDiscovery getInstance() {
-    return ApplicationManager.getApplication().getService(ConfigDiscovery.class);
+    return ApplicationManager.getApplication().getInstance(ConfigDiscovery.class);
   }
 
-  public @NotNull LombokNullAnnotationLibrary getAddNullAnnotationLombokConfigProperty(@NotNull PsiClass psiClass) {
+  public @Nonnull LombokNullAnnotationLibrary getAddNullAnnotationLombokConfigProperty(@Nonnull PsiClass psiClass) {
     final String configProperty = getStringLombokConfigProperty(ConfigKey.ADD_NULL_ANNOTATIONS, psiClass);
     if (StringUtil.isNotEmpty(configProperty)) {
       for (LombokNullAnnotationLibraryDefned library : LombokNullAnnotationLibraryDefned.values()) {
@@ -41,12 +47,12 @@ public class ConfigDiscovery {
     return LombokNullAnnotationLibraryDefned.NONE;
   }
 
-  public @NotNull Collection<String> getMultipleValueLombokConfigProperty(@NotNull ConfigKey configKey, @NotNull PsiClass psiClass) {
+  public @Nonnull Collection<String> getMultipleValueLombokConfigProperty(@Nonnull ConfigKey configKey, @Nonnull PsiClass psiClass) {
     return getConfigProperty(configKey, psiClass);
   }
 
-  @NotNull
-  public String getStringLombokConfigProperty(@NotNull ConfigKey configKey, @NotNull PsiClass psiClass) {
+  @Nonnull
+  public String getStringLombokConfigProperty(@Nonnull ConfigKey configKey, @Nonnull PsiClass psiClass) {
     Collection<String> result = getConfigProperty(configKey, psiClass);
     if (!result.isEmpty()) {
       return result.iterator().next();
@@ -54,13 +60,13 @@ public class ConfigDiscovery {
     return configKey.getConfigDefaultValue();
   }
 
-  public boolean getBooleanLombokConfigProperty(@NotNull ConfigKey configKey, @NotNull PsiClass psiClass) {
+  public boolean getBooleanLombokConfigProperty(@Nonnull ConfigKey configKey, @Nonnull PsiClass psiClass) {
     final String configProperty = getStringLombokConfigProperty(configKey, psiClass);
     return Boolean.parseBoolean(configProperty);
   }
 
-  @NotNull
-  private Collection<String> getConfigProperty(@NotNull ConfigKey configKey, @NotNull PsiClass psiClass) {
+  @Nonnull
+  private Collection<String> getConfigProperty(@Nonnull ConfigKey configKey, @Nonnull PsiClass psiClass) {
     @Nullable PsiFile psiFile = calculatePsiFile(psiClass);
     if (psiFile != null) {
       return discoverPropertyWithCache(configKey, psiFile);
@@ -69,7 +75,7 @@ public class ConfigDiscovery {
   }
 
   @Nullable
-  private static PsiFile calculatePsiFile(@NotNull PsiClass psiClass) {
+  private static PsiFile calculatePsiFile(@Nonnull PsiClass psiClass) {
     PsiFile psiFile = psiClass.getContainingFile();
     if (psiFile != null) {
       psiFile = psiFile.getOriginalFile();
@@ -77,9 +83,9 @@ public class ConfigDiscovery {
     return psiFile;
   }
 
-  @NotNull
-  protected Collection<String> discoverPropertyWithCache(@NotNull ConfigKey configKey,
-                                                         @NotNull PsiFile psiFile) {
+  @Nonnull
+  protected Collection<String> discoverPropertyWithCache(@Nonnull ConfigKey configKey,
+                                                         @Nonnull PsiFile psiFile) {
     return LanguageCachedValueUtil.getCachedValue(psiFile, () -> {
       Map<ConfigKey, Collection<String>> result =
         ConcurrentFactoryMap.createMap(configKeyInner -> discoverProperty(configKeyInner, psiFile));
@@ -87,16 +93,16 @@ public class ConfigDiscovery {
     }).get(configKey);
   }
 
-  @NotNull
-  protected Collection<String> discoverProperty(@NotNull ConfigKey configKey, @NotNull PsiFile psiFile) {
+  @Nonnull
+  protected Collection<String> discoverProperty(@Nonnull ConfigKey configKey, @Nonnull PsiFile psiFile) {
     if (configKey.isConfigScalarValue()) {
       return discoverScalarProperty(configKey, psiFile);
     }
     return discoverCollectionProperty(configKey, psiFile);
   }
 
-  @NotNull
-  private Collection<String> discoverScalarProperty(@NotNull ConfigKey configKey, @NotNull PsiFile psiFile) {
+  @Nonnull
+  private Collection<String> discoverScalarProperty(@Nonnull ConfigKey configKey, @Nonnull PsiFile psiFile) {
     @Nullable VirtualFile currentFile = psiFile.getVirtualFile();
     while (currentFile != null) {
       ConfigValue configValue = readProperty(configKey, psiFile.getProject(), currentFile);
@@ -122,7 +128,7 @@ public class ConfigDiscovery {
   }
 
   @Nullable
-  private ConfigValue readProperty(@NotNull ConfigKey configKey, @NotNull Project project, @NotNull VirtualFile directory) {
+  private ConfigValue readProperty(@Nonnull ConfigKey configKey, @Nonnull Project project, @Nonnull VirtualFile directory) {
     GlobalSearchScope directoryScope = GlobalSearchScopesCore.directoryScope(project, directory, false);
     List<ConfigValue> values = getFileBasedIndex().getValues(LombokConfigIndex.NAME, configKey, directoryScope);
     if (!values.isEmpty()) {
@@ -131,8 +137,8 @@ public class ConfigDiscovery {
     return null;
   }
 
-  @NotNull
-  private Collection<String> discoverCollectionProperty(@NotNull ConfigKey configKey, @NotNull PsiFile file) {
+  @Nonnull
+  private Collection<String> discoverCollectionProperty(@Nonnull ConfigKey configKey, @Nonnull PsiFile file) {
     List<String> properties = new ArrayList<>();
 
     final Project project = file.getProject();

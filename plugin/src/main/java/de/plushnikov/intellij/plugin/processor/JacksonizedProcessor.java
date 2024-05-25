@@ -1,13 +1,15 @@
 package de.plushnikov.intellij.plugin.processor;
 
-import com.intellij.psi.*;
-import com.intellij.psi.util.PsiTreeUtil;
+import com.intellij.java.language.psi.*;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.util.PsiTreeUtil;
 import de.plushnikov.intellij.plugin.LombokClassNames;
 import de.plushnikov.intellij.plugin.problem.LombokProblem;
 import de.plushnikov.intellij.plugin.problem.ProblemSink;
 import de.plushnikov.intellij.plugin.problem.ProblemValidationSink;
 import de.plushnikov.intellij.plugin.util.PsiAnnotationSearchUtil;
-import org.jetbrains.annotations.NotNull;
+import jakarta.annotation.Nonnull;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -17,21 +19,22 @@ import java.util.Collections;
  *
  * @author Plushnikov Michail
  */
+@ExtensionImpl
 public class JacksonizedProcessor extends AbstractProcessor {
 
   public JacksonizedProcessor() {
     super(PsiElement.class, LombokClassNames.JACKSONIZED);
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  public Collection<PsiAnnotation> collectProcessedAnnotations(@NotNull PsiClass psiClass) {
+  public Collection<PsiAnnotation> collectProcessedAnnotations(@Nonnull PsiClass psiClass) {
     return Collections.emptyList();
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  public Collection<LombokProblem> verifyAnnotation(@NotNull PsiAnnotation psiAnnotation) {
+  public Collection<LombokProblem> verifyAnnotation(@Nonnull PsiAnnotation psiAnnotation) {
     final ProblemValidationSink validationSink = new ProblemValidationSink();
 
     final PsiModifierListOwner psiModifierListOwner;
@@ -50,7 +53,7 @@ public class JacksonizedProcessor extends AbstractProcessor {
     return validationSink.getProblems();
   }
 
-  public static boolean validateAnnotationOwner(@NotNull PsiModifierListOwner psiModifierListOwner, ProblemSink validationSink) {
+  public static boolean validateAnnotationOwner(@Nonnull PsiModifierListOwner psiModifierListOwner, ProblemSink validationSink) {
     final boolean hasBuilder = PsiAnnotationSearchUtil.isAnnotatedWith(psiModifierListOwner, LombokClassNames.BUILDER);
     final boolean hasSuperBuilder = PsiAnnotationSearchUtil.isAnnotatedWith(psiModifierListOwner, LombokClassNames.SUPER_BUILDER);
     if (!hasBuilder && !hasSuperBuilder) {

@@ -1,14 +1,14 @@
 package de.plushnikov.intellij.plugin.processor.handler;
 
-import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.psi.*;
+import com.intellij.java.language.psi.*;
+import consulo.util.lang.StringUtil;
 import de.plushnikov.intellij.plugin.LombokClassNames;
 import de.plushnikov.intellij.plugin.lombokconfig.ConfigDiscovery;
 import de.plushnikov.intellij.plugin.lombokconfig.ConfigKey;
 import de.plushnikov.intellij.plugin.thirdparty.LombokUtils;
 import de.plushnikov.intellij.plugin.util.*;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 import java.util.*;
 
@@ -82,12 +82,12 @@ public final class EqualsAndHashCodeToStringHandler {
     }
 
     @Override
-    public int compareTo(@NotNull MemberInfo other) {
+    public int compareTo(@Nonnull MemberInfo other) {
       return Integer.compare(other.rankValue, rankValue);
     }
   }
 
-  public static Collection<MemberInfo> filterMembers(@NotNull PsiClass psiClass, @NotNull PsiAnnotation psiAnnotation,
+  public static Collection<MemberInfo> filterMembers(@Nonnull PsiClass psiClass, @Nonnull PsiAnnotation psiAnnotation,
                                                      boolean filterTransient, String includeAnnotationProperty,
                                                      @Nullable ConfigKey onlyExplicitlyIncludedConfigKey) {
     final boolean explicitOf = PsiAnnotationUtil.hasDeclaredProperty(psiAnnotation, "of");
@@ -179,8 +179,8 @@ public final class EqualsAndHashCodeToStringHandler {
     return result;
   }
 
-  private static boolean checkOnlyExplicitlyIncluded(@NotNull PsiClass psiClass,
-                                                     @NotNull PsiAnnotation psiAnnotation,
+  private static boolean checkOnlyExplicitlyIncluded(@Nonnull PsiClass psiClass,
+                                                     @Nonnull PsiAnnotation psiAnnotation,
                                                      @Nullable ConfigKey onlyExplicitlyIncludedConfigKey) {
     final boolean onlyExplicitlyIncluded;
     final Boolean declaredAnnotationValue = PsiAnnotationUtil.getDeclaredBooleanAnnotationValue(psiAnnotation, "onlyExplicitlyIncluded");
@@ -198,11 +198,11 @@ public final class EqualsAndHashCodeToStringHandler {
     return onlyExplicitlyIncluded;
   }
 
-  private static int calcMemberRank(@NotNull PsiAnnotation includeAnnotation) {
+  private static int calcMemberRank(@Nonnull PsiAnnotation includeAnnotation) {
     return PsiAnnotationUtil.getIntAnnotationValue(includeAnnotation, TO_STRING_RANK_ANNOTATION_PARAMETER, 0);
   }
 
-  public static String getMemberAccessorName(@NotNull MemberInfo memberInfo, boolean doNotUseGetters, @NotNull PsiClass psiClass) {
+  public static String getMemberAccessorName(@Nonnull MemberInfo memberInfo, boolean doNotUseGetters, @Nonnull PsiClass psiClass) {
     final String memberAccessor;
     if (null == memberInfo.getMethod()) {
       memberAccessor = buildAttributeNameString(doNotUseGetters, memberInfo.getField(), psiClass);
@@ -212,7 +212,7 @@ public final class EqualsAndHashCodeToStringHandler {
     return memberAccessor;
   }
 
-  private static String buildAttributeNameString(boolean doNotUseGetters, @NotNull PsiField classField, @NotNull PsiClass psiClass) {
+  private static String buildAttributeNameString(boolean doNotUseGetters, @Nonnull PsiField classField, @Nonnull PsiClass psiClass) {
     final String fieldName = classField.getName();
     if (doNotUseGetters) {
       return fieldName;
@@ -233,7 +233,7 @@ public final class EqualsAndHashCodeToStringHandler {
     }
   }
 
-  private static Collection<String> makeSet(@NotNull Collection<String> exclude) {
+  private static Collection<String> makeSet(@Nonnull Collection<String> exclude) {
     if (exclude.isEmpty()) {
       return Collections.emptySet();
     } else {

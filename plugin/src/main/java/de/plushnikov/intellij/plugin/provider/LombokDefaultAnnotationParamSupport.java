@@ -1,16 +1,19 @@
 package de.plushnikov.intellij.plugin.provider;
 
+import com.intellij.java.impl.codeInspection.DefaultAnnotationParamIgnoreFilter;
+import consulo.annotation.component.ExtensionImpl;
 import de.plushnikov.intellij.plugin.LombokClassNames;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 /**
  * Ignore DefaultAnnotationParamInspection for lombok EqualsAndHashCode annotation and callSuper param
  */
-public class LombokDefaultAnnotationParamSupport implements DefaultAnnotationParamInspection.IgnoreAnnotationParamSupport {
+@ExtensionImpl
+public class LombokDefaultAnnotationParamSupport implements DefaultAnnotationParamIgnoreFilter {
 
   @Override
-  public boolean ignoreAnnotationParam(@Nullable String annotationFQN, @NotNull String annotationParameterName) {
+  public boolean ignoreAnnotationParam(@Nullable String annotationFQN, @Nonnull String annotationParameterName) {
     return LombokClassNames.ACCESSORS.equals(annotationFQN) ||
            LombokClassNames.EQUALS_AND_HASHCODE.equals(annotationFQN) && ("callSuper".equals(annotationParameterName) || "of".equals(annotationParameterName));
   }

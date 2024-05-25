@@ -1,6 +1,6 @@
 package de.plushnikov.intellij.plugin.action.delombok;
 
-import com.intellij.openapi.application.ApplicationManager;
+import consulo.lombok.processor.ProcessorUtil;
 import de.plushnikov.intellij.plugin.processor.clazz.*;
 import de.plushnikov.intellij.plugin.processor.clazz.builder.*;
 import de.plushnikov.intellij.plugin.processor.clazz.constructor.AllArgsConstructorProcessor;
@@ -20,53 +20,53 @@ public class DelombokEverythingAction extends AbstractDelombokAction {
   @Override
   protected DelombokHandler createHandler() {
     return new DelombokHandler(true,
-                               ApplicationManager.getApplication().getService(RequiredArgsConstructorProcessor.class),
-                               ApplicationManager.getApplication().getService(AllArgsConstructorProcessor.class),
-                               ApplicationManager.getApplication().getService(NoArgsConstructorProcessor.class),
+                               ProcessorUtil.getProcessor(RequiredArgsConstructorProcessor.class),
+                               ProcessorUtil.getProcessor(AllArgsConstructorProcessor.class),
+                               ProcessorUtil.getProcessor(NoArgsConstructorProcessor.class),
 
-                               ApplicationManager.getApplication().getService(DataProcessor.class),
-                               ApplicationManager.getApplication().getService(GetterProcessor.class),
-                               ApplicationManager.getApplication().getService(ValueProcessor.class),
-                               ApplicationManager.getApplication().getService(WitherProcessor.class),
-                               ApplicationManager.getApplication().getService(SetterProcessor.class),
-                               ApplicationManager.getApplication().getService(EqualsAndHashCodeProcessor.class),
-                               ApplicationManager.getApplication().getService(ToStringProcessor.class),
+                               ProcessorUtil.getProcessor(DataProcessor.class),
+                               ProcessorUtil.getProcessor(GetterProcessor.class),
+                               ProcessorUtil.getProcessor(ValueProcessor.class),
+                               ProcessorUtil.getProcessor(WitherProcessor.class),
+                               ProcessorUtil.getProcessor(SetterProcessor.class),
+                               ProcessorUtil.getProcessor(EqualsAndHashCodeProcessor.class),
+                               ProcessorUtil.getProcessor(ToStringProcessor.class),
 
-                               ApplicationManager.getApplication().getService(CommonsLogProcessor.class),
-                               ApplicationManager.getApplication().getService(JBossLogProcessor.class),
-                               ApplicationManager.getApplication().getService(Log4jProcessor.class),
-                               ApplicationManager.getApplication().getService(Log4j2Processor.class),
-                               ApplicationManager.getApplication().getService(LogProcessor.class),
-                               ApplicationManager.getApplication().getService(Slf4jProcessor.class),
-                               ApplicationManager.getApplication().getService(XSlf4jProcessor.class),
-                               ApplicationManager.getApplication().getService(FloggerProcessor.class),
-                               ApplicationManager.getApplication().getService(CustomLogProcessor.class),
+                               ProcessorUtil.getProcessor(CommonsLogProcessor.class),
+                               ProcessorUtil.getProcessor(JBossLogProcessor.class),
+                               ProcessorUtil.getProcessor(Log4jProcessor.class),
+                               ProcessorUtil.getProcessor(Log4j2Processor.class),
+                               ProcessorUtil.getProcessor(LogProcessor.class),
+                               ProcessorUtil.getProcessor(Slf4jProcessor.class),
+                               ProcessorUtil.getProcessor(XSlf4jProcessor.class),
+                               ProcessorUtil.getProcessor(FloggerProcessor.class),
+                               ProcessorUtil.getProcessor(CustomLogProcessor.class),
 
-                               ApplicationManager.getApplication().getService(GetterFieldProcessor.class),
-                               ApplicationManager.getApplication().getService(SetterFieldProcessor.class),
-                               ApplicationManager.getApplication().getService(WitherFieldProcessor.class),
-                               ApplicationManager.getApplication().getService(DelegateFieldProcessor.class),
-                               ApplicationManager.getApplication().getService(DelegateMethodProcessor.class),
+                               ProcessorUtil.getProcessor(GetterFieldProcessor.class),
+                               ProcessorUtil.getProcessor(SetterFieldProcessor.class),
+                               ProcessorUtil.getProcessor(WitherFieldProcessor.class),
+                               ProcessorUtil.getProcessor(DelegateFieldProcessor.class),
+                               ProcessorUtil.getProcessor(DelegateMethodProcessor.class),
 
-                               ApplicationManager.getApplication().getService(FieldNameConstantsOldProcessor.class),
-                               ApplicationManager.getApplication().getService(FieldNameConstantsFieldProcessor.class),
-                               ApplicationManager.getApplication().getService(FieldNameConstantsProcessor.class),
-                               ApplicationManager.getApplication().getService(FieldNameConstantsPredefinedInnerClassFieldProcessor.class),
+                               ProcessorUtil.getProcessor(FieldNameConstantsOldProcessor.class),
+                               ProcessorUtil.getProcessor(FieldNameConstantsFieldProcessor.class),
+                               ProcessorUtil.getProcessor(FieldNameConstantsProcessor.class),
+                               ProcessorUtil.getProcessor(FieldNameConstantsPredefinedInnerClassFieldProcessor.class),
 
-                               ApplicationManager.getApplication().getService(UtilityClassProcessor.class),
-                               ApplicationManager.getApplication().getService(StandardExceptionProcessor.class),
+                               ProcessorUtil.getProcessor(UtilityClassProcessor.class),
+                               ProcessorUtil.getProcessor(StandardExceptionProcessor.class),
 
-                               ApplicationManager.getApplication().getService(BuilderPreDefinedInnerClassFieldProcessor.class),
-                               ApplicationManager.getApplication().getService(BuilderPreDefinedInnerClassMethodProcessor.class),
-                               ApplicationManager.getApplication().getService(BuilderClassProcessor.class),
-                               ApplicationManager.getApplication().getService(BuilderClassMethodProcessor.class),
-                               ApplicationManager.getApplication().getService(BuilderMethodProcessor.class),
-                               ApplicationManager.getApplication().getService(BuilderProcessor.class),
+                               ProcessorUtil.getProcessor(BuilderPreDefinedInnerClassFieldProcessor.class),
+                               ProcessorUtil.getProcessor(BuilderPreDefinedInnerClassMethodProcessor.class),
+                               ProcessorUtil.getProcessor(BuilderClassProcessor.class),
+                               ProcessorUtil.getProcessor(BuilderClassMethodProcessor.class),
+                               ProcessorUtil.getProcessor(BuilderMethodProcessor.class),
+                               ProcessorUtil.getProcessor(BuilderProcessor.class),
 
-                               ApplicationManager.getApplication().getService(SuperBuilderPreDefinedInnerClassFieldProcessor.class),
-                               ApplicationManager.getApplication().getService(SuperBuilderPreDefinedInnerClassMethodProcessor.class),
-                               ApplicationManager.getApplication().getService(SuperBuilderClassProcessor.class),
-                               ApplicationManager.getApplication().getService(SuperBuilderProcessor.class));
+                               ProcessorUtil.getProcessor(SuperBuilderPreDefinedInnerClassFieldProcessor.class),
+                               ProcessorUtil.getProcessor(SuperBuilderPreDefinedInnerClassMethodProcessor.class),
+                               ProcessorUtil.getProcessor(SuperBuilderClassProcessor.class),
+                               ProcessorUtil.getProcessor(SuperBuilderProcessor.class));
   }
 
 }

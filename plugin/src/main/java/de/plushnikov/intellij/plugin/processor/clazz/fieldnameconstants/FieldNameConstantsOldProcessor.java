@@ -1,8 +1,10 @@
 package de.plushnikov.intellij.plugin.processor.clazz.fieldnameconstants;
 
 
-import com.intellij.openapi.application.ApplicationManager;
-import com.intellij.psi.*;
+import com.intellij.java.language.psi.*;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.language.psi.PsiElement;
+import consulo.lombok.processor.ProcessorUtil;
 import de.plushnikov.intellij.plugin.LombokClassNames;
 import de.plushnikov.intellij.plugin.problem.ProblemProcessingSink;
 import de.plushnikov.intellij.plugin.problem.ProblemSink;
@@ -13,7 +15,7 @@ import de.plushnikov.intellij.plugin.thirdparty.LombokUtils;
 import de.plushnikov.intellij.plugin.util.LombokProcessorUtil;
 import de.plushnikov.intellij.plugin.util.PsiAnnotationSearchUtil;
 import de.plushnikov.intellij.plugin.util.PsiClassUtil;
-import org.jetbrains.annotations.NotNull;
+import jakarta.annotation.Nonnull;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -26,6 +28,7 @@ import java.util.List;
  *
  * @author Plushnikov Michail
  */
+@ExtensionImpl
 public class FieldNameConstantsOldProcessor extends AbstractClassProcessor {
 
   public FieldNameConstantsOldProcessor() {
@@ -33,17 +36,17 @@ public class FieldNameConstantsOldProcessor extends AbstractClassProcessor {
   }
 
   private static FieldNameConstantsFieldProcessor getFieldNameConstantsFieldProcessor() {
-    return ApplicationManager.getApplication().getService(FieldNameConstantsFieldProcessor.class);
+    return ProcessorUtil.getProcessor(FieldNameConstantsFieldProcessor.class);
   }
 
   @Override
-  protected boolean supportAnnotationVariant(@NotNull PsiAnnotation psiAnnotation) {
+  protected boolean supportAnnotationVariant(@Nonnull PsiAnnotation psiAnnotation) {
     // old version of @FieldNameConstants has attributes "prefix" and "suffix", the new one not
     return null != psiAnnotation.findAttributeValue("prefix");
   }
 
   @Override
-  protected boolean validate(@NotNull PsiAnnotation psiAnnotation, @NotNull PsiClass psiClass, @NotNull ProblemSink builder) {
+  protected boolean validate(@Nonnull PsiAnnotation psiAnnotation, @Nonnull PsiClass psiClass, @Nonnull ProblemSink builder) {
     final boolean result = validateAnnotationOnRightType(psiClass, builder) && LombokProcessorUtil.isLevelVisible(psiAnnotation);
     if (result) {
       final Collection<PsiField> psiFields = filterFields(psiClass);
@@ -54,7 +57,7 @@ public class FieldNameConstantsOldProcessor extends AbstractClassProcessor {
     return result;
   }
 
-  private static boolean validateAnnotationOnRightType(@NotNull PsiClass psiClass, @NotNull ProblemSink builder) {
+  private static boolean validateAnnotationOnRightType(@Nonnull PsiClass psiClass, @Nonnull ProblemSink builder) {
     boolean result = true;
     if (psiClass.isAnnotationType() || psiClass.isInterface()) {
       builder.addErrorMessage("inspection.message.field.name.constants.only.supported.on.class.enum.or.field.type");
@@ -64,7 +67,7 @@ public class FieldNameConstantsOldProcessor extends AbstractClassProcessor {
   }
 
   @Override
-  protected void generatePsiElements(@NotNull PsiClass psiClass, @NotNull PsiAnnotation psiAnnotation, @NotNull List<? super PsiElement> target) {
+  protected void generatePsiElements(@Nonnull PsiClass psiClass, @Nonnull PsiAnnotation psiAnnotation, @Nonnull List<? super PsiElement> target) {
     final Collection<PsiField> psiFields = filterFields(psiClass);
     for (PsiField psiField : psiFields) {
       if (FieldNameConstantsFieldProcessor.checkIfFieldNameIsValidAndWarn(psiAnnotation, psiField, new ProblemProcessingSink())) {
@@ -73,8 +76,8 @@ public class FieldNameConstantsOldProcessor extends AbstractClassProcessor {
     }
   }
 
-  @NotNull
-  private static Collection<PsiField> filterFields(@NotNull PsiClass psiClass) {
+  @Nonnull
+  private static Collection<PsiField> filterFields(@Nonnull PsiClass psiClass) {
     final Collection<PsiField> psiFields = new ArrayList<>();
 
     FieldNameConstantsFieldProcessor fieldProcessor = getFieldNameConstantsFieldProcessor();
@@ -98,7 +101,7 @@ public class FieldNameConstantsOldProcessor extends AbstractClassProcessor {
   }
 
   @Override
-  public LombokPsiElementUsage checkFieldUsage(@NotNull PsiField psiField, @NotNull PsiAnnotation psiAnnotation) {
+  public LombokPsiElementUsage checkFieldUsage(@Nonnull PsiField psiField, @Nonnull PsiAnnotation psiAnnotation) {
     final PsiClass containingClass = psiField.getContainingClass();
     if (null != containingClass) {
       if (PsiClassUtil.getNames(filterFields(containingClass)).contains(psiField.getName())) {

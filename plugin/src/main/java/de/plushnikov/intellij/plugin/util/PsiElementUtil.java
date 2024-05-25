@@ -3,9 +3,9 @@ package de.plushnikov.intellij.plugin.util;
 import com.intellij.java.language.psi.*;
 import com.intellij.java.language.psi.util.InheritanceUtil;
 import consulo.util.lang.Pair;
+import jakarta.annotation.Nonnull;
 import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import jakarta.annotation.Nullable;
 
 import java.util.List;
 
@@ -27,7 +27,7 @@ public final class PsiElementUtil {
    * false otherwise
    */
   public static boolean methodMatches(
-    @NotNull PsiMethod method,
+    @Nonnull PsiMethod method,
     @NonNls @Nullable String containingClassName,
     @Nullable PsiType returnType,
     @NonNls @Nullable String methodName,
@@ -79,7 +79,7 @@ public final class PsiElementUtil {
     return type1Text.equals(type2Text);
   }
 
-  public static boolean methodMatches(@NotNull Pair<PsiMethod, PsiSubstitutor> firstPair, @NotNull Pair<PsiMethod, PsiSubstitutor> secondPair) {
+  public static boolean methodMatches(@Nonnull Pair<PsiMethod, PsiSubstitutor> firstPair, @Nonnull Pair<PsiMethod, PsiSubstitutor> secondPair) {
     final PsiMethod firstMethod = firstPair.getFirst();
     final PsiMethod secondMethod = secondPair.getFirst();
     if (!firstMethod.getName().equals(secondMethod.getName())) {

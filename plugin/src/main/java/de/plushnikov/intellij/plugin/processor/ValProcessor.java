@@ -11,8 +11,8 @@ import consulo.util.lang.StringUtil;
 import de.plushnikov.intellij.plugin.LombokBundle;
 import de.plushnikov.intellij.plugin.LombokClassNames;
 import de.plushnikov.intellij.plugin.problem.LombokProblem;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -26,7 +26,7 @@ public class ValProcessor extends AbstractProcessor {
     super(PsiElement.class, LombokClassNames.VAL, LombokClassNames.EXPERIMENTAL_VAR, LombokClassNames.VAR);
   }
 
-  public static boolean isVal(@NotNull PsiVariable psiVariable) {
+  public static boolean isVal(@Nonnull PsiVariable psiVariable) {
     if (psiVariable instanceof PsiLocalVariable) {
       return isVal((PsiLocalVariable) psiVariable);
     }
@@ -40,7 +40,7 @@ public class ValProcessor extends AbstractProcessor {
     return isPossibleVal(typeElement.getText()) && isVal(resolveQualifiedName(typeElement));
   }
 
-  public static boolean isVar(@NotNull PsiVariable psiVariable) {
+  public static boolean isVar(@Nonnull PsiVariable psiVariable) {
     if (psiVariable instanceof PsiLocalVariable) {
       return isVar((PsiLocalVariable) psiVariable);
     }
@@ -54,7 +54,7 @@ public class ValProcessor extends AbstractProcessor {
     return isPossibleVar(typeElement.getText()) && isVar(resolveQualifiedName(typeElement));
   }
 
-  public static boolean isVal(@NotNull PsiLocalVariable psiLocalVariable) {
+  public static boolean isVal(@Nonnull PsiLocalVariable psiLocalVariable) {
     if (psiLocalVariable.hasInitializer()) {
       final PsiTypeElement typeElement = psiLocalVariable.getTypeElement();
       return isPossibleVal(typeElement.getText()) && isVal(resolveQualifiedName(typeElement));
@@ -62,7 +62,7 @@ public class ValProcessor extends AbstractProcessor {
     return false;
   }
 
-  public static boolean isVar(@NotNull PsiLocalVariable psiLocalVariable) {
+  public static boolean isVar(@Nonnull PsiLocalVariable psiLocalVariable) {
     if (psiLocalVariable.hasInitializer()) {
       final PsiTypeElement typeElement = psiLocalVariable.getTypeElement();
       return isPossibleVar(typeElement.getText()) && isVar(resolveQualifiedName(typeElement));
@@ -70,7 +70,7 @@ public class ValProcessor extends AbstractProcessor {
     return false;
   }
 
-  private static boolean isValOrVar(@NotNull PsiLocalVariable psiLocalVariable) {
+  private static boolean isValOrVar(@Nonnull PsiLocalVariable psiLocalVariable) {
     if (psiLocalVariable.hasInitializer()) {
       final PsiTypeElement typeElement = psiLocalVariable.getTypeElement();
       return isPossibleValOrVar(typeElement.getText()) && isValOrVar(resolveQualifiedName(typeElement));
@@ -78,7 +78,7 @@ public class ValProcessor extends AbstractProcessor {
     return false;
   }
 
-  private static boolean isValOrVarForEach(@NotNull PsiParameter psiParameter) {
+  private static boolean isValOrVarForEach(@Nonnull PsiParameter psiParameter) {
     if (psiParameter.getParent() instanceof PsiForeachStatement) {
       final PsiTypeElement typeElement = psiParameter.getTypeElement();
       return null != typeElement && isPossibleValOrVar(typeElement.getText()) && isValOrVar(resolveQualifiedName(typeElement));
@@ -111,7 +111,7 @@ public class ValProcessor extends AbstractProcessor {
   }
 
   @Nullable
-  private static String resolveQualifiedName(@NotNull PsiTypeElement typeElement) {
+  private static String resolveQualifiedName(@Nonnull PsiTypeElement typeElement) {
     PsiJavaCodeReferenceElement reference = typeElement.getInnermostComponentReferenceElement();
     if (reference == null) {
       return null;
@@ -120,19 +120,19 @@ public class ValProcessor extends AbstractProcessor {
     return reference.getQualifiedName();
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  public Collection<PsiAnnotation> collectProcessedAnnotations(@NotNull PsiClass psiClass) {
+  public Collection<PsiAnnotation> collectProcessedAnnotations(@Nonnull PsiClass psiClass) {
     return Collections.emptyList();
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  public Collection<LombokProblem> verifyAnnotation(@NotNull PsiAnnotation psiAnnotation) {
+  public Collection<LombokProblem> verifyAnnotation(@Nonnull PsiAnnotation psiAnnotation) {
     return Collections.emptyList();
   }
 
-  public void verifyVariable(@NotNull final PsiLocalVariable psiLocalVariable, @NotNull final ProblemsHolder holder) {
+  public void verifyVariable(@Nonnull final PsiLocalVariable psiLocalVariable, @Nonnull final ProblemsHolder holder) {
     final PsiTypeElement typeElement = psiLocalVariable.getTypeElement();
     final String typeElementText = typeElement.getText();
     boolean isVal = isPossibleVal(typeElementText) && isVal(resolveQualifiedName(typeElement));
@@ -157,7 +157,7 @@ public class ValProcessor extends AbstractProcessor {
     }
   }
 
-  public void verifyParameter(@NotNull final PsiParameter psiParameter, @NotNull final ProblemsHolder holder) {
+  public void verifyParameter(@Nonnull final PsiParameter psiParameter, @Nonnull final ProblemsHolder holder) {
     final PsiTypeElement typeElement = psiParameter.getTypeElement();
     final String typeElementText = null != typeElement ? typeElement.getText() : null;
     boolean isVal = isPossibleVal(typeElementText) && isVal(resolveQualifiedName(typeElement));
@@ -175,7 +175,7 @@ public class ValProcessor extends AbstractProcessor {
     }
   }
 
-  public static boolean canInferType(@NotNull PsiTypeElement typeElement) {
+  public static boolean canInferType(@Nonnull PsiTypeElement typeElement) {
     final PsiElement parent = typeElement.getParent();
     return (parent instanceof PsiLocalVariable && isValOrVar((PsiLocalVariable) parent)) ||
       (parent instanceof PsiParameter && isValOrVarForEach((PsiParameter) parent));

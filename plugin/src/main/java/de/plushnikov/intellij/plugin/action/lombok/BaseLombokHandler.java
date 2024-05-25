@@ -12,8 +12,8 @@ import consulo.project.Project;
 import de.plushnikov.intellij.plugin.util.LombokProcessorUtil;
 import de.plushnikov.intellij.plugin.util.PsiAnnotationSearchUtil;
 import de.plushnikov.intellij.plugin.util.PsiAnnotationUtil;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -23,7 +23,7 @@ import java.util.Set;
 public abstract class BaseLombokHandler implements CodeInsightActionHandler {
 
   @Override
-  public void invoke(@NotNull Project project, @NotNull Editor editor, @NotNull PsiFile file) {
+  public void invoke(@Nonnull Project project, @Nonnull Editor editor, @Nonnull PsiFile file) {
     if (file.isWritable()) {
       PsiClass psiClass = OverrideImplementUtil.getContextClass(project, editor, file, false);
       if (null != psiClass) {
@@ -34,10 +34,10 @@ public abstract class BaseLombokHandler implements CodeInsightActionHandler {
     }
   }
 
-  protected abstract void processClass(@NotNull PsiClass psiClass);
+  protected abstract void processClass(@Nonnull PsiClass psiClass);
 
-  protected static void processIntern(@NotNull Map<PsiField, PsiMethod> fieldMethodMap,
-                                      @NotNull PsiClass psiClass, String annotationClassName) {
+  protected static void processIntern(@Nonnull Map<PsiField, PsiMethod> fieldMethodMap,
+                                      @Nonnull PsiClass psiClass, String annotationClassName) {
     if (fieldMethodMap.isEmpty()) {
       return;
     }
@@ -93,22 +93,22 @@ public abstract class BaseLombokHandler implements CodeInsightActionHandler {
     return accessLevelSet.size() <= 1;
   }
 
-  private static void addAnnotation(@NotNull PsiModifierListOwner targetElement, @NotNull PsiModifierListOwner sourceElement,
+  private static void addAnnotation(@Nonnull PsiModifierListOwner targetElement, @Nonnull PsiModifierListOwner sourceElement,
                                     String annotationClassName) {
     final PsiAnnotation newPsiAnnotation = LombokProcessorUtil.createAnnotationWithAccessLevel(sourceElement, annotationClassName);
 
     addAnnotation(targetElement, newPsiAnnotation, annotationClassName);
   }
 
-  protected static void addAnnotation(@NotNull PsiClass targetElement,
+  protected static void addAnnotation(@Nonnull PsiClass targetElement,
                                       String annotationClassName) {
     final PsiAnnotation newPsiAnnotation = PsiAnnotationUtil.createPsiAnnotation(targetElement, annotationClassName);
 
     addAnnotation(targetElement, newPsiAnnotation, annotationClassName);
   }
 
-  private static void addAnnotation(@NotNull PsiModifierListOwner targetElement,
-                                    @NotNull PsiAnnotation newPsiAnnotation,
+  private static void addAnnotation(@Nonnull PsiModifierListOwner targetElement,
+                                    @Nonnull PsiAnnotation newPsiAnnotation,
                                     String annotationClassName) {
     final PsiAnnotation presentAnnotation = PsiAnnotationSearchUtil.findAnnotation(targetElement, annotationClassName);
 
@@ -127,7 +127,7 @@ public abstract class BaseLombokHandler implements CodeInsightActionHandler {
     }
   }
 
-  protected void removeDefaultAnnotation(@NotNull PsiModifierListOwner targetElement, String annotationClassName) {
+  protected void removeDefaultAnnotation(@Nonnull PsiModifierListOwner targetElement, String annotationClassName) {
     final PsiAnnotation psiAnnotation = PsiAnnotationSearchUtil.findAnnotation(targetElement, annotationClassName);
     if (null != psiAnnotation) {
       boolean hasOnlyDefaultValues = true;
@@ -147,7 +147,7 @@ public abstract class BaseLombokHandler implements CodeInsightActionHandler {
   }
 
   @Nullable
-  protected PsiMethod findPublicNonStaticMethod(@NotNull PsiClass psiClass, @NotNull String methodName, @NotNull PsiType returnType, PsiType... params) {
+  protected PsiMethod findPublicNonStaticMethod(@Nonnull PsiClass psiClass, @Nonnull String methodName, @Nonnull PsiType returnType, PsiType... params) {
     final PsiMethod[] toStringMethods = psiClass.findMethodsByName(methodName, false);
     for (PsiMethod method : toStringMethods) {
       if (method.hasModifierProperty(PsiModifier.PUBLIC) &&

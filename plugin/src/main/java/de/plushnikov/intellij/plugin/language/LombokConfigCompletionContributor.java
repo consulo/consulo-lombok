@@ -14,7 +14,6 @@ import de.plushnikov.intellij.plugin.language.psi.LombokConfigTypes;
 import de.plushnikov.intellij.plugin.lombokconfig.ConfigKey;
 import de.plushnikov.intellij.plugin.lombokconfig.LombokNullAnnotationLibraryDefned;
 import jakarta.annotation.Nonnull;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -78,9 +77,9 @@ public class LombokConfigCompletionContributor extends CompletionContributor {
            PsiJavaPatterns.psiElement(LombokConfigTypes.VALUE).withLanguage(LombokConfigLanguage.INSTANCE),
            new CompletionProvider() {
              @Override
-             public void addCompletions(@NotNull CompletionParameters parameters,
-                                        @NotNull ProcessingContext context,
-                                        @NotNull CompletionResultSet resultSet) {
+             public void addCompletions(@Nonnull CompletionParameters parameters,
+                                        @Nonnull ProcessingContext context,
+                                        @Nonnull CompletionResultSet resultSet) {
                PsiElement psiElement = parameters.getPosition().getParent();
                if (psiElement instanceof LombokConfigProperty) {
                  final String configPropertyKey = StringUtil.notNullize(LombokConfigPsiUtil.getKey((LombokConfigProperty)psiElement));
@@ -121,9 +120,9 @@ public class LombokConfigCompletionContributor extends CompletionContributor {
            PsiJavaPatterns.psiElement(LombokConfigTypes.KEY).withLanguage(LombokConfigLanguage.INSTANCE),
            new CompletionProvider() {
              @Override
-             public void addCompletions(@NotNull CompletionParameters parameters,
-                                        @NotNull ProcessingContext context,
-                                        @NotNull CompletionResultSet resultSet) {
+             public void addCompletions(@Nonnull CompletionParameters parameters,
+                                        @Nonnull ProcessingContext context,
+                                        @Nonnull CompletionResultSet resultSet) {
                for (String contribution : allOptions) {
                  resultSet.addElement(LookupElementBuilder.create(contribution));
                }

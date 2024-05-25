@@ -14,8 +14,8 @@ import de.plushnikov.intellij.plugin.psi.LombokLightMethodBuilder;
 import de.plushnikov.intellij.plugin.thirdparty.LombokUtils;
 import de.plushnikov.intellij.plugin.util.LombokProcessorUtil;
 import de.plushnikov.intellij.plugin.util.PsiClassUtil;
+import jakarta.annotation.Nonnull;
 import org.jetbrains.annotations.Nls;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
 import java.util.Optional;
@@ -32,7 +32,7 @@ public class ReplaceWithLombokAnnotationAction extends AbstractLombokIntentionAc
   }
 
   @Override
-  public boolean isAvailable(@NotNull Project project, Editor editor, @NotNull PsiElement element) {
+  public boolean isAvailable(@Nonnull Project project, Editor editor, @Nonnull PsiElement element) {
     boolean parentAvailable = super.isAvailable(project, editor, element);
     if (!parentAvailable || !(element instanceof PsiIdentifier)) return false;
 
@@ -49,7 +49,7 @@ public class ReplaceWithLombokAnnotationAction extends AbstractLombokIntentionAc
   }
 
   @Override
-  public void invoke(@NotNull Project project, Editor editor, @NotNull PsiElement element) throws IncorrectOperationException {
+  public void invoke(@Nonnull Project project, Editor editor, @Nonnull PsiElement element) throws IncorrectOperationException {
     PsiElement parent = PsiTreeUtil.getParentOfType(element, PsiVariable.class, PsiClass.class, PsiMethod.class);
 
     if (parent instanceof PsiField) {
@@ -60,7 +60,7 @@ public class ReplaceWithLombokAnnotationAction extends AbstractLombokIntentionAc
     }
   }
 
-  private static void handleMethod(@NotNull PsiMethod psiMethod) {
+  private static void handleMethod(@Nonnull PsiMethod psiMethod) {
     findAnchorFieldForGetter(psiMethod)
       .map(PsiField::getModifierList)
       .ifPresent(modifierList -> replaceWithAnnotation(modifierList, psiMethod, LombokClassNames.GETTER));
@@ -70,7 +70,7 @@ public class ReplaceWithLombokAnnotationAction extends AbstractLombokIntentionAc
       .ifPresent(modifierList -> replaceWithAnnotation(modifierList, psiMethod, LombokClassNames.SETTER));
   }
 
-  private static Optional<PsiMethod> findGetterMethodToReplace(@NotNull PsiField psiField) {
+  private static Optional<PsiMethod> findGetterMethodToReplace(@Nonnull PsiField psiField) {
     final PsiMethod getterForField = PropertyUtilBase.findGetterForField(psiField);
     if (null != getterForField && !(getterForField instanceof LombokLightMethodBuilder)) {
       if (findAnchorFieldForGetter(getterForField).filter(psiField::equals).isPresent()) {
@@ -80,7 +80,7 @@ public class ReplaceWithLombokAnnotationAction extends AbstractLombokIntentionAc
     return Optional.empty();
   }
 
-  private static Optional<PsiMethod> findSetterMethodToReplace(@NotNull PsiField psiField) {
+  private static Optional<PsiMethod> findSetterMethodToReplace(@Nonnull PsiField psiField) {
     final PsiMethod setterForField = PropertyUtilBase.findSetterForField(psiField);
     if (null != setterForField && !(setterForField instanceof LombokLightMethodBuilder)) {
       if (findAnchorFieldForSetter(setterForField).filter(psiField::equals).isPresent()) {
@@ -90,7 +90,7 @@ public class ReplaceWithLombokAnnotationAction extends AbstractLombokIntentionAc
     return Optional.empty();
   }
 
-  private static void handleField(@NotNull PsiField psiField) {
+  private static void handleField(@Nonnull PsiField psiField) {
     PsiModifierList psiFieldModifierList = psiField.getModifierList();
     if (null == psiFieldModifierList) {
       return;
@@ -107,7 +107,7 @@ public class ReplaceWithLombokAnnotationAction extends AbstractLombokIntentionAc
     );
   }
 
-  private static Optional<PsiField> findAnchorFieldForSetter(@NotNull PsiMethod method) {
+  private static Optional<PsiField> findAnchorFieldForSetter(@Nonnull PsiMethod method) {
     // it seems wrong to replace abstract possible getters
     // abstract methods maybe the part of interface so let them live
     if (!PropertyUtilBase.isSimplePropertySetter(method) || method.hasModifierProperty(PsiModifier.ABSTRACT)) {
@@ -162,7 +162,7 @@ public class ReplaceWithLombokAnnotationAction extends AbstractLombokIntentionAc
     return Optional.empty();
   }
 
-  private static Optional<PsiField> findAnchorFieldForGetter(@NotNull PsiMethod method) {
+  private static Optional<PsiField> findAnchorFieldForGetter(@Nonnull PsiMethod method) {
     // it seems wrong to replace abstract possible getters
     // abstract methods maybe the part of interface so let them live
     if (!PropertyUtilBase.isSimplePropertyGetter(method) || method.hasModifierProperty(PsiModifier.ABSTRACT)) {
@@ -193,9 +193,9 @@ public class ReplaceWithLombokAnnotationAction extends AbstractLombokIntentionAc
     return Optional.empty();
   }
 
-  private static void replaceWithAnnotation(@NotNull PsiModifierList modifierList,
-                                            @NotNull PsiMethod method,
-                                            @NotNull String annotationName) {
+  private static void replaceWithAnnotation(@Nonnull PsiModifierList modifierList,
+                                            @Nonnull PsiMethod method,
+                                            @Nonnull String annotationName) {
     final Optional<String> accessLevelFQN = LombokProcessorUtil.convertModifierToLombokAccessLevel(method);
 
     method.delete();
@@ -209,9 +209,9 @@ public class ReplaceWithLombokAnnotationAction extends AbstractLombokIntentionAc
   }
 
   @Nls(capitalization = Nls.Capitalization.Sentence)
-  @NotNull
+  @Nonnull
   @Override
-  public String getFamilyName() {
+  public String getText() {
     return LombokBundle.message("replace.with.annotations.lombok");
   }
 }

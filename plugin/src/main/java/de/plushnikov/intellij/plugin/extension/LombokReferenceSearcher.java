@@ -12,7 +12,7 @@ import consulo.project.DumbService;
 import consulo.project.util.query.QueryExecutorBase;
 import de.plushnikov.intellij.plugin.psi.LombokLightFieldBuilder;
 import de.plushnikov.intellij.plugin.psi.LombokLightMethodBuilder;
-import org.jetbrains.annotations.NotNull;
+import jakarta.annotation.Nonnull;
 
 import java.util.Arrays;
 
@@ -27,7 +27,7 @@ public class LombokReferenceSearcher extends QueryExecutorBase<PsiReference, Ref
   }
 
   @Override
-  public void processQuery(@NotNull ReferencesSearch.SearchParameters queryParameters, @NotNull Processor consumer) {
+  public void processQuery(@Nonnull ReferencesSearch.SearchParameters queryParameters, @Nonnull Processor consumer) {
     PsiElement refElement = queryParameters.getElementToSearch();
 
     if (refElement instanceof PsiField) {

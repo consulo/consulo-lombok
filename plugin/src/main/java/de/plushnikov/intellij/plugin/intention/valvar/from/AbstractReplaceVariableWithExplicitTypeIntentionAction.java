@@ -1,16 +1,20 @@
 package de.plushnikov.intellij.plugin.intention.valvar.from;
 
-import com.intellij.codeInspection.RemoveRedundantTypeArgumentsUtil;
-import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.psi.*;
-import com.intellij.psi.codeStyle.CodeStyleManager;
-import com.intellij.psi.util.PsiTypesUtil;
+import com.intellij.java.analysis.impl.codeInspection.RemoveRedundantTypeArgumentsUtil;
+import com.intellij.java.language.psi.PsiDeclarationStatement;
+import com.intellij.java.language.psi.PsiLocalVariable;
+import com.intellij.java.language.psi.PsiTypeElement;
+import com.intellij.java.language.psi.PsiVariable;
+import com.intellij.java.language.psi.util.PsiTypesUtil;
+import consulo.language.codeStyle.CodeStyleManager;
+import consulo.language.psi.PsiElement;
+import consulo.util.lang.StringUtil;
 import de.plushnikov.intellij.plugin.LombokBundle;
 import de.plushnikov.intellij.plugin.LombokClassNames;
 import de.plushnikov.intellij.plugin.intention.valvar.AbstractValVarIntentionAction;
 import de.plushnikov.intellij.plugin.processor.ValProcessor;
 import org.jetbrains.annotations.Nls;
-import org.jetbrains.annotations.NotNull;
+import jakarta.annotation.Nonnull;
 
 public abstract class AbstractReplaceVariableWithExplicitTypeIntentionAction extends AbstractValVarIntentionAction {
 
@@ -21,9 +25,9 @@ public abstract class AbstractReplaceVariableWithExplicitTypeIntentionAction ext
   }
 
   @Nls(capitalization = Nls.Capitalization.Sentence)
-  @NotNull
+  @Nonnull
   @Override
-  public String getFamilyName() {
+  public String getText() {
     return LombokBundle.message("replace.0.with.explicit.type.lombok", StringUtil.getShortName(variableClassName));
   }
 

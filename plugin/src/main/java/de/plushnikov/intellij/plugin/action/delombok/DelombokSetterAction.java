@@ -1,16 +1,16 @@
 package de.plushnikov.intellij.plugin.action.delombok;
 
-import com.intellij.openapi.application.ApplicationManager;
+import consulo.lombok.processor.ProcessorUtil;
 import de.plushnikov.intellij.plugin.processor.clazz.SetterProcessor;
 import de.plushnikov.intellij.plugin.processor.field.SetterFieldProcessor;
-import org.jetbrains.annotations.NotNull;
+import jakarta.annotation.Nonnull;
 
 public class DelombokSetterAction extends AbstractDelombokAction {
   @Override
-  @NotNull
+  @Nonnull
   protected DelombokHandler createHandler() {
     return new DelombokHandler(
-      ApplicationManager.getApplication().getService(SetterProcessor.class),
-      ApplicationManager.getApplication().getService(SetterFieldProcessor.class));
+      ProcessorUtil.getProcessor(SetterProcessor.class),
+      ProcessorUtil.getProcessor(SetterFieldProcessor.class));
   }
 }

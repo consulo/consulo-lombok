@@ -2,20 +2,20 @@ package de.plushnikov.intellij.plugin.inspection.modifiers;
 
 import com.intellij.java.language.psi.PsiModifier;
 import com.intellij.java.language.psi.PsiModifierListOwner;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 public class RedundantModifiersInfo {
 
   private final RedundantModifiersInfoType redundantModifiersInfoType;
   private final String[] modifiers;
-   private final String description;
+  private final String description;
   private final String dontRunOnModifier;
 
-  public RedundantModifiersInfo(@NotNull RedundantModifiersInfoType redundantModifiersInfoType,
+  public RedundantModifiersInfo(@Nonnull RedundantModifiersInfoType redundantModifiersInfoType,
                                 @PsiModifier.ModifierConstant @Nullable String dontRunOnModifier,
-                                @NotNull String description,
-                                @PsiModifier.ModifierConstant String @NotNull... modifiers) {
+                                @Nonnull String description,
+                                @PsiModifier.ModifierConstant @Nonnull String... modifiers) {
     this.redundantModifiersInfoType = redundantModifiersInfoType;
     this.description = description;
     this.dontRunOnModifier = dontRunOnModifier;

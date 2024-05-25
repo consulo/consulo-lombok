@@ -1,14 +1,15 @@
 package de.plushnikov.intellij.plugin.processor.method;
 
-import com.intellij.psi.PsiAnnotation;
-import com.intellij.psi.PsiClass;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiMethod;
+import com.intellij.java.language.psi.PsiAnnotation;
+import com.intellij.java.language.psi.PsiClass;
+import com.intellij.java.language.psi.PsiMethod;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.language.psi.PsiElement;
 import de.plushnikov.intellij.plugin.LombokClassNames;
 import de.plushnikov.intellij.plugin.problem.ProblemSink;
 import de.plushnikov.intellij.plugin.processor.handler.BuilderHandler;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 import java.util.List;
 import java.util.Objects;
@@ -20,6 +21,7 @@ import java.util.Objects;
  * @author Tomasz Kalkosiński
  * @author Michail Plushnikov
  */
+@ExtensionImpl
 public class BuilderClassMethodProcessor extends AbstractMethodProcessor {
 
   public BuilderClassMethodProcessor() {
@@ -30,13 +32,13 @@ public class BuilderClassMethodProcessor extends AbstractMethodProcessor {
    * Checks the given annotation to be supported 'Builder' annotation
    */
   @Override
-  protected boolean checkAnnotationFQN(@NotNull PsiClass psiClass, @NotNull PsiAnnotation psiAnnotation, @NotNull PsiMethod psiMethod) {
+  protected boolean checkAnnotationFQN(@Nonnull PsiClass psiClass, @Nonnull PsiAnnotation psiAnnotation, @Nonnull PsiMethod psiMethod) {
     return BuilderHandler.checkAnnotationFQN(psiClass, psiAnnotation, psiMethod);
   }
 
   @Override
-  protected boolean possibleToGenerateElementNamed(@Nullable String nameHint, @NotNull PsiClass psiClass,
-                                                   @NotNull PsiAnnotation psiAnnotation, @NotNull PsiMethod psiMethod) {
+  protected boolean possibleToGenerateElementNamed(@Nullable String nameHint, @Nonnull PsiClass psiClass,
+                                                   @Nonnull PsiAnnotation psiAnnotation, @Nonnull PsiMethod psiMethod) {
     if (null == nameHint) {
       return true;
     }
@@ -46,12 +48,12 @@ public class BuilderClassMethodProcessor extends AbstractMethodProcessor {
   }
 
   @Override
-  protected boolean validate(@NotNull PsiAnnotation psiAnnotation, @NotNull PsiMethod psiMethod, @NotNull ProblemSink problemSink) {
+  protected boolean validate(@Nonnull PsiAnnotation psiAnnotation, @Nonnull PsiMethod psiMethod, @Nonnull ProblemSink problemSink) {
     return getHandler().validate(psiMethod, psiAnnotation, problemSink);
   }
 
   @Override
-  protected void processIntern(@NotNull PsiMethod psiMethod, @NotNull PsiAnnotation psiAnnotation, @NotNull List<? super PsiElement> target) {
+  protected void processIntern(@Nonnull PsiMethod psiMethod, @Nonnull PsiAnnotation psiAnnotation, @Nonnull List<? super PsiElement> target) {
     final PsiClass psiClass = psiMethod.getContainingClass();
     if (null != psiClass) {
       final BuilderHandler builderHandler = getHandler();

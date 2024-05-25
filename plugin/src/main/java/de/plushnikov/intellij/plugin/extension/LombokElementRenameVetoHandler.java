@@ -1,9 +1,9 @@
 package de.plushnikov.intellij.plugin.extension;
 
 import com.intellij.java.language.psi.PsiAnnotation;
+import consulo.annotation.component.ExtensionImpl;
 import consulo.codeEditor.Editor;
 import consulo.dataContext.DataContext;
-import consulo.language.editor.CommonDataKeys;
 import consulo.language.editor.refactoring.RefactoringBundle;
 import consulo.language.editor.refactoring.rename.PsiElementRenameHandler;
 import consulo.language.editor.refactoring.rename.RenameHandler;
@@ -15,12 +15,13 @@ import de.plushnikov.intellij.plugin.LombokBundle;
 import de.plushnikov.intellij.plugin.psi.LombokLightClassBuilder;
 import de.plushnikov.intellij.plugin.psi.LombokLightFieldBuilder;
 import de.plushnikov.intellij.plugin.psi.LombokLightMethodBuilder;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 /**
  * "Rename"-Handler Vetoer to disable renaming not supported lombok generated  methods
  */
+@ExtensionImpl(order = "before member")
 public class LombokElementRenameVetoHandler implements RenameHandler {
   @Override
   public boolean isAvailableOnDataContext(DataContext dataContext) {
@@ -36,19 +37,20 @@ public class LombokElementRenameVetoHandler implements RenameHandler {
   }
 
   @Override
-  public void invoke(@NotNull Project project, Editor editor, PsiFile file, @Nullable DataContext dataContext) {
+  public void invoke(@Nonnull Project project, Editor editor, PsiFile file, @Nullable DataContext dataContext) {
     invokeInner(project, editor);
   }
 
   @Override
-  public void invoke(@NotNull Project project, PsiElement @NotNull [] elements, @Nullable DataContext dataContext) {
-    Editor editor = dataContext == null ? null : CommonDataKeys.EDITOR.getData(dataContext);
+  public void invoke(@Nonnull Project project, @Nonnull PsiElement[] elements, @Nullable DataContext dataContext) {
+    Editor editor = dataContext == null ? null : dataContext.getData(Editor.KEY);
     invokeInner(project, editor);
   }
 
   private static void invokeInner(Project project, Editor editor) {
     CommonRefactoringUtil.showErrorHint(project, editor,
-                                        RefactoringBundle.getCannotRefactorMessage(LombokBundle.message("dialog.message.this.element.cannot.be.renamed")),
+                                        RefactoringBundle.getCannotRefactorMessage(LombokBundle.message(
+                                          "dialog.message.this.element.cannot.be.renamed")),
                                         RefactoringBundle.message("rename.title"), null);
   }
 }

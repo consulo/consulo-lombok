@@ -9,20 +9,18 @@ import consulo.language.psi.PsiElement;
 import consulo.language.psi.util.PsiTreeUtil;
 import consulo.project.Project;
 import de.plushnikov.intellij.plugin.intention.AbstractLombokIntentionAction;
-import org.jetbrains.annotations.NotNull;
+import jakarta.annotation.Nonnull;
 
 public abstract class AbstractValVarIntentionAction extends AbstractLombokIntentionAction implements LowPriorityAction {
 
   @Override
-  public boolean isAvailable(@NotNull Project project, Editor editor, @NotNull PsiElement element) {
+  public boolean isAvailable(@Nonnull Project project, Editor editor, @Nonnull PsiElement element) {
     if (!super.isAvailable(project, editor, element)) {
       return false;
     }
     if (element instanceof PsiCompiledElement || !canModify(element) || !element.getLanguage().is(JavaLanguage.INSTANCE)) {
       return false;
     }
-
-    setText(getFamilyName());
 
     PsiParameter parameter = PsiTreeUtil.getParentOfType(element, PsiParameter.class, false, PsiClass.class, PsiCodeBlock.class);
     if (parameter != null) {
@@ -34,7 +32,7 @@ public abstract class AbstractValVarIntentionAction extends AbstractLombokIntent
   }
 
   @Override
-  public void invoke(@NotNull Project project, Editor editor, @NotNull PsiElement element) {
+  public void invoke(@Nonnull Project project, Editor editor, @Nonnull PsiElement element) {
     final PsiDeclarationStatement declarationStatement = PsiTreeUtil.getParentOfType(element, PsiDeclarationStatement.class);
 
     if (declarationStatement != null) {

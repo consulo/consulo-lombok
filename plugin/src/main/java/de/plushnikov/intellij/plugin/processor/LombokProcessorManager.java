@@ -1,12 +1,11 @@
 package de.plushnikov.intellij.plugin.processor;
 
-import com.intellij.openapi.application.Application;
-import com.intellij.openapi.application.ApplicationManager;
-import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.psi.PsiAnnotation;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiJavaCodeReferenceElement;
-import com.intellij.util.containers.ContainerUtil;
+import com.intellij.java.language.psi.PsiAnnotation;
+import com.intellij.java.language.psi.PsiJavaCodeReferenceElement;
+import consulo.language.psi.PsiElement;
+import consulo.lombok.processor.ProcessorUtil;
+import consulo.util.collection.ContainerUtil;
+import consulo.util.lang.StringUtil;
 import de.plushnikov.intellij.plugin.processor.clazz.*;
 import de.plushnikov.intellij.plugin.processor.clazz.builder.*;
 import de.plushnikov.intellij.plugin.processor.clazz.constructor.AllArgsConstructorProcessor;
@@ -21,7 +20,7 @@ import de.plushnikov.intellij.plugin.processor.method.BuilderClassMethodProcesso
 import de.plushnikov.intellij.plugin.processor.method.BuilderMethodProcessor;
 import de.plushnikov.intellij.plugin.processor.method.DelegateMethodProcessor;
 import de.plushnikov.intellij.plugin.processor.modifier.*;
-import org.jetbrains.annotations.NotNull;
+import jakarta.annotation.Nonnull;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -41,68 +40,67 @@ public final class LombokProcessorManager {
     .map(StringUtil::getShortName)
     .collect(Collectors.toSet());
 
-  @NotNull
+  @Nonnull
   private static Collection<Processor> getAllProcessors() {
-    Application application = ApplicationManager.getApplication();
     return Arrays.asList(
-      application.getService(AllArgsConstructorProcessor.class),
-      application.getService(NoArgsConstructorProcessor.class),
-      application.getService(RequiredArgsConstructorProcessor.class),
+      ProcessorUtil.getProcessor(AllArgsConstructorProcessor.class),
+      ProcessorUtil.getProcessor(NoArgsConstructorProcessor.class),
+      ProcessorUtil.getProcessor(RequiredArgsConstructorProcessor.class),
 
-      application.getService(LogProcessor.class),
-      application.getService(Log4jProcessor.class),
-      application.getService(Log4j2Processor.class),
-      application.getService(Slf4jProcessor.class),
-      application.getService(XSlf4jProcessor.class),
-      application.getService(CommonsLogProcessor.class),
-      application.getService(JBossLogProcessor.class),
-      application.getService(FloggerProcessor.class),
-      application.getService(CustomLogProcessor.class),
+      ProcessorUtil.getProcessor(LogProcessor.class),
+      ProcessorUtil.getProcessor(Log4jProcessor.class),
+      ProcessorUtil.getProcessor(Log4j2Processor.class),
+      ProcessorUtil.getProcessor(Slf4jProcessor.class),
+      ProcessorUtil.getProcessor(XSlf4jProcessor.class),
+      ProcessorUtil.getProcessor(CommonsLogProcessor.class),
+      ProcessorUtil.getProcessor(JBossLogProcessor.class),
+      ProcessorUtil.getProcessor(FloggerProcessor.class),
+      ProcessorUtil.getProcessor(CustomLogProcessor.class),
 
-      application.getService(DataProcessor.class),
-      application.getService(EqualsAndHashCodeProcessor.class),
-      application.getService(GetterProcessor.class),
-      application.getService(SetterProcessor.class),
-      application.getService(ToStringProcessor.class),
-      application.getService(WitherProcessor.class),
+      ProcessorUtil.getProcessor(DataProcessor.class),
+      ProcessorUtil.getProcessor(EqualsAndHashCodeProcessor.class),
+      ProcessorUtil.getProcessor(GetterProcessor.class),
+      ProcessorUtil.getProcessor(SetterProcessor.class),
+      ProcessorUtil.getProcessor(ToStringProcessor.class),
+      ProcessorUtil.getProcessor(WitherProcessor.class),
 
-      application.getService(BuilderPreDefinedInnerClassFieldProcessor.class),
-      application.getService(BuilderPreDefinedInnerClassMethodProcessor.class),
-      application.getService(BuilderClassProcessor.class),
-      application.getService(BuilderProcessor.class),
-      application.getService(BuilderClassMethodProcessor.class),
-      application.getService(BuilderMethodProcessor.class),
+      ProcessorUtil.getProcessor(BuilderPreDefinedInnerClassFieldProcessor.class),
+      ProcessorUtil.getProcessor(BuilderPreDefinedInnerClassMethodProcessor.class),
+      ProcessorUtil.getProcessor(BuilderClassProcessor.class),
+      ProcessorUtil.getProcessor(BuilderProcessor.class),
+      ProcessorUtil.getProcessor(BuilderClassMethodProcessor.class),
+      ProcessorUtil.getProcessor(BuilderMethodProcessor.class),
 
-      application.getService(SuperBuilderPreDefinedInnerClassFieldProcessor.class),
-      application.getService(SuperBuilderPreDefinedInnerClassMethodProcessor.class),
-      application.getService(SuperBuilderClassProcessor.class),
-      application.getService(SuperBuilderProcessor.class),
+      ProcessorUtil.getProcessor(SuperBuilderPreDefinedInnerClassFieldProcessor.class),
+      ProcessorUtil.getProcessor(SuperBuilderPreDefinedInnerClassMethodProcessor.class),
+      ProcessorUtil.getProcessor(SuperBuilderClassProcessor.class),
+      ProcessorUtil.getProcessor(SuperBuilderProcessor.class),
 
-      application.getService(ValueProcessor.class),
+      ProcessorUtil.getProcessor(ValueProcessor.class),
 
-      application.getService(UtilityClassProcessor.class),
-      application.getService(StandardExceptionProcessor.class),
+      ProcessorUtil.getProcessor(UtilityClassProcessor.class),
+      ProcessorUtil.getProcessor(StandardExceptionProcessor.class),
 
-      application.getService(FieldNameConstantsOldProcessor.class),
-      application.getService(FieldNameConstantsFieldProcessor.class),
+      ProcessorUtil.getProcessor(FieldNameConstantsOldProcessor.class),
+      ProcessorUtil.getProcessor(FieldNameConstantsFieldProcessor.class),
 
-      application.getService(FieldNameConstantsProcessor.class),
-      application.getService(FieldNameConstantsPredefinedInnerClassFieldProcessor.class),
+      ProcessorUtil.getProcessor(FieldNameConstantsProcessor.class),
+      ProcessorUtil.getProcessor(FieldNameConstantsPredefinedInnerClassFieldProcessor.class),
 
-      application.getService(DelegateFieldProcessor.class),
-      application.getService(GetterFieldProcessor.class),
-      application.getService(SetterFieldProcessor.class),
-      application.getService(WitherFieldProcessor.class),
+      ProcessorUtil.getProcessor(DelegateFieldProcessor.class),
+      ProcessorUtil.getProcessor(GetterFieldProcessor.class),
+      ProcessorUtil.getProcessor(SetterFieldProcessor.class),
+      ProcessorUtil.getProcessor(WitherFieldProcessor.class),
 
-      application.getService(DelegateMethodProcessor.class),
+      ProcessorUtil.getProcessor(DelegateMethodProcessor.class),
 
-      application.getService(CleanupProcessor.class),
-      application.getService(SynchronizedProcessor.class),
-      application.getService(JacksonizedProcessor.class)
+      ProcessorUtil.getProcessor(CleanupProcessor.class),
+      ProcessorUtil.getProcessor(SynchronizedProcessor.class),
+      ProcessorUtil.getProcessor(JacksonizedProcessor.class)
     );
   }
 
-  @NotNull
+  @Nonnull
   public static Collection<ModifierProcessor> getLombokModifierProcessors() {
     return Arrays.asList(new FieldDefaultsModifierProcessor(),
                          new UtilityClassModifierProcessor(),
@@ -110,15 +108,15 @@ public final class LombokProcessorManager {
                          new ValueModifierProcessor());
   }
 
-  @NotNull
-  public static Collection<Processor> getProcessors(@NotNull Class<? extends PsiElement> supportedClass) {
+  @Nonnull
+  public static Collection<Processor> getProcessors(@Nonnull Class<? extends PsiElement> supportedClass) {
     return getWithCache("bySupportedClass_" + supportedClass.getName(),
                         () -> ContainerUtil.filter(getAllProcessors(), p -> p.isSupportedClass(supportedClass))
     );
   }
 
-  @NotNull
-  public static Collection<Processor> getProcessors(@NotNull PsiAnnotation psiAnnotation) {
+  @Nonnull
+  public static Collection<Processor> getProcessors(@Nonnull PsiAnnotation psiAnnotation) {
     PsiJavaCodeReferenceElement nameReferenceElement = psiAnnotation.getNameReferenceElement();
     if (nameReferenceElement == null) {
       return Collections.emptyList();

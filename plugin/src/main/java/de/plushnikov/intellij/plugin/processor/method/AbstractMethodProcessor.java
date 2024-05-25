@@ -1,10 +1,10 @@
 package de.plushnikov.intellij.plugin.processor.method;
 
-import com.intellij.psi.PsiAnnotation;
-import com.intellij.psi.PsiClass;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiMethod;
-import com.intellij.psi.util.PsiTreeUtil;
+import com.intellij.java.language.psi.PsiAnnotation;
+import com.intellij.java.language.psi.PsiClass;
+import com.intellij.java.language.psi.PsiMethod;
+import consulo.language.psi.PsiElement;
+import consulo.language.psi.util.PsiTreeUtil;
 import de.plushnikov.intellij.plugin.problem.LombokProblem;
 import de.plushnikov.intellij.plugin.problem.ProblemProcessingSink;
 import de.plushnikov.intellij.plugin.problem.ProblemSink;
@@ -12,8 +12,8 @@ import de.plushnikov.intellij.plugin.problem.ProblemValidationSink;
 import de.plushnikov.intellij.plugin.processor.AbstractProcessor;
 import de.plushnikov.intellij.plugin.util.PsiAnnotationSearchUtil;
 import de.plushnikov.intellij.plugin.util.PsiClassUtil;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -27,20 +27,20 @@ import java.util.List;
  */
 public abstract class AbstractMethodProcessor extends AbstractProcessor implements MethodProcessor {
 
-  AbstractMethodProcessor(@NotNull Class<? extends PsiElement> supportedClass,
-                          @NotNull String supportedAnnotationClass) {
+  AbstractMethodProcessor(@Nonnull Class<? extends PsiElement> supportedClass,
+                          @Nonnull String supportedAnnotationClass) {
     super(supportedClass, supportedAnnotationClass);
   }
 
-  AbstractMethodProcessor(@NotNull Class<? extends PsiElement> supportedClass,
-                          @NotNull String supportedAnnotationClass,
-                          @NotNull String equivalentAnnotationClass) {
+  AbstractMethodProcessor(@Nonnull Class<? extends PsiElement> supportedClass,
+                          @Nonnull String supportedAnnotationClass,
+                          @Nonnull String equivalentAnnotationClass) {
     super(supportedClass, supportedAnnotationClass, equivalentAnnotationClass);
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  public List<? super PsiElement> process(@NotNull PsiClass psiClass, @Nullable String nameHint) {
+  public List<? super PsiElement> process(@Nonnull PsiClass psiClass, @Nullable String nameHint) {
     List<? super PsiElement> result = new ArrayList<>();
     for (PsiMethod psiMethod : PsiClassUtil.collectClassMethodsIntern(psiClass)) {
       PsiAnnotation psiAnnotation = PsiAnnotationSearchUtil.findAnnotationByShortNameOnly(psiMethod, getSupportedAnnotationClasses());
@@ -57,18 +57,18 @@ public abstract class AbstractMethodProcessor extends AbstractProcessor implemen
   /**
    * Checks the given annotation to be supported annotation by this processor
    */
-  protected boolean checkAnnotationFQN(@NotNull PsiClass psiClass, @NotNull PsiAnnotation psiAnnotation, @NotNull PsiMethod psiMethod) {
+  protected boolean checkAnnotationFQN(@Nonnull PsiClass psiClass, @Nonnull PsiAnnotation psiAnnotation, @Nonnull PsiMethod psiMethod) {
     return PsiAnnotationSearchUtil.checkAnnotationHasOneOfFQNs(psiAnnotation, getSupportedAnnotationClasses());
   }
 
-  protected boolean possibleToGenerateElementNamed(@Nullable String nameHint, @NotNull PsiClass psiClass,
-                                                   @NotNull PsiAnnotation psiAnnotation, @NotNull PsiMethod psiMethod) {
+  protected boolean possibleToGenerateElementNamed(@Nullable String nameHint, @Nonnull PsiClass psiClass,
+                                                   @Nonnull PsiAnnotation psiAnnotation, @Nonnull PsiMethod psiMethod) {
     return true;
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  public Collection<PsiAnnotation> collectProcessedAnnotations(@NotNull PsiClass psiClass) {
+  public Collection<PsiAnnotation> collectProcessedAnnotations(@Nonnull PsiClass psiClass) {
     List<PsiAnnotation> result = new ArrayList<>();
     for (PsiMethod psiMethod : PsiClassUtil.collectClassMethodsIntern(psiClass)) {
       PsiAnnotation psiAnnotation = PsiAnnotationSearchUtil.findAnnotation(psiMethod, getSupportedAnnotationClasses());
@@ -79,9 +79,9 @@ public abstract class AbstractMethodProcessor extends AbstractProcessor implemen
     return result;
   }
 
-  @NotNull
+  @Nonnull
   @Override
-  public Collection<LombokProblem> verifyAnnotation(@NotNull PsiAnnotation psiAnnotation) {
+  public Collection<LombokProblem> verifyAnnotation(@Nonnull PsiAnnotation psiAnnotation) {
     Collection<LombokProblem> result = Collections.emptyList();
 
     PsiMethod psiMethod = PsiTreeUtil.getParentOfType(psiAnnotation, PsiMethod.class);
@@ -94,7 +94,7 @@ public abstract class AbstractMethodProcessor extends AbstractProcessor implemen
     return result;
   }
 
-  protected abstract boolean validate(@NotNull PsiAnnotation psiAnnotation, @NotNull PsiMethod psiMethod, @NotNull ProblemSink problemSink);
+  protected abstract boolean validate(@Nonnull PsiAnnotation psiAnnotation, @Nonnull PsiMethod psiMethod, @Nonnull ProblemSink problemSink);
 
   protected abstract void processIntern(PsiMethod psiMethod, PsiAnnotation psiAnnotation, List<? super PsiElement> target);
 }

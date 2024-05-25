@@ -6,12 +6,12 @@ import consulo.language.psi.PsiElement;
 import consulo.language.psi.util.PsiTreeUtil;
 import de.plushnikov.intellij.plugin.LombokClassNames;
 import de.plushnikov.intellij.plugin.util.PsiAnnotationSearchUtil;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 public final class FieldNameConstantsHandler {
 
-  public static boolean isFiledNameConstants(@NotNull PsiElement element) {
+  public static boolean isFiledNameConstants(@Nonnull PsiElement element) {
     @Nullable PsiReferenceExpression psiReferenceExpression = PsiTreeUtil.getParentOfType(element, PsiReferenceExpression.class);
     if (psiReferenceExpression == null) {
       return false;

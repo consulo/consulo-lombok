@@ -9,7 +9,7 @@ import consulo.language.psi.PsiElement;
 import consulo.language.psi.PsiManager;
 import consulo.language.util.CharTable;
 import de.plushnikov.intellij.plugin.psi.LombokLightMethodBuilder;
-import org.jetbrains.annotations.Nullable;
+import jakarta.annotation.Nullable;
 
 /**
  * @author Plushnikov Michail

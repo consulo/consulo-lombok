@@ -1,8 +1,10 @@
 package de.plushnikov.intellij.plugin.processor.clazz;
 
-import com.intellij.openapi.application.ApplicationManager;
-import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.psi.*;
+import com.intellij.java.language.psi.*;
+import consulo.annotation.component.ExtensionImpl;
+import consulo.language.psi.PsiElement;
+import consulo.lombok.processor.ProcessorUtil;
+import consulo.util.lang.StringUtil;
 import de.plushnikov.intellij.plugin.LombokClassNames;
 import de.plushnikov.intellij.plugin.problem.ProblemProcessingSink;
 import de.plushnikov.intellij.plugin.problem.ProblemSink;
@@ -11,8 +13,8 @@ import de.plushnikov.intellij.plugin.processor.clazz.constructor.NoArgsConstruct
 import de.plushnikov.intellij.plugin.processor.clazz.constructor.RequiredArgsConstructorProcessor;
 import de.plushnikov.intellij.plugin.util.PsiAnnotationSearchUtil;
 import de.plushnikov.intellij.plugin.util.PsiAnnotationUtil;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -21,6 +23,7 @@ import java.util.List;
 /**
  * @author Plushnikov Michail
  */
+@ExtensionImpl
 public class DataProcessor extends AbstractClassProcessor {
 
   public DataProcessor() {
@@ -28,31 +31,31 @@ public class DataProcessor extends AbstractClassProcessor {
   }
 
   private static ToStringProcessor getToStringProcessor() {
-    return ApplicationManager.getApplication().getService(ToStringProcessor.class);
+    return ProcessorUtil.getProcessor(ToStringProcessor.class);
   }
 
   private static NoArgsConstructorProcessor getNoArgsConstructorProcessor() {
-    return ApplicationManager.getApplication().getService(NoArgsConstructorProcessor.class);
+    return ProcessorUtil.getProcessor(NoArgsConstructorProcessor.class);
   }
 
   private static GetterProcessor getGetterProcessor() {
-    return ApplicationManager.getApplication().getService(GetterProcessor.class);
+    return ProcessorUtil.getProcessor(GetterProcessor.class);
   }
 
   private static SetterProcessor getSetterProcessor() {
-    return ApplicationManager.getApplication().getService(SetterProcessor.class);
+    return ProcessorUtil.getProcessor(SetterProcessor.class);
   }
 
   private static EqualsAndHashCodeProcessor getEqualsAndHashCodeProcessor() {
-    return ApplicationManager.getApplication().getService(EqualsAndHashCodeProcessor.class);
+    return ProcessorUtil.getProcessor(EqualsAndHashCodeProcessor.class);
   }
 
   private static RequiredArgsConstructorProcessor getRequiredArgsConstructorProcessor() {
-    return ApplicationManager.getApplication().getService(RequiredArgsConstructorProcessor.class);
+    return ProcessorUtil.getProcessor(RequiredArgsConstructorProcessor.class);
   }
 
   @Override
-  protected Collection<String> getNamesOfPossibleGeneratedElements(@NotNull PsiClass psiClass, @NotNull PsiAnnotation psiAnnotation) {
+  protected Collection<String> getNamesOfPossibleGeneratedElements(@Nonnull PsiClass psiClass, @Nonnull PsiAnnotation psiAnnotation) {
     Collection<String> result = new ArrayList<>();
 
     final String staticConstructorName = getStaticConstructorNameValue(psiAnnotation);
@@ -68,12 +71,12 @@ public class DataProcessor extends AbstractClassProcessor {
     return result;
   }
 
-  private static String getStaticConstructorNameValue(@NotNull PsiAnnotation psiAnnotation) {
+  private static String getStaticConstructorNameValue(@Nonnull PsiAnnotation psiAnnotation) {
     return PsiAnnotationUtil.getStringAnnotationValue(psiAnnotation, "staticConstructor", "");
   }
 
   @Override
-  protected boolean validate(@NotNull PsiAnnotation psiAnnotation, @NotNull PsiClass psiClass, @NotNull ProblemSink builder) {
+  protected boolean validate(@Nonnull PsiAnnotation psiAnnotation, @Nonnull PsiClass psiClass, @Nonnull ProblemSink builder) {
     validateAnnotationOnRightType(psiClass, builder);
 
     if (builder.deepValidation()) {
@@ -91,7 +94,7 @@ public class DataProcessor extends AbstractClassProcessor {
     return builder.success();
   }
 
-  private static void validateAnnotationOnRightType(@NotNull PsiClass psiClass, @NotNull ProblemSink builder) {
+  private static void validateAnnotationOnRightType(@Nonnull PsiClass psiClass, @Nonnull ProblemSink builder) {
     if (psiClass.isAnnotationType() || psiClass.isInterface() || psiClass.isEnum()) {
       builder.addErrorMessage("inspection.message.data.only.supported.on.class.type");
       builder.markFailed();
@@ -99,9 +102,9 @@ public class DataProcessor extends AbstractClassProcessor {
   }
 
   @Override
-  protected void generatePsiElements(@NotNull PsiClass psiClass,
-                                     @NotNull PsiAnnotation psiAnnotation,
-                                     @NotNull List<? super PsiElement> target) {
+  protected void generatePsiElements(@Nonnull PsiClass psiClass,
+                                     @Nonnull PsiAnnotation psiAnnotation,
+                                     @Nonnull List<? super PsiElement> target) {
     if (PsiAnnotationSearchUtil.isNotAnnotatedWith(psiClass, LombokClassNames.GETTER)) {
       target.addAll(getGetterProcessor().createFieldGetters(psiClass, PsiModifier.PUBLIC));
     }
@@ -132,7 +135,7 @@ public class DataProcessor extends AbstractClassProcessor {
     }
   }
 
-  private static boolean shouldGenerateRequiredArgsConstructor(@NotNull PsiClass psiClass, @Nullable String staticName) {
+  private static boolean shouldGenerateRequiredArgsConstructor(@Nonnull PsiClass psiClass, @Nullable String staticName) {
     boolean result = false;
     // create required constructor only if there are no other constructor annotations
     final boolean notAnnotatedWith = PsiAnnotationSearchUtil.isNotAnnotatedWith(psiClass,
@@ -152,7 +155,7 @@ public class DataProcessor extends AbstractClassProcessor {
   }
 
   @Override
-  public LombokPsiElementUsage checkFieldUsage(@NotNull PsiField psiField, @NotNull PsiAnnotation psiAnnotation) {
+  public LombokPsiElementUsage checkFieldUsage(@Nonnull PsiField psiField, @Nonnull PsiAnnotation psiAnnotation) {
     return LombokPsiElementUsage.READ_WRITE;
   }
 }

@@ -1,7 +1,7 @@
 package de.plushnikov.intellij.plugin.processor.modifier;
 
 import com.intellij.java.language.psi.PsiModifierList;
-import org.jetbrains.annotations.NotNull;
+import jakarta.annotation.Nonnull;
 
 import java.util.Set;
 
@@ -20,7 +20,7 @@ public interface ModifierProcessor {
    * @param modifierList Modifier List that will have modifiers augmented
    * @return true if supported and therefore may be passed to {@link #transformModifiers(PsiModifierList, Set)}, false otherwise
    */
-  boolean isSupported(@NotNull PsiModifierList modifierList);
+  boolean isSupported(@Nonnull PsiModifierList modifierList);
 
   /**
    * Compute modification of  response for {@link PsiAugmentProvider#transformModifiers(PsiModifierList, Set)}.
@@ -28,5 +28,5 @@ public interface ModifierProcessor {
    * @param modifierList Modifier List that will have mosifiers augmented
    * @param modifiers    Set of modifiers that is currently present for the list
    */
-  void transformModifiers(@NotNull PsiModifierList modifierList, @NotNull final Set<String> modifiers);
+  void transformModifiers(@Nonnull PsiModifierList modifierList, @Nonnull final Set<String> modifiers);
 }
