@@ -10,6 +10,7 @@ import consulo.language.editor.refactoring.rename.RenameHandler;
 import consulo.language.editor.refactoring.util.CommonRefactoringUtil;
 import consulo.language.psi.PsiElement;
 import consulo.language.psi.PsiFile;
+import consulo.localize.LocalizeValue;
 import consulo.project.Project;
 import de.plushnikov.intellij.plugin.LombokBundle;
 import de.plushnikov.intellij.plugin.psi.LombokLightClassBuilder;
@@ -34,6 +35,12 @@ public class LombokElementRenameVetoHandler implements RenameHandler {
   @Override
   public boolean isRenaming(DataContext dataContext) {
     return isAvailableOnDataContext(dataContext);
+  }
+
+  @Nonnull
+  @Override
+  public LocalizeValue getActionTitleValue() {
+    return LocalizeValue.localizeTODO("Lombok Veto Renamer");
   }
 
   @Override
