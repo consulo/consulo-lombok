@@ -25,7 +25,7 @@ import java.util.List;
  * @author Tomasz Kalkosiński
  * @author Michail Plushnikov
  */
-@ExtensionImpl
+@ExtensionImpl(id = "BuilderProcessor", order = "after BuilderClassProcessor")
 public class BuilderProcessor extends AbstractClassProcessor {
 
   static final String SINGULAR_CLASS = LombokClassNames.SINGULAR;

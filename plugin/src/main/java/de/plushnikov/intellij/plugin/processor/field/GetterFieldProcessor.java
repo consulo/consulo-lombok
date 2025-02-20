@@ -27,7 +27,7 @@ import java.util.List;
  *
  * @author Plushnikov Michail
  */
-@ExtensionImpl
+@ExtensionImpl(id = "GetterFieldProcessor", order = "after DelegateFieldProcessor")
 public final class GetterFieldProcessor extends AbstractFieldProcessor {
   public GetterFieldProcessor() {
     super(PsiMethod.class, LombokClassNames.GETTER);

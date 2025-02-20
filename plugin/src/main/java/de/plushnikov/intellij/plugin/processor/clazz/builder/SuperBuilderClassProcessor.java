@@ -23,7 +23,7 @@ import java.util.Optional;
  *
  * @author Michail Plushnikov
  */
-@ExtensionImpl
+@ExtensionImpl(id = "SuperBuilderClassProcessor", order = "after SuperBuilderPreDefinedInnerClassMethodProcessor")
 public class SuperBuilderClassProcessor extends AbstractClassProcessor {
 
   public SuperBuilderClassProcessor() {

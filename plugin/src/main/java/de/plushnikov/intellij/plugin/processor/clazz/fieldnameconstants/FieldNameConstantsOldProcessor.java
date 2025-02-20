@@ -28,7 +28,7 @@ import java.util.List;
  *
  * @author Plushnikov Michail
  */
-@ExtensionImpl
+@ExtensionImpl(id = "FieldNameConstantsOldProcessor", order = "after StandardExceptionProcessor")
 public class FieldNameConstantsOldProcessor extends AbstractClassProcessor {
 
   public FieldNameConstantsOldProcessor() {

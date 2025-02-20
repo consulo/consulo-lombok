@@ -23,7 +23,7 @@ import java.util.List;
 /**
  * @author Plushnikov Michail
  */
-@ExtensionImpl
+@ExtensionImpl(id = "DataProcessor", order = "after CustomLogProcessor")
 public class DataProcessor extends AbstractClassProcessor {
 
   public DataProcessor() {

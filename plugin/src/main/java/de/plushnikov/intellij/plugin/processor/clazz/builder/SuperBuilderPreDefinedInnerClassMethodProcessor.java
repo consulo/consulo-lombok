@@ -15,7 +15,7 @@ import java.util.Collection;
  *
  * @author Michail Plushnikov
  */
-@ExtensionImpl
+@ExtensionImpl(id = "SuperBuilderPreDefinedInnerClassMethodProcessor", order = "after SuperBuilderPreDefinedInnerClassFieldProcessor")
 public class SuperBuilderPreDefinedInnerClassMethodProcessor extends AbstractSuperBuilderPreDefinedInnerClassProcessor {
 
   public SuperBuilderPreDefinedInnerClassMethodProcessor() {

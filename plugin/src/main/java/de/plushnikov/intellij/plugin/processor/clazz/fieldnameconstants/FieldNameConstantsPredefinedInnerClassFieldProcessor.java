@@ -23,7 +23,7 @@ import java.util.*;
  *
  * @author alanachtenberg
  */
-@ExtensionImpl
+@ExtensionImpl(id = "FieldNameConstantsPredefinedInnerClassFieldProcessor", order = "after FieldNameConstantsProcessor")
 public class FieldNameConstantsPredefinedInnerClassFieldProcessor extends AbstractFieldNameConstantsProcessor {
 
   public FieldNameConstantsPredefinedInnerClassFieldProcessor() {

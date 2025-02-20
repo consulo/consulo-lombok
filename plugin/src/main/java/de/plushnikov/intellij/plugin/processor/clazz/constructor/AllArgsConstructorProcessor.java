@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * @author Plushnikov Michail
  */
-@ExtensionImpl
+@ExtensionImpl(id = "AllArgsConstructorProcessor", order = "first")
 public final class AllArgsConstructorProcessor extends AbstractConstructorClassProcessor {
   public AllArgsConstructorProcessor() {
     super(LombokClassNames.ALL_ARGS_CONSTRUCTOR, PsiMethod.class);

@@ -17,7 +17,7 @@ import java.util.List;
 /**
  * @author Plushnikov Michail
  */
-@ExtensionImpl
+@ExtensionImpl(id = "RequiredArgsConstructorProcessor", order = "after NoArgsConstructorProcessor")
 public final class RequiredArgsConstructorProcessor extends AbstractConstructorClassProcessor {
   public RequiredArgsConstructorProcessor() {
     super(LombokClassNames.REQUIRED_ARGS_CONSTRUCTOR, PsiMethod.class);

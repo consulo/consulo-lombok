@@ -4,6 +4,7 @@ import com.intellij.java.analysis.impl.codeInsight.intention.AddAnnotationPsiFix
 import com.intellij.java.language.impl.psi.impl.source.PsiClassReferenceType;
 import com.intellij.java.language.psi.*;
 import com.intellij.java.language.psi.codeStyle.JavaCodeStyleManager;
+import consulo.application.Application;
 import consulo.language.codeStyle.CodeStyleManager;
 import consulo.language.editor.util.LanguageUndoUtil;
 import consulo.language.psi.PsiElement;
@@ -11,8 +12,8 @@ import consulo.language.psi.PsiFile;
 import consulo.project.Project;
 import consulo.util.lang.StringUtil;
 import de.plushnikov.intellij.plugin.processor.AbstractProcessor;
-import de.plushnikov.intellij.plugin.processor.LombokProcessorManager;
 import de.plushnikov.intellij.plugin.processor.clazz.fieldnameconstants.FieldNameConstantsPredefinedInnerClassFieldProcessor;
+import de.plushnikov.intellij.plugin.processor.modifier.ModifierProcessor;
 import de.plushnikov.intellij.plugin.provider.LombokUserDataKeys;
 import de.plushnikov.intellij.plugin.psi.LombokLightClassBuilder;
 import de.plushnikov.intellij.plugin.util.PsiClassUtil;
@@ -110,7 +111,10 @@ public class DelombokHandler {
     final PsiModifierList modifierList = modifierListOwner.getModifierList();
     if (null != modifierList) {
       final Set<String> lombokModifiers = new HashSet<>();
-      LombokProcessorManager.getLombokModifierProcessors().forEach(modifierProcessor -> {
+
+      Application application = modifierListOwner.getApplication();
+
+      application.getExtensionPoint(ModifierProcessor.class).forEachExtensionSafe(modifierProcessor -> {
         if (modifierProcessor.isSupported(modifierList)) {
           modifierProcessor.transformModifiers(modifierList, lombokModifiers);
           lombokModifiers.forEach(modifier -> modifierList.setModifierProperty(modifier, true));

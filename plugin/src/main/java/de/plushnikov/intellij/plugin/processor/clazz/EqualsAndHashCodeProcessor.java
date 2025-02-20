@@ -35,7 +35,7 @@ import java.util.function.Supplier;
  *
  * @author Plushnikov Michail
  */
-@ExtensionImpl
+@ExtensionImpl(id = "EqualsAndHashCodeProcessor", order = "after DataProcessor")
 public final class EqualsAndHashCodeProcessor extends AbstractClassProcessor {
   private static final String EQUALS_METHOD_NAME = "equals";
   private static final String HASH_CODE_METHOD_NAME = "hashCode";

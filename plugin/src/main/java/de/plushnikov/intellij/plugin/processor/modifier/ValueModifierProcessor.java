@@ -1,6 +1,7 @@
 package de.plushnikov.intellij.plugin.processor.modifier;
 
 import com.intellij.java.language.psi.*;
+import consulo.annotation.component.ExtensionImpl;
 import consulo.language.psi.PsiElement;
 import consulo.language.psi.util.PsiTreeUtil;
 import de.plushnikov.intellij.plugin.LombokClassNames;
@@ -13,6 +14,7 @@ import java.util.Set;
  * Processor for {@literal @Value} feature of Lombok.
  * @author Alexej Kubarev
  */
+@ExtensionImpl(id = "ValueModifierProcessor", order = "after ValModifierProcessor")
 public class ValueModifierProcessor implements ModifierProcessor {
 
   @Override

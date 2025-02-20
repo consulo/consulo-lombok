@@ -23,7 +23,7 @@ import java.util.List;
  *
  * @author Plushnikov Michail
  */
-@ExtensionImpl
+@ExtensionImpl(id = "GetterProcessor", order = "after EqualsAndHashCodeProcessor")
 public final class GetterProcessor extends AbstractClassProcessor {
   public GetterProcessor() {
     super(PsiMethod.class, LombokClassNames.GETTER);

@@ -18,7 +18,7 @@ import java.util.List;
 /**
  * @author Adam Juraszek
  */
-@ExtensionImpl
+@ExtensionImpl(id = "CustomLogProcessor", order = "after FloggerProcessor")
 public class CustomLogProcessor extends AbstractLogProcessor {
 
   public CustomLogProcessor() {

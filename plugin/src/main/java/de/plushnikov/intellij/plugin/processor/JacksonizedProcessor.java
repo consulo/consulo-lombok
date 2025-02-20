@@ -19,7 +19,7 @@ import java.util.Collections;
  *
  * @author Plushnikov Michail
  */
-@ExtensionImpl
+@ExtensionImpl(id = "JacksonizedProcessor", order = "after SynchronizedProcessor")
 public class JacksonizedProcessor extends AbstractProcessor {
 
   public JacksonizedProcessor() {

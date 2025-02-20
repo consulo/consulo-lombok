@@ -19,7 +19,7 @@ import java.util.List;
  *
  * @author Plushnikov Michail
  */
-@ExtensionImpl
+@ExtensionImpl(id = "DelegateFieldProcessor", order = "after FieldNameConstantsPredefinedInnerClassFieldProcessor")
 public class DelegateFieldProcessor extends AbstractFieldProcessor {
 
   public DelegateFieldProcessor() {

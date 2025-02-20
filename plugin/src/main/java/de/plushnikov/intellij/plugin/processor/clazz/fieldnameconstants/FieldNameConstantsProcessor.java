@@ -22,7 +22,7 @@ import java.util.Optional;
  *
  * @author alanachtenberg
  */
-@ExtensionImpl
+@ExtensionImpl(id = "FieldNameConstantsProcessor", order = "after FieldNameConstantsFieldProcessor")
 public class FieldNameConstantsProcessor extends AbstractFieldNameConstantsProcessor {
 
   public FieldNameConstantsProcessor() {

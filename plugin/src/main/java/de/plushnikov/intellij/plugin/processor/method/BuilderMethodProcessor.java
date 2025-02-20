@@ -19,7 +19,7 @@ import java.util.List;
  * @author Tomasz Kalkosiński
  * @author Michail Plushnikov
  */
-@ExtensionImpl
+@ExtensionImpl(id = "BuilderMethodProcessor", order = "after BuilderClassMethodProcessor")
 public class BuilderMethodProcessor extends AbstractMethodProcessor {
 
   public BuilderMethodProcessor() {

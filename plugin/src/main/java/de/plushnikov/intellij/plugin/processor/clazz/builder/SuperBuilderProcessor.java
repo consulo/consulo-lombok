@@ -22,7 +22,7 @@ import java.util.List;
  *
  * @author Michail Plushnikov
  */
-@ExtensionImpl
+@ExtensionImpl(id = "SuperBuilderProcessor", order = "after SuperBuilderClassProcessor")
 public class SuperBuilderProcessor extends AbstractClassProcessor {
 
   public SuperBuilderProcessor() {

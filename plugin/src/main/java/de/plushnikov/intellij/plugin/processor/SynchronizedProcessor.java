@@ -21,7 +21,7 @@ import java.util.Collections;
  *
  * @author Plushnikov Michail
  */
-@ExtensionImpl
+@ExtensionImpl(id = "SynchronizedProcessor", order = "after CleanupProcessor")
 public class SynchronizedProcessor extends AbstractProcessor {
 
   public SynchronizedProcessor() {

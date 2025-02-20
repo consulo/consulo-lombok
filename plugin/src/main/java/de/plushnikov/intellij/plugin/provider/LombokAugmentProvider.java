@@ -6,6 +6,7 @@ import com.intellij.java.language.psi.*;
 import com.intellij.java.language.psi.augment.PsiAugmentProvider;
 import com.intellij.java.language.psi.augment.PsiExtensionMethod;
 import consulo.annotation.component.ExtensionImpl;
+import consulo.application.Application;
 import consulo.language.psi.PsiCompiledElement;
 import consulo.language.psi.PsiElement;
 import de.plushnikov.intellij.plugin.LombokClassNames;
@@ -17,6 +18,7 @@ import de.plushnikov.intellij.plugin.processor.modifier.ModifierProcessor;
 import de.plushnikov.intellij.plugin.util.PsiAnnotationSearchUtil;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
+import jakarta.inject.Inject;
 
 import java.util.*;
 
@@ -29,11 +31,11 @@ import static de.plushnikov.intellij.plugin.util.LombokLibraryUtil.hasLombokLibr
  */
 @ExtensionImpl
 public class LombokAugmentProvider extends PsiAugmentProvider {
-  private static final class Holder {
-    static final Collection<ModifierProcessor> modifierProcessors = LombokProcessorManager.getLombokModifierProcessors();
-  }
+  private final Application myApplication;
 
-  public LombokAugmentProvider() {
+  @Inject
+  public LombokAugmentProvider(Application application) {
+    myApplication = application;
   }
 
   @Nonnull
@@ -48,11 +50,11 @@ public class LombokAugmentProvider extends PsiAugmentProvider {
     Set<String> result = new HashSet<>(modifiers);
 
     // Loop through all available processors and give all of them a chance to respond
-    for (ModifierProcessor processor : Holder.modifierProcessors) {
-      if (processor.isSupported(modifierList)) {
-        processor.transformModifiers(modifierList, result);
+    myApplication.getExtensionPoint(ModifierProcessor.class).forEachExtensionSafe(modifierProcessor -> {
+      if (modifierProcessor.isSupported(modifierList)) {
+        modifierProcessor.transformModifiers(modifierList, result);
       }
-    }
+    });
 
     return result;
   }

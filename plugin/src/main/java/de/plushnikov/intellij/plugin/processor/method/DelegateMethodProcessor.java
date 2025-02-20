@@ -12,7 +12,7 @@ import jakarta.annotation.Nonnull;
 
 import java.util.List;
 
-@ExtensionImpl
+@ExtensionImpl(id = "DelegateMethodProcessor", order = "after WitherFieldProcessor")
 public class DelegateMethodProcessor extends AbstractMethodProcessor {
 
   public DelegateMethodProcessor() {

@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
  *
  * @author Michail Plushnikov
  */
-@ExtensionImpl
+@ExtensionImpl(id = "BuilderPreDefinedInnerClassMethodProcessor", order = "after BuilderPreDefinedInnerClassFieldProcessor")
 public class BuilderPreDefinedInnerClassMethodProcessor extends AbstractBuilderPreDefinedInnerClassProcessor {
 
   public BuilderPreDefinedInnerClassMethodProcessor() {

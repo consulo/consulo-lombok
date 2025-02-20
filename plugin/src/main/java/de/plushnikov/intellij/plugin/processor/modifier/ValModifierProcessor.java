@@ -3,6 +3,7 @@ package de.plushnikov.intellij.plugin.processor.modifier;
 import com.intellij.java.language.psi.PsiLocalVariable;
 import com.intellij.java.language.psi.PsiModifier;
 import com.intellij.java.language.psi.PsiModifierList;
+import consulo.annotation.component.ExtensionImpl;
 import consulo.language.psi.PsiElement;
 import de.plushnikov.intellij.plugin.processor.ValProcessor;
 import jakarta.annotation.Nonnull;
@@ -12,6 +13,7 @@ import java.util.Set;
 /**
  * @author Alexej Kubarev
  */
+@ExtensionImpl(id = "ValModifierProcessor", order = "after UtilityClassModifierProcessor")
 public class ValModifierProcessor implements ModifierProcessor {
 
   @Override

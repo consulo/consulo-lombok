@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
  *
  * @author Michail Plushnikov
  */
-@ExtensionImpl
+@ExtensionImpl(id = "SuperBuilderPreDefinedInnerClassFieldProcessor", order = "after BuilderMethodProcessor")
 public class SuperBuilderPreDefinedInnerClassFieldProcessor extends AbstractSuperBuilderPreDefinedInnerClassProcessor {
 
   public SuperBuilderPreDefinedInnerClassFieldProcessor() {

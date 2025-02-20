@@ -19,7 +19,7 @@ import java.util.Collections;
  *
  * @author Plushnikov Michail
  */
-@ExtensionImpl
+@ExtensionImpl(id = "CleanupProcessor", order = "after DelegateMethodProcessor")
 public class CleanupProcessor extends AbstractProcessor {
 
   public CleanupProcessor() {

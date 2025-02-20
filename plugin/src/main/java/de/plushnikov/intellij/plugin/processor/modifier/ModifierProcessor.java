@@ -1,6 +1,8 @@
 package de.plushnikov.intellij.plugin.processor.modifier;
 
 import com.intellij.java.language.psi.PsiModifierList;
+import consulo.annotation.component.ComponentScope;
+import consulo.annotation.component.ExtensionAPI;
 import jakarta.annotation.Nonnull;
 
 import java.util.Set;
@@ -11,6 +13,7 @@ import java.util.Set;
  * @author Alexej Kubarev
  * @see PsiAugmentProvider#transformModifiers(PsiModifierList, Set)
  */
+@ExtensionAPI(ComponentScope.APPLICATION)
 public interface ModifierProcessor {
 
   /**

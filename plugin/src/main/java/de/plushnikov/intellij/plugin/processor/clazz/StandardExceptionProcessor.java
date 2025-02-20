@@ -22,7 +22,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-@ExtensionImpl
+@ExtensionImpl(id = "StandardExceptionProcessor", order = "after UtilityClassProcessor")
 public class StandardExceptionProcessor extends AbstractClassProcessor {
 
   public StandardExceptionProcessor() {

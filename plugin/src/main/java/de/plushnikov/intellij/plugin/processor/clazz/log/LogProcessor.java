@@ -6,7 +6,7 @@ import de.plushnikov.intellij.plugin.LombokClassNames;
 /**
  * @author Plushnikov Michail
  */
-@ExtensionImpl
+@ExtensionImpl(id = "LogProcessor", order = "after RequiredArgsConstructorProcessor")
 public class LogProcessor extends AbstractTopicSupportingSimpleLogProcessor {
 
   private static final String LOGGER_TYPE = "java.util.logging.Logger";

@@ -1,6 +1,7 @@
 package de.plushnikov.intellij.plugin.processor.modifier;
 
 import com.intellij.java.language.psi.*;
+import consulo.annotation.component.ExtensionImpl;
 import consulo.language.psi.PsiElement;
 import consulo.language.psi.util.PsiTreeUtil;
 import de.plushnikov.intellij.plugin.LombokClassNames;
@@ -14,6 +15,7 @@ import java.util.Set;
 /**
  * @author Florian Böhm
  */
+@ExtensionImpl(id = "UtilityClassModifierProcessor", order = "after FieldDefaultsModifierProcessor")
 public class UtilityClassModifierProcessor implements ModifierProcessor {
 
   public static boolean isModifierListSupported(@Nonnull PsiModifierList modifierList) {

@@ -21,7 +21,7 @@ import java.util.List;
  * @author Tomasz Kalkosiński
  * @author Michail Plushnikov
  */
-@ExtensionImpl
+@ExtensionImpl(id = "BuilderClassProcessor", order = "after BuilderPreDefinedInnerClassMethodProcessor")
 public class BuilderClassProcessor extends AbstractClassProcessor {
 
   public BuilderClassProcessor() {

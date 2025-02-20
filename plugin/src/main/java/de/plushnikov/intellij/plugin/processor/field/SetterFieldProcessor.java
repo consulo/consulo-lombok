@@ -29,7 +29,7 @@ import java.util.List;
  *
  * @author Plushnikov Michail
  */
-@ExtensionImpl
+@ExtensionImpl(id = "SetterFieldProcessor", order = "after GetterFieldProcessor")
 public final class SetterFieldProcessor extends AbstractFieldProcessor {
   public SetterFieldProcessor() {
     super(PsiMethod.class, LombokClassNames.SETTER);

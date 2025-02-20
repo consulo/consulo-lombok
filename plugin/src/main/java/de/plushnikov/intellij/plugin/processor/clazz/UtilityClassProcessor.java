@@ -17,7 +17,7 @@ import java.util.List;
 /**
  * @author Florian Böhm
  */
-@ExtensionImpl
+@ExtensionImpl(id = "UtilityClassProcessor", order = "after ValueProcessor")
 public class UtilityClassProcessor extends AbstractClassProcessor {
 
   public UtilityClassProcessor() {

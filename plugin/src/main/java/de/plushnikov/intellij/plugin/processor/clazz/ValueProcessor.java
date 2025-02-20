@@ -24,7 +24,7 @@ import java.util.List;
 /**
  * @author twillouer
  */
-@ExtensionImpl
+@ExtensionImpl(id = "ValueProcessor", order = "after SuperBuilderProcessor")
 public class ValueProcessor extends AbstractClassProcessor {
 
   public ValueProcessor() {

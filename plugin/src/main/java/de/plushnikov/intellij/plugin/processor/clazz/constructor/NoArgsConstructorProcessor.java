@@ -22,7 +22,7 @@ import java.util.List;
 /**
  * @author Plushnikov Michail
  */
-@ExtensionImpl
+@ExtensionImpl(id = "NoArgsConstructorProcessor", order = "after AllArgsConstructorProcessor")
 public final class NoArgsConstructorProcessor extends AbstractConstructorClassProcessor {
   public NoArgsConstructorProcessor() {
     super(LombokClassNames.NO_ARGS_CONSTRUCTOR, PsiMethod.class);

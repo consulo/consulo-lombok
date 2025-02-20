@@ -23,12 +23,10 @@ public class LombokIconDescriptorUpdater implements IconDescriptorUpdater {
     if (element instanceof LombokLightClassBuilder) {
       iconDescriptor.setMainIcon(LombokIconGroup.nodesLombokclass());
     }
-
-    if (element instanceof LombokLightFieldBuilder) {
+    else if (element instanceof LombokLightFieldBuilder) {
       iconDescriptor.setMainIcon(LombokIconGroup.nodesLombokfield());
     }
-
-    if (element instanceof LombokLightMethodBuilder) {
+    else if (element instanceof LombokLightMethodBuilder) {
       iconDescriptor.setMainIcon(LombokIconGroup.nodesLombokmethod());
     }
   }

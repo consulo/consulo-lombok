@@ -21,7 +21,7 @@ import java.util.Objects;
  * @author Tomasz Kalkosiński
  * @author Michail Plushnikov
  */
-@ExtensionImpl
+@ExtensionImpl(id = "BuilderClassMethodProcessor", order = "after BuilderProcessor")
 public class BuilderClassMethodProcessor extends AbstractMethodProcessor {
 
   public BuilderClassMethodProcessor() {

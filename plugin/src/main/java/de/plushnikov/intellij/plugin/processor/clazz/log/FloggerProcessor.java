@@ -8,7 +8,7 @@ import jakarta.annotation.Nonnull;
 import java.util.Collections;
 import java.util.List;
 
-@ExtensionImpl
+@ExtensionImpl(id = "FloggerProcessor", order = "after JBossLogProcessor")
 public class FloggerProcessor extends AbstractSimpleLogProcessor {
   private static final String LOGGER_TYPE = "com.google.common.flogger.FluentLogger";
   private static final String LOGGER_INITIALIZER = "com.google.common.flogger.FluentLogger.forEnclosingClass()";
