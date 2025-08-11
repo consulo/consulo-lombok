@@ -5,6 +5,8 @@ import consulo.colorScheme.TextAttributesKey;
 import consulo.colorScheme.setting.AttributesDescriptor;
 import consulo.language.editor.colorScheme.setting.ColorSettingsPage;
 import consulo.language.editor.highlight.SyntaxHighlighter;
+import consulo.localize.LocalizeValue;
+import consulo.lombok.localize.LombokLocalize;
 import de.plushnikov.intellij.plugin.LombokBundle;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
@@ -58,7 +60,7 @@ public class LombokConfigColorSettingsPage implements ColorSettingsPage {
 
   @Nonnull
   @Override
-  public String getDisplayName() {
-    return LombokBundle.message("configurable.name.lombok.config");
+  public LocalizeValue getDisplayName() {
+    return LombokLocalize.configurableNameLombokConfig();
   }
 }

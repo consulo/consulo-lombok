@@ -1,0 +1,382 @@
+action.defaultLombokData.description:
+    text: Action to replace getter/setter/equals/hashcode/toString methods with lombok @Data annotation
+action.defaultLombokData.text:
+    text: Default @Data
+action.defaultLombokEqualsAndHashcode.description:
+    text: Action to replace equals and hashcode methods with lombok @EqualsAndHashcode annotation
+action.defaultLombokEqualsAndHashcode.text:
+    text: Default @EqualsAndHashcode
+action.defaultLombokGetter.description:
+    text: Action to replace all getter methods with lombok @Getter annotation
+action.defaultLombokGetter.text:
+    text: Default @Getter
+action.defaultLombokLogger.description:
+    text: Action to replace logger with lombok @Log annotation
+action.defaultLombokLogger.text:
+    text: '@Log (and friends)'
+action.defaultLombokSetter.description:
+    text: Action to replace all setter methods with lombok @Setter annotation
+action.defaultLombokSetter.text:
+    text: Default @Setter
+action.defaultLombokToString.description:
+    text: Action to replace toString method with lombok @ToString annotation
+action.defaultLombokToString.text:
+    text: Default @ToString
+action.delombokAny.description:
+    text: Action to replace all lombok annotations with vanilla java methods
+action.delombokAny.text:
+    text: All lombok annotations
+action.delombokBuilder.description:
+    text: Action to replace lombok @Builder annotation with vanilla java methods
+action.delombokBuilder.text:
+    text: '@Builder'
+action.delombokConstructor.description:
+    text: Action to replace lombok @NoArgsConstructor, @RequiredArgsConstructor and @AllArgsConstructor annotations with vanilla java methods
+action.delombokConstructor.text:
+    text: '@Constructors'
+action.delombokData.description:
+    text: Action to replace lombok @Data annotation with vanilla java methods
+action.delombokData.text:
+    text: '@Data'
+action.delombokDelegate.description:
+    text: Action to replace lombok @Delegate annotation with vanilla java methods
+action.delombokDelegate.text:
+    text: '@Delegate'
+action.delombokEqualsAndHashCode.description:
+    text: Action to replace lombok @EqualsAndHashCode annotation with vanilla java methods
+action.delombokEqualsAndHashCode.text:
+    text: '@EqualsAndHashCode'
+action.delombokFieldNameCostants.description:
+    text: Action to replace lombok @FieldNameConstants annotation with vanilla java fields
+action.delombokFieldNameCostants.text:
+    text: '@FieldNameConstants'
+action.delombokGetter.description:
+    text: Action to replace lombok @Getter annotation with vanilla getter methods
+action.delombokGetter.text:
+    text: '@Getter'
+action.delombokLogger.description:
+    text: Action to replace lombok @Log (and other) annotation with vanilla log field
+action.delombokLogger.text:
+    text: '@Log (and friends)'
+action.delombokSetter.description:
+    text: Action to replace lombok @Setter annotation with vanilla setter methods
+action.delombokSetter.text:
+    text: '@Setter'
+action.delombokStandardException.description:
+    text: Action to replace lombok @StandardException annotation with vanilla java methods
+action.delombokStandardException.text:
+    text: '@StandardException'
+action.delombokSuperBuilder.description:
+    text: Action to replace lombok @SuperBuilder annotation with vanilla java methods
+action.delombokSuperBuilder.text:
+    text: '@SuperBuilder'
+action.delombokToString.description:
+    text: Action to replace lombok @ToString annotation with vanilla java methods
+action.delombokToString.text:
+    text: '@ToString'
+action.delombokUtilityClass.description:
+    text: Action to replace lombok @UtilityClass annotation with vanilla java fields
+action.delombokUtilityClass.text:
+    text: '@UtilityClass'
+action.delombokValue.description:
+    text: Action to replace lombok @Value annotation with vanilla java methods
+action.delombokValue.text:
+    text: '@Value'
+action.delombokWither.description:
+    text: Action to replace lombok @Wither annotation with vanilla java methods
+action.delombokWither.text:
+    text: '@Wither'
+checkbox.settings.jps.fix:
+    text: Automatically add '-Djps.track.ap.dependencies=false' compile option for old (<1.18.16) lombok version
+checkbox.settings.version.warning:
+    text: Enable lombok version warning for old lombok versions
+color.settings.clear:
+    text: Clear
+color.settings.comment:
+    text: Comment
+color.settings.key:
+    text: Key
+color.settings.separator:
+    text: Separator
+color.settings.value:
+    text: Value
+config.warn.annotation.processing.disabled.title:
+    text: Lombok requires enabled annotation processing
+config.warn.dependency.outdated.message:
+    text: <br>Project "{0}" seems to have an outdated Lombok dependency.<br>Configured version "{1}", but there is at least version "{2}" already released<br><a href="https://projectlombok.org/download">Maybe you want to update?</a> <br>
+config.warn.dependency.outdated.title:
+    text: Lombok Dependency is possibly outdated
+configurable.name.lombok.config:
+    text: Lombok Config
+dialog.message.logger.field.s.not.private.sfinal.field.named.s.refactor.anyway:
+    text: 'Logger field: "{0}" Is not private {1, choice, 0#|1#static }final field named "{2}". Refactor anyway?'
+dialog.message.this.element.cannot.be.renamed:
+    text: This element cannot be renamed.
+dialog.title.attention:
+    text: Attention!
+filetype.lombok.config.description:
+    text: Lombok config file
+group.DelombokActionGroup.description:
+    text: Refactor code removing lombok annotations
+group.DelombokActionGroup.text:
+    text: Delombok
+group.LombokActionGroup.description:
+    text: Refactor code with lombok annotations
+group.LombokActionGroup.text:
+    text: Lombok
+inspection.deprecated.lombok.display.name:
+    text: Deprecated Lombok annotations
+inspection.lombok.display.name:
+    text: Lombok annotations
+inspection.lombok.getter.may.be.used.display.class.message:
+    text: Class ''{0}'' may use Lombok @Getter
+inspection.lombok.getter.may.be.used.display.field.message:
+    text: Field ''{0}'' may have Lombok @Getter
+inspection.lombok.getter.may.be.used.display.fix.family.name:
+    text: Replace explicit getter method with Lombok @Getter
+inspection.lombok.getter.may.be.used.display.fix.name:
+    text: Use lombok @Getter for ''{0}''
+inspection.lombok.getter.may.be.used.display.name:
+    text: Lombok @Getter may be used
+inspection.lombok.group.name.lombok:
+    text: Lombok
+inspection.lombok.group.name.redundant.definitions:
+    text: Redundant definitions
+inspection.lombok.group.name.redundant.modifiers:
+    text: Redundant modifiers
+inspection.lombok.setter.may.be.used.display.class.message:
+    text: Class ''{0}'' may use Lombok @Setter
+inspection.lombok.setter.may.be.used.display.field.message:
+    text: Field ''{0}'' may have Lombok @Setter
+inspection.lombok.setter.may.be.used.display.fix.family.name:
+    text: Replace explicit setter method with Lombok @Setter
+inspection.lombok.setter.may.be.used.display.fix.name:
+    text: Use lombok @Setter for ''{0}''
+inspection.lombok.setter.may.be.used.display.name:
+    text: Lombok @Setter may be used
+inspection.message.annotation.copy.duplicate:
+    text: Annotation ''{0}'' already present on field and will be duplicated by onX configuration
+inspection.message.annotation.not.lombok.copyable:
+    text: Lombok does not copy the annotation ''{0}'' into the constructor
+inspection.message.annotation.only.supported.on.class.or.enum.type:
+    text: Annotation is only supported on a class or enum type
+inspection.message.builder.default.requires.initializing.expression:
+    text: '@Builder.Default requires an initializing expression ('' = something;'').'
+inspection.message.builder.default.singular.cannot.be.mixed:
+    text: '@Builder.Default and @Singular cannot be mixed.'
+inspection.message.can.t.singularize.this.name:
+    text: 'Can''t singularize this name: ''''{0}''''; please specify the singular explicitly (i.e. @Singular("sheep"))'
+inspection.message.cleanup.legal.only.on.local.variable.declaration.inside.block:
+    text: '@Cleanup: is legal only on a local variable declaration inside a block'
+inspection.message.cleanup.legal.only.on.local.variable.declarations:
+    text: '@Cleanup is legal only on local variable declarations'
+inspection.message.cleanup.method.s.not.found.on.target.class:
+    text: '@Cleanup: method ''''{0}()'''' not found on target class'
+inspection.message.cleanup.value.cannot.be.empty.string:
+    text: '@Cleanup: value cannot be the empty string'
+inspection.message.cleanup.variable.declarations.need.to.be.initialized:
+    text: '@Cleanup variable declarations need to be initialized.'
+inspection.message.constructor.noargs.needs.to.be.forced:
+    text: Class contains required fields, you have to force NoArgsConstructor.
+inspection.message.constructor.with.d.parameters.already.defined:
+    text: Constructor with ''{0}'' parameters is already defined
+inspection.message.constructor.without.parameters.already.defined:
+    text: Constructor without parameters is already defined
+inspection.message.custom.log.does.not.allow.topic:
+    text: '@CustomLog does not allow a topic.'
+inspection.message.custom.log.not.configured.correctly:
+    text: The @CustomLog is not configured correctly; please set log.custom.declaration in lombok.config.
+inspection.message.custom.log.requires.topic:
+    text: '@CustomLog requires a topic.'
+inspection.message.data.only.supported.on.class.type:
+    text: '''@Data'' is only supported on a class type'
+inspection.message.default.constructor.doesn.t.exist:
+    text: Default constructor doesn't exist
+inspection.message.delegate.can.only.use.concrete.class.types:
+    text: '@Delegate can only use concrete class types, not wildcards, arrays, type variables, or primitives. ''''{0}'''' is wrong class type'
+inspection.message.delegate.does.not.support.recursion.delegating:
+    text: '@Delegate does not support recursion (delegating to a type that itself has @Delegate members). Member ''''{0}'''' is @Delegate in type ''''{1}'''''
+inspection.message.delegate.legal.only.on.instance.fields:
+    text: '@Delegate is legal only on instance fields or no-argument instance methods.'
+inspection.message.delegate.legal.only.on.no.argument.methods:
+    text: '@Delegate is legal only on no-argument methods.'
+inspection.message.equals.and.hashcode.only.supported.on.class.type:
+    text: '@EqualsAndHashCode is only supported on a class type'
+inspection.message.exclude.are.mutually.exclusive.exclude.parameter.will.be.ignored:
+    text: Parameters 'exclude' and 'of' are mutually exclusive; the 'exclude' parameter will be ignored
+inspection.message.existing.builder.must.be.abstract.static.inner.class:
+    text: Existing Builder must be an abstract static inner class.
+inspection.message.field.name.constants.inner.type:
+    text: '@FieldNameConstants inner type already exists, but asEnum={0} does not match existing type'
+inspection.message.field.name.constants.only.supported.on.class.enum.or.field.type:
+    text: '@FieldNameConstants is only supported on a class, enum, record or field type'
+inspection.message.field.name.constants.only.supported.on.class.or.enum:
+    text: '@FieldNameConstants is only supported on a class, an enum or a record.'
+inspection.message.field.s.does.not.exist:
+    text: The field ''{0}'' does not exist.
+inspection.message.field.s.does.not.exist.exclude:
+    text: The field ''{0}'' does not exist
+inspection.message.field.s.does.not.exist.field:
+    text: The field ''{0}'' does not exist
+inspection.message.field.s.would.have.been.excluded.anyway:
+    text: The field ''{0}'' would have been excluded anyway
+inspection.message.generating.equals.hashcode.implementation:
+    text: Generating equals/hashCode implementation but without a call to superclass, even though this class does not extend java.lang.Object. If this is intentional, add '(callSuper=false)' to your type.
+inspection.message.generating.equals.hashcode.with.super.call:
+    text: Generating equals/hashCode with a supercall to java.lang.Object is pointless.
+inspection.message.getter.only.supported.on.class.enum.or.field.type:
+    text: '@Getter is only supported on a class, enum or field type'
+inspection.message.jacksonized.builder.on.abstract.classes:
+    text: Builders on abstract classes cannot be @Jacksonized (the builder would never be used).
+inspection.message.jacksonized.cannot.process.both.builder.superbuilder:
+    text: '@Jacksonized cannot process both @Builder and @SuperBuilder on the same class.'
+inspection.message.jacksonized.jsondeserialize.already.exists:
+    text: '@JsonDeserialize already exists on class. Either delete @JsonDeserialize, or remove @Jacksonized and manually configure Jackson.'
+inspection.message.jacksonized.requires.builder.superbuilder:
+    text: '@Jacksonized requires @Builder or @SuperBuilder for it to mean anything.'
+inspection.message.lazy.does.not.work.with.access.level.none:
+    text: '''lazy'' does not work with AccessLevel.NONE.'
+inspection.message.lazy.not.supported.for.getter.on.type:
+    text: '''lazy'' is not supported for @Getter on a type'
+inspection.message.lazy.requires.field.initialization:
+    text: '''lazy'' requires field initialization.'
+inspection.message.lazy.requires.field.to.be.private.final:
+    text: '''lazy'' requires the field to be private and final'
+inspection.message.lombok.annotation.deprecated.not.supported:
+    text: Lombok's annotation ''{0}'' is deprecated and not supported by lombok-plugin anymore. Use ''{1}'' instead.
+inspection.message.lombok.annotations.are.not.allowed.on.builder.class:
+    text: Lombok's annotations are not allowed on builder class.
+inspection.message.lombok.builder.needs.proper.constructor.for.this.class:
+    text: Lombok @Builder needs a proper constructor for this class
+inspection.message.lombok.does.not.know:
+    text: Lombok does not know how to create the singular-form builder methods for type ''{0}''; they won't be generated.
+inspection.message.lombok.needs.default.constructor.in.base.class:
+    text: Lombok needs a default constructor in the base class
+inspection.message.method.s.matched.static.constructor.name.already.defined:
+    text: Method ''{0}'' matched staticConstructorName is already defined
+inspection.message.method.s.with.d.parameters.matched.static.constructor.name.already.defined:
+    text: Method ''{0}'' with ''{1}'' parameters matched staticConstructorName is already defined
+inspection.message.not.allowed.in.old.style.for.loops:
+    text: '''''{0}'''' is not allowed in old-style for loops'
+inspection.message.not.allowed.with.lambda.expressions:
+    text: '''''{0}'''' is not allowed with lambda expressions.'
+inspection.message.not.compatible.with.array.initializer.expressions:
+    text: "''''{0}'''' is not compatible with array initializer expressions. Use the full form (new int[] '{' ... '}' instead of just '{' ... '}')"
+inspection.message.not.generated.s.method.with.same.name.already.exists:
+    text: 'Not generated ''''{0}()'''': A method with same name already exists'
+inspection.message.not.generated.s.method.with.similar.name.s.already.exists:
+    text: 'Not generated ''''{0}()'''': A method with similar name ''''{0}'''' already exists'
+inspection.message.not.generating.constant:
+    text: 'Not generating constant for this field: The name of the constant would be equal to the name of this field.'
+inspection.message.not.generating.equals.hashcode:
+    text: 'Not generating equals and hashCode: A method with one of those names already exists. (Either both or none of these methods will be generated).'
+inspection.message.not.generating.field.s.field.with.same.name.already.exists:
+    text: 'Not generating field ''''{0}'''': A field with same name already exists'
+inspection.message.not.generating.getter.for.this.field:
+    text: 'Not generating getter for this field: It does not fit your @Accessors prefix list.'
+inspection.message.not.generating.s.method.with.that.name.already.exists:
+    text: 'Not generating ''''{0}()'''': A method with that name already exists'
+inspection.message.not.generating.setter.for.this.field.it:
+    text: 'Not generating setter for this field: It does not fit your @Accessors prefix list.'
+inspection.message.not.generating.setter.for.this.field.setters:
+    text: 'Not generating setter for this field: Setters cannot be generated for final fields.'
+inspection.message.not.generating.wither:
+    text: 'Not generating wither for this field: Withers cannot be generated for static fields.'
+inspection.message.not.generating.wither.for.this.field.withers:
+    text: 'Not generating wither for this field: Withers cannot be generated for fields starting with $.'
+inspection.message.not.generating.wither.for.this.field.withers.cannot.be.generated:
+    text: 'Not generating wither for this field: Withers cannot be generated for final, initialized fields.'
+inspection.message.obtain.via.is.static.true.not.valid.unless.method.has.been.set:
+    text: '@ObtainVia(isStatic = true) is not valid unless ''method'' has been set.'
+inspection.message.on.local.variable.requires.initializer.expression:
+    text: '''''{0}'''' on a local variable requires an initializer expression'
+inspection.message.s.can.be.used.on.classes.only:
+    text: '''''@{0}'''' can be used on classes only'
+inspection.message.s.legal.only.on.classes.enums:
+    text: '''''@{0}'''' is legal only on classes and enums'
+inspection.message.s.not.valid.identifier:
+    text: '''''{0}'''' is not a valid identifier'
+inspection.message.s.only.supported.on.class.or.field.type:
+    text: '''''@{0}'''' is only supported on a class or field type'
+inspection.message.slf4j.logger.defined.explicitly:
+    text: Slf4j Logger is defined explicitly. Use Lombok @Slf4j annotation instead.
+inspection.message.standardexception.accesslevel.none.not.valid:
+    text: AccessLevel.NONE is not valid here
+inspection.message.standardexception.class.only.supported.on.class:
+    text: '@StandardException is only supported on a class'
+inspection.message.standardexception.should.extend.throwable:
+    text: '@StandardException requires that you extend a Throwable type'
+inspection.message.synchronized.field.is.not.static:
+    text: The field ''{0}'' is non-static and this cannot be used on this static method
+inspection.message.synchronized.legal.only.on.concrete.methods:
+    text: '@Synchronized is legal only on concrete methods.'
+inspection.message.synchronized.legal.only.on.methods.in.classes.enums:
+    text: '@Synchronized is legal only on methods in classes and enums.'
+inspection.message.syntax.either.obtain.via.field:
+    text: The syntax is either @ObtainVia(field = "fieldName") or @ObtainVia(method = "methodName").
+inspection.message.to.string.only.supported.on.class.or.enum.type:
+    text: '@ToString is only supported on a class or enum type'
+inspection.message.utility.class.already.marks.class.final:
+    text: '@UtilityClass already marks the class final.'
+inspection.message.utility.class.already.marks.fields.static:
+    text: '@UtilityClass already marks fields static.'
+inspection.message.utility.class.already.marks.inner.classes.static:
+    text: '@UtilityClass already marks inner classes static.'
+inspection.message.utility.class.already.marks.methods.static:
+    text: '@UtilityClass already marks methods static.'
+inspection.message.utility.class.automatically.makes.class.static:
+    text: '@UtilityClass automatically makes the class static, however, this class cannot be made static.'
+inspection.message.utility.class.cannot.be.placed:
+    text: '@UtilityClass cannot be placed on a method local or anonymous inner class, or any class nested in such a class.'
+inspection.message.utility.class.only.supported.on.class:
+    text: '@UtilityClass is only supported on a class (can''t be an interface, enum, or annotation).'
+inspection.message.utility.classes.cannot.have.declared.constructors:
+    text: '@UtilityClasses cannot have declared constructors.'
+inspection.message.val.already.marks.variables.final:
+    text: '''val'' already marks variables final.'
+inspection.message.val.works.only.on.local.variables:
+    text: '''val'' works only on local variables and on foreach loops'
+inspection.message.value.already.marks.class.final:
+    text: '@Value already marks the class final.'
+inspection.message.value.already.marks.non.static.fields.final:
+    text: '@Value already marks non-static fields final.'
+inspection.message.value.already.marks.non.static.package.local.fields.private:
+    text: '@Value already marks non-static, package-local fields private.'
+inspection.message.value.only.supported.on.class.type:
+    text: '''@Value'' is only supported on a class type'
+inspection.message.var.works.only.on.local.variables.on.for.foreach.loops:
+    text: '''var'' works only on local variables and on for/foreach loops'
+inspection.message.wither.needs.constructor.for.all.fields.d.parameters:
+    text: '@Wither needs constructor for all fields (''''{0}'''' parameters)'
+inspection.message.wither.only.supported.on.class.or.field:
+    text: '@Wither is only supported on a class or a field.'
+inspection.redundant.modifiers.utility.class.lombok.display.name:
+    text: '@UtilityClass modifiers'
+inspection.redundant.modifiers.val.lombok.display.name:
+    text: Unnecessary final before 'val'
+inspection.redundant.modifiers.value.lombok.display.name:
+    text: '@Value modifiers'
+inspection.redundant.slf.4.j.definition.display.name:
+    text: '@Slf4j'
+inspection.springqualifiercopyable.lombok.display.name:
+    text: '@Qualifier not copyable by lombok'
+intention.category.lombok:
+    text: Java/Lombok
+intention.name.create.new.field.s:
+    text: Create new field ''{0}''
+intention.name.replace.with.lombok:
+    text: Replace with Lombok
+notification.enable.annotation.processing:
+    text: Enable annotation processing
+notification.group.lombok:
+    text: Lombok integration problem
+plugin.settings.title:
+    text: Lombok
+popup.content.java.annotation.processing.has.been.enabled:
+    text: Java annotation processing has been enabled
+replace.0.with.explicit.type.lombok:
+    text: Replace ''{0}'' with explicit type (Lombok)
+replace.explicit.type.with.0.lombok:
+    text: Replace explicit type with ''{0}'' (Lombok)
+replace.with.annotations.lombok:
+    text: Replace with annotations (Lombok)
