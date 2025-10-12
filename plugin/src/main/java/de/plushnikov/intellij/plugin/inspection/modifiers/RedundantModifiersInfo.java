@@ -2,45 +2,49 @@ package de.plushnikov.intellij.plugin.inspection.modifiers;
 
 import com.intellij.java.language.psi.PsiModifier;
 import com.intellij.java.language.psi.PsiModifierListOwner;
+import consulo.localize.LocalizeValue;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 
 public class RedundantModifiersInfo {
+    private final RedundantModifiersInfoType myRedundantModifiersInfoType;
+    private final String[] myModifiers;
+    @Nonnull
+    private final LocalizeValue myDescription;
+    private final String myDontRunOnModifier;
 
-  private final RedundantModifiersInfoType redundantModifiersInfoType;
-  private final String[] modifiers;
-  private final String description;
-  private final String dontRunOnModifier;
+    public RedundantModifiersInfo(
+        @Nonnull RedundantModifiersInfoType redundantModifiersInfoType,
+        @PsiModifier.ModifierConstant @Nullable String dontRunOnModifier,
+        @Nonnull LocalizeValue description,
+        @PsiModifier.ModifierConstant @Nonnull String... modifiers
+    ) {
+        this.myRedundantModifiersInfoType = redundantModifiersInfoType;
+        this.myDescription = description;
+        this.myDontRunOnModifier = dontRunOnModifier;
+        this.myModifiers = modifiers;
+    }
 
-  public RedundantModifiersInfo(@Nonnull RedundantModifiersInfoType redundantModifiersInfoType,
-                                @PsiModifier.ModifierConstant @Nullable String dontRunOnModifier,
-                                @Nonnull String description,
-                                @PsiModifier.ModifierConstant @Nonnull String... modifiers) {
-    this.redundantModifiersInfoType = redundantModifiersInfoType;
-    this.description = description;
-    this.dontRunOnModifier = dontRunOnModifier;
-    this.modifiers = modifiers;
-  }
+    @PsiModifier.ModifierConstant
+    public String[] getModifiers() {
+        return myModifiers;
+    }
 
-  @PsiModifier.ModifierConstant
-  public String[] getModifiers() {
-    return modifiers;
-  }
+    @Nonnull
+    public LocalizeValue getDescription() {
+        return myDescription;
+    }
 
-  public String getDescription() {
-    return description;
-  }
+    @PsiModifier.ModifierConstant
+    public String getDontRunOnModifier() {
+        return myDontRunOnModifier;
+    }
 
-  @PsiModifier.ModifierConstant
-  public String getDontRunOnModifier() {
-    return dontRunOnModifier;
-  }
+    public RedundantModifiersInfoType getType() {
+        return myRedundantModifiersInfoType;
+    }
 
-  public RedundantModifiersInfoType getType() {
-    return redundantModifiersInfoType;
-  }
-
-  public boolean shouldCheck(PsiModifierListOwner psiModifierListOwner) {
-    return true;
-  }
+    public boolean shouldCheck(PsiModifierListOwner psiModifierListOwner) {
+        return true;
+    }
 }
