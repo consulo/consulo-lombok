@@ -7,33 +7,35 @@ import jakarta.annotation.Nonnull;
 import static com.intellij.java.language.psi.PsiModifier.FINAL;
 
 public class ReplaceExplicitTypeWithValIntentionAction extends AbstractReplaceExplicitTypeWithVariableIntentionAction {
-
-  public ReplaceExplicitTypeWithValIntentionAction() {
-    super(LombokClassNames.VAL);
-  }
-
-  @Override
-  protected boolean isAvailableOnDeclarationCustom(@Nonnull PsiDeclarationStatement declarationStatement, @Nonnull PsiLocalVariable localVariable) {
-    return !(declarationStatement.getParent() instanceof PsiForStatement);
-  }
-
-  @Override
-  protected void executeAfterReplacing(PsiVariable psiVariable) {
-    PsiModifierList modifierList = psiVariable.getModifierList();
-    if (modifierList != null) {
-      modifierList.setModifierProperty(FINAL, false);
+    public ReplaceExplicitTypeWithValIntentionAction() {
+        super(LombokClassNames.VAL);
     }
-  }
 
-  @Override
-  public boolean isAvailableOnVariable(PsiVariable psiVariable) {
-    if (!(psiVariable instanceof PsiParameter parameter)) {
-      return false;
+    @Override
+    protected boolean isAvailableOnDeclarationCustom(
+        @Nonnull PsiDeclarationStatement declarationStatement,
+        @Nonnull PsiLocalVariable localVariable
+    ) {
+        return !(declarationStatement.getParent() instanceof PsiForStatement);
     }
-    if (!(parameter.getDeclarationScope() instanceof PsiForeachStatement)) {
-      return false;
+
+    @Override
+    protected void executeAfterReplacing(PsiVariable psiVariable) {
+        PsiModifierList modifierList = psiVariable.getModifierList();
+        if (modifierList != null) {
+            modifierList.setModifierProperty(FINAL, false);
+        }
     }
-    PsiTypeElement typeElement = parameter.getTypeElement();
-    return typeElement == null || !typeElement.isInferredType();
-  }
+
+    @Override
+    public boolean isAvailableOnVariable(PsiVariable psiVariable) {
+        if (!(psiVariable instanceof PsiParameter parameter)) {
+            return false;
+        }
+        if (!(parameter.getDeclarationScope() instanceof PsiForeachStatement)) {
+            return false;
+        }
+        PsiTypeElement typeElement = parameter.getTypeElement();
+        return typeElement == null || !typeElement.isInferredType();
+    }
 }

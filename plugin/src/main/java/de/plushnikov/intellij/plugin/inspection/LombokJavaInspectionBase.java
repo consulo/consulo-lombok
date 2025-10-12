@@ -7,47 +7,51 @@ import consulo.language.editor.inspection.LocalInspectionToolSession;
 import consulo.language.editor.inspection.ProblemsHolder;
 import consulo.language.editor.rawHighlight.HighlightDisplayLevel;
 import consulo.language.psi.PsiElementVisitor;
+import consulo.localize.LocalizeValue;
+import consulo.lombok.localize.LombokLocalize;
 import de.plushnikov.intellij.plugin.util.LombokLibraryUtil;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 
 public abstract class LombokJavaInspectionBase extends AbstractBaseJavaLocalInspectionTool {
-  @Nonnull
-  @Override
-  public PsiElementVisitor buildVisitorImpl(@Nonnull ProblemsHolder holder,
-                                            boolean isOnTheFly,
-                                            LocalInspectionToolSession session,
-                                            Object o) {
-    if (!LombokLibraryUtil.hasLombokLibrary(holder.getProject())) {
-      return PsiElementVisitor.EMPTY_VISITOR;
+    @Nonnull
+    @Override
+    public PsiElementVisitor buildVisitorImpl(
+        @Nonnull ProblemsHolder holder,
+        boolean isOnTheFly,
+        LocalInspectionToolSession session,
+        Object o
+    ) {
+        if (!LombokLibraryUtil.hasLombokLibrary(holder.getProject())) {
+            return PsiElementVisitor.EMPTY_VISITOR;
+        }
+
+        return createVisitor(holder, isOnTheFly);
     }
 
-    return createVisitor(holder, isOnTheFly);
-  }
+    @Nullable
+    @Override
+    public Language getLanguage() {
+        return JavaLanguage.INSTANCE;
+    }
 
-  @Nullable
-  @Override
-  public Language getLanguage() {
-    return JavaLanguage.INSTANCE;
-  }
+    @Nonnull
+    @Override
+    public LocalizeValue getGroupDisplayName() {
+        return LombokLocalize.inspectionLombokGroupNameLombok();
+    }
 
-  @Nonnull
-  @Override
-  public String getGroupDisplayName() {
-    return "Lombok";
-  }
+    @Override
+    public boolean isEnabledByDefault() {
+        return true;
+    }
 
-  @Override
-  public boolean isEnabledByDefault() {
-    return true;
-  }
+    @Nonnull
+    @Override
+    public HighlightDisplayLevel getDefaultLevel() {
+        return HighlightDisplayLevel.WARNING;
+    }
 
-  @Nonnull
-  @Override
-  public HighlightDisplayLevel getDefaultLevel() {
-    return HighlightDisplayLevel.WARNING;
-  }
-
-  @Nonnull
-  protected abstract PsiElementVisitor createVisitor(@Nonnull ProblemsHolder holder, boolean isOnTheFly);
+    @Nonnull
+    protected abstract PsiElementVisitor createVisitor(@Nonnull ProblemsHolder holder, boolean isOnTheFly);
 }
