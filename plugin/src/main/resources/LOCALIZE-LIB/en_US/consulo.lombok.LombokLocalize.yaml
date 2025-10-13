@@ -243,7 +243,7 @@ inspection.message.lazy.requires.field.initialization:
 inspection.message.lazy.requires.field.to.be.private.final:
     text: '''lazy'' requires the field to be private and final'
 inspection.message.lombok.annotation.deprecated.not.supported:
-    text: Lombok's annotation ''{0}'' is deprecated and not supported by lombok-plugin anymore. Use ''{1}'' instead.
+    text: "Lombok''s annotation ''{0}'' is deprecated and not supported by lombok-plugin anymore. Use ''{1}'' instead."
 inspection.message.lombok.annotations.are.not.allowed.on.builder.class:
     text: Lombok's annotations are not allowed on builder class.
 inspection.message.lombok.builder.needs.proper.constructor.for.this.class:
