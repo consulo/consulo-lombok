@@ -1,8 +1,8 @@
 package de.plushnikov.intellij.plugin.processor;
 
 import com.intellij.java.language.codeInsight.daemon.impl.analysis.JavaGenericsUtil;
-import com.intellij.java.language.impl.psi.impl.source.JavaVarTypeUtil;
 import com.intellij.java.language.psi.*;
+import com.intellij.java.language.psi.util.JavaVarTypeUtil;
 import consulo.application.util.RecursionManager;
 import consulo.language.editor.inspection.ProblemHighlightType;
 import consulo.language.editor.inspection.ProblemsHolder;
