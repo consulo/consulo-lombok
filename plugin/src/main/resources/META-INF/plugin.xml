@@ -47,9 +47,6 @@
   <depends>consulo.java</depends>
 
   <extensions defaultExtensionNs="com.intellij">
-
-
-
     <intentionAction>
       <language>JAVA</language>
       <className>de.plushnikov.intellij.plugin.intention.valvar.to.ReplaceExplicitTypeWithValIntentionAction</className>
@@ -80,48 +77,5 @@
       <bundleName>messages.LombokBundle</bundleName>
       <categoryKey>intention.category.lombok</categoryKey>
     </intentionAction>
-
-
   </extensions>
-
-  <actions>
-    <group id="LombokActionGroup" class="de.plushnikov.intellij.plugin.action.LombokMenuGroup" popup="true">
-
-      <action id="defaultLombokData" class="de.plushnikov.intellij.plugin.action.lombok.LombokDataAction"/>
-      <separator/>
-      <action id="defaultLombokGetter" class="de.plushnikov.intellij.plugin.action.lombok.LombokGetterAction"/>
-      <action id="defaultLombokSetter" class="de.plushnikov.intellij.plugin.action.lombok.LombokSetterAction"/>
-      <action id="defaultLombokEqualsAndHashcode" class="de.plushnikov.intellij.plugin.action.lombok.LombokEqualsAndHashcodeAction"/>
-      <action id="defaultLombokToString" class="de.plushnikov.intellij.plugin.action.lombok.LombokToStringAction"/>
-      <separator/>
-      <action id="defaultLombokLogger" class="de.plushnikov.intellij.plugin.action.lombok.LombokLoggerAction"/>
-
-      <add-to-group group-id="RefactoringMenu" anchor="last"/>
-    </group>
-    <group id="DelombokActionGroup" class="de.plushnikov.intellij.plugin.action.LombokMenuGroup" popup="true">
-      <action id="delombokAny" class="de.plushnikov.intellij.plugin.action.delombok.DelombokEverythingAction"/>
-      <separator/>
-      <action id="delombokData" class="de.plushnikov.intellij.plugin.action.delombok.DelombokDataAction"/>
-      <action id="delombokValue" class="de.plushnikov.intellij.plugin.action.delombok.DelombokValueAction"/>
-      <action id="delombokWither" class="de.plushnikov.intellij.plugin.action.delombok.DelombokWitherAction"/>
-      <action id="delombokDelegate" class="de.plushnikov.intellij.plugin.action.delombok.DelombokDelegateAction"/>
-      <action id="delombokBuilder" class="de.plushnikov.intellij.plugin.action.delombok.DelombokBuilderAction"/>
-      <action id="delombokSuperBuilder" class="de.plushnikov.intellij.plugin.action.delombok.DelombokSuperBuilderAction"/>
-      <separator/>
-      <action id="delombokConstructor" class="de.plushnikov.intellij.plugin.action.delombok.DelombokConstructorAction"/>
-      <action id="delombokGetter" class="de.plushnikov.intellij.plugin.action.delombok.DelombokGetterAction"/>
-      <action id="delombokSetter" class="de.plushnikov.intellij.plugin.action.delombok.DelombokSetterAction"/>
-      <action id="delombokEqualsAndHashCode"
-              class="de.plushnikov.intellij.plugin.action.delombok.DelombokEqualsAndHashCodeAction"/>
-      <action id="delombokToString" class="de.plushnikov.intellij.plugin.action.delombok.DelombokToStringAction"/>
-      <separator/>
-      <action id="delombokLogger" class="de.plushnikov.intellij.plugin.action.delombok.DelombokLoggerAction"/>
-      <action id="delombokFieldNameCostants"
-              class="de.plushnikov.intellij.plugin.action.delombok.DelombokFieldNameConstantsAction"/>
-      <action id="delombokUtilityClass" class="de.plushnikov.intellij.plugin.action.delombok.DelombokUtilityClassAction"/>
-      <action id="delombokStandardException" class="de.plushnikov.intellij.plugin.action.delombok.DelombokStandardExceptionAction"/>
-
-      <add-to-group group-id="RefactoringMenu" anchor="last"/>
-    </group>
-  </actions>
 </consulo-plugin>

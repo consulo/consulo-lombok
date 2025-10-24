@@ -1,90 +1,90 @@
-action.defaultLombokData.description:
-    text: Action to replace getter/setter/equals/hashcode/toString methods with lombok @Data annotation
-action.defaultLombokData.text:
+action.data.description:
+    text: Replace getter/setter/equals/hashcode/toString methods with lombok @Data annotation
+action.data.text:
     text: Default @Data
-action.defaultLombokEqualsAndHashcode.description:
-    text: Action to replace equals and hashcode methods with lombok @EqualsAndHashcode annotation
-action.defaultLombokEqualsAndHashcode.text:
+action.equals.and.hash.code.description:
+    text: Replace equals and hashcode methods with lombok @EqualsAndHashcode annotation
+action.equals.and.hash.code.text:
     text: Default @EqualsAndHashcode
-action.defaultLombokGetter.description:
-    text: Action to replace all getter methods with lombok @Getter annotation
-action.defaultLombokGetter.text:
+action.getter.description:
+    text: Replace all getter methods with lombok @Getter annotation
+action.getter.text:
     text: Default @Getter
-action.defaultLombokLogger.description:
-    text: Action to replace logger with lombok @Log annotation
-action.defaultLombokLogger.text:
+action.logger.description:
+    text: Replace logger with lombok @Log annotation
+action.logger.text:
     text: '@Log (and friends)'
-action.defaultLombokSetter.description:
-    text: Action to replace all setter methods with lombok @Setter annotation
-action.defaultLombokSetter.text:
+action.setter.description:
+    text: Replace all setter methods with lombok @Setter annotation
+action.setter.text:
     text: Default @Setter
-action.defaultLombokToString.description:
-    text: Action to replace toString method with lombok @ToString annotation
-action.defaultLombokToString.text:
+action.to.string.description:
+    text: Replace toString method with lombok @ToString annotation
+action.to.string.text:
     text: Default @ToString
-action.delombokAny.description:
-    text: Action to replace all lombok annotations with vanilla java methods
-action.delombokAny.text:
+action.delombok.any.description:
+    text: Replace all lombok annotations with vanilla java methods
+action.delombok.any.text:
     text: All lombok annotations
-action.delombokBuilder.description:
-    text: Action to replace lombok @Builder annotation with vanilla java methods
-action.delombokBuilder.text:
+action.delombok.builder.description:
+    text: Replace lombok @Builder annotation with vanilla java methods
+action.delombok.builder.text:
     text: '@Builder'
-action.delombokConstructor.description:
-    text: Action to replace lombok @NoArgsConstructor, @RequiredArgsConstructor and @AllArgsConstructor annotations with vanilla java methods
-action.delombokConstructor.text:
+action.delombok.constructor.description:
+    text: Replace lombok @NoArgsConstructor, @RequiredArgsConstructor and @AllArgsConstructor annotations with vanilla java methods
+action.delombok.constructor.text:
     text: '@Constructors'
-action.delombokData.description:
-    text: Action to replace lombok @Data annotation with vanilla java methods
-action.delombokData.text:
+action.delombok.data.description:
+    text: Replace lombok @Data annotation with vanilla java methods
+action.delombok.data.text:
     text: '@Data'
-action.delombokDelegate.description:
-    text: Action to replace lombok @Delegate annotation with vanilla java methods
-action.delombokDelegate.text:
+action.delombok.delegate.description:
+    text: Replace lombok @Delegate annotation with vanilla java methods
+action.delombok.delegate.text:
     text: '@Delegate'
-action.delombokEqualsAndHashCode.description:
-    text: Action to replace lombok @EqualsAndHashCode annotation with vanilla java methods
-action.delombokEqualsAndHashCode.text:
+action.delombok.equals.and.hash.code.description:
+    text: Replace lombok @EqualsAndHashCode annotation with vanilla java methods
+action.delombok.equals.and.hash.code.text:
     text: '@EqualsAndHashCode'
-action.delombokFieldNameCostants.description:
-    text: Action to replace lombok @FieldNameConstants annotation with vanilla java fields
-action.delombokFieldNameCostants.text:
+action.delombok.field.name.constants.description:
+    text: Replace lombok @FieldNameConstants annotation with vanilla java fields
+action.delombok.field.name.constants.text:
     text: '@FieldNameConstants'
-action.delombokGetter.description:
-    text: Action to replace lombok @Getter annotation with vanilla getter methods
-action.delombokGetter.text:
+action.delombok.getter.description:
+    text: Replace lombok @Getter annotation with vanilla getter methods
+action.delombok.getter.text:
     text: '@Getter'
-action.delombokLogger.description:
-    text: Action to replace lombok @Log (and other) annotation with vanilla log field
-action.delombokLogger.text:
+action.delombok.logger.description:
+    text: Replace lombok @Log (and other) annotation with vanilla log field
+action.delombok.logger.text:
     text: '@Log (and friends)'
-action.delombokSetter.description:
-    text: Action to replace lombok @Setter annotation with vanilla setter methods
-action.delombokSetter.text:
+action.delombok.setter.description:
+    text: Replace lombok @Setter annotation with vanilla setter methods
+action.delombok.setter.text:
     text: '@Setter'
-action.delombokStandardException.description:
-    text: Action to replace lombok @StandardException annotation with vanilla java methods
-action.delombokStandardException.text:
+action.delombok.standard.exception.description:
+    text: Replace lombok @StandardException annotation with vanilla java methods
+action.delombok.standard.exception.text:
     text: '@StandardException'
-action.delombokSuperBuilder.description:
-    text: Action to replace lombok @SuperBuilder annotation with vanilla java methods
-action.delombokSuperBuilder.text:
+action.delombok.super.builder.description:
+    text: Replace lombok @SuperBuilder annotation with vanilla java methods
+action.delombok.super.builder.text:
     text: '@SuperBuilder'
-action.delombokToString.description:
-    text: Action to replace lombok @ToString annotation with vanilla java methods
-action.delombokToString.text:
+action.delombok.to.string.description:
+    text: Replace lombok @ToString annotation with vanilla java methods
+action.delombok.to.string.text:
     text: '@ToString'
-action.delombokUtilityClass.description:
-    text: Action to replace lombok @UtilityClass annotation with vanilla java fields
-action.delombokUtilityClass.text:
+action.delombok.utility.class.description:
+    text: Replace lombok @UtilityClass annotation with vanilla java fields
+action.delombok.utility.class.text:
     text: '@UtilityClass'
-action.delombokValue.description:
-    text: Action to replace lombok @Value annotation with vanilla java methods
-action.delombokValue.text:
+action.delombok.value.description:
+    text: Replace lombok @Value annotation with vanilla java methods
+action.delombok.value.text:
     text: '@Value'
-action.delombokWither.description:
-    text: Action to replace lombok @Wither annotation with vanilla java methods
-action.delombokWither.text:
+action.delombok.wither.description:
+    text: Replace lombok @Wither annotation with vanilla java methods
+action.delombok.wither.text:
     text: '@Wither'
 checkbox.settings.jps.fix:
     text: Automatically add '-Djps.track.ap.dependencies=false' compile option for old (<1.18.16) lombok version
@@ -116,13 +116,13 @@ dialog.title.attention:
     text: Attention!
 filetype.lombok.config.description:
     text: Lombok config file
-group.DelombokActionGroup.description:
+group.delombok.description:
     text: Refactor code removing lombok annotations
-group.DelombokActionGroup.text:
+group.delombok.text:
     text: Delombok
-group.LombokActionGroup.description:
+group.lombok.description:
     text: Refactor code with lombok annotations
-group.LombokActionGroup.text:
+group.lombok.text:
     text: Lombok
 inspection.deprecated.lombok.display.name:
     text: Deprecated Lombok annotations

@@ -2,7 +2,8 @@ package de.plushnikov.intellij.plugin.action;
 
 import com.intellij.java.language.psi.PsiJavaFile;
 import consulo.application.dumb.DumbAware;
-import consulo.language.editor.CommonDataKeys;
+import consulo.language.psi.PsiFile;
+import consulo.localize.LocalizeValue;
 import consulo.lombok.impl.icon.LombokIconGroup;
 import consulo.project.Project;
 import consulo.ui.ex.action.AnActionEvent;
@@ -13,24 +14,21 @@ import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 
 public class LombokMenuGroup extends DefaultActionGroup implements DumbAware {
+    public LombokMenuGroup(@Nonnull LocalizeValue text, @Nonnull LocalizeValue description, @Nullable Image icon) {
+        super(text, description, icon);
+    }
 
-//  @Override
-//  public @NotNull ActionUpdateThread getActionUpdateThread() {
-//    return ActionUpdateThread.BGT;
-//  }
+    @Nullable
+    @Override
+    protected Image getTemplateIcon() {
+        return LombokIconGroup.lombok();
+    }
 
-
-  @Nullable
-  @Override
-  protected Image getTemplateIcon() {
-    return LombokIconGroup.lombok();
-  }
-
-  @Override
-  public void update(@Nonnull AnActionEvent e) {
-    final Project project = e.getData(Project.KEY);
-    final boolean shouldShow =
-      e.getData(CommonDataKeys.PSI_FILE) instanceof PsiJavaFile && project != null && LombokLibraryUtil.hasLombokLibrary(project);
-    e.getPresentation().setEnabledAndVisible(shouldShow);
-  }
+    @Override
+    public void update(@Nonnull AnActionEvent e) {
+        Project project = e.getData(Project.KEY);
+        boolean shouldShow =
+            e.getData(PsiFile.KEY) instanceof PsiJavaFile && project != null && LombokLibraryUtil.hasLombokLibrary(project);
+        e.getPresentation().setEnabledAndVisible(shouldShow);
+    }
 }
