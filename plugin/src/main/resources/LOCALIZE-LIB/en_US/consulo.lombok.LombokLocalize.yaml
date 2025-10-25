@@ -3,9 +3,9 @@ action.data.description:
 action.data.text:
     text: Default @Data
 action.equals.and.hash.code.description:
-    text: Replace equals and hashcode methods with lombok @EqualsAndHashcode annotation
+    text: Replace equals and hashcode methods with lombok @EqualsAndHashCode annotation
 action.equals.and.hash.code.text:
-    text: Default @EqualsAndHashcode
+    text: Default @EqualsAndHashCode
 action.getter.description:
     text: Replace all getter methods with lombok @Getter annotation
 action.getter.text:
@@ -13,7 +13,7 @@ action.getter.text:
 action.logger.description:
     text: Replace logger with lombok @Log annotation
 action.logger.text:
-    text: '@Log (and friends)'
+    text: '@Log (and alternatives)'
 action.setter.description:
     text: Replace all setter methods with lombok @Setter annotation
 action.setter.text:
