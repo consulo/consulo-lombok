@@ -1,7 +1,6 @@
 package de.plushnikov.intellij.plugin.extension;
 
 import com.intellij.java.analysis.impl.codeInsight.intention.AddAnnotationFix;
-import com.intellij.java.language.impl.codeInsight.daemon.JavaErrorBundle;
 import com.intellij.java.language.psi.PsiClassInitializer;
 import com.intellij.java.language.psi.PsiLambdaExpression;
 import com.intellij.java.language.psi.PsiMethod;
@@ -10,8 +9,9 @@ import consulo.annotation.access.RequiredReadAction;
 import consulo.annotation.component.ExtensionImpl;
 import consulo.codeEditor.CodeInsightColors;
 import consulo.colorScheme.TextAttributesKey;
+import consulo.java.analysis.impl.localize.JavaInspectionsLocalize;
 import consulo.java.analysis.localize.JavaAnalysisLocalize;
-import consulo.java.impl.JavaBundle;
+import consulo.java.language.localize.JavaCompilationErrorLocalize;
 import consulo.language.editor.annotation.HighlightSeverity;
 import consulo.language.editor.inspection.CommonProblemDescriptor;
 import consulo.language.editor.inspection.ProblemDescriptorUtil;
@@ -21,8 +21,10 @@ import consulo.language.editor.rawHighlight.HighlightInfoFilter;
 import consulo.language.psi.PsiElement;
 import consulo.language.psi.PsiFile;
 import consulo.language.psi.util.PsiTreeUtil;
+import consulo.localize.LocalizeKey;
 import consulo.localize.LocalizeValue;
 import consulo.project.Project;
+import consulo.util.lang.lazy.LazyValue;
 import de.plushnikov.intellij.plugin.LombokClassNames;
 import de.plushnikov.intellij.plugin.handler.BuilderHandler;
 import de.plushnikov.intellij.plugin.handler.FieldNameConstantsHandler;
@@ -33,14 +35,10 @@ import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 
 import java.util.*;
-import java.util.regex.Pattern;
 
 @ExtensionImpl
 public class LombokHighlightErrorFilter implements HighlightInfoFilter {
     private static final class Holder {
-        static final Pattern LOMBOK_ANY_ANNOTATION_REQUIRED =
-            Pattern.compile(JavaErrorBundle.message("incompatible.types", "lombok.*AnyAnnotation\\[\\]", "__*"));
-
         static final Map<HighlightSeverity, Map<TextAttributesKey, List<LombokHighlightFilter>>> registeredFilters;
         static final Map<HighlightSeverity, Map<TextAttributesKey, List<LombokHighlightFixHook>>> registeredHooks;
 
@@ -96,12 +94,10 @@ public class LombokHighlightErrorFilter implements HighlightInfoFilter {
         }
 
         // handle rest cases
-        String description = highlightInfo.getDescription();
         if (HighlightSeverity.ERROR.equals(highlightInfo.getSeverity())) {
             //Handling onX parameters
             if (OnXAnnotationHandler.isOnXParameterAnnotation(highlightInfo, file)
-                || OnXAnnotationHandler.isOnXParameterValue(highlightInfo, file)
-                || (description != null && Holder.LOMBOK_ANY_ANNOTATION_REQUIRED.matcher(description).matches())) {
+                || OnXAnnotationHandler.isOnXParameterValue(highlightInfo, file)) {
                 return false;
             }
         }
@@ -119,33 +115,30 @@ public class LombokHighlightErrorFilter implements HighlightInfoFilter {
 
     private enum LombokHighlightFixHook {
         UNHANDLED_EXCEPTION(HighlightSeverity.ERROR, CodeInsightColors.ERRORS_ATTRIBUTES) {
-            private final Pattern pattern = preparePattern(1);
-            private final Pattern pattern2 = preparePattern(2);
-
-            @Nonnull
-            private static Pattern preparePattern(int count) {
-                return Pattern.compile(JavaErrorBundle.message("unhandled.exceptions", ".*", count));
-            }
+            LazyValue<LocalizeKey> errorKey = LazyValue.notNull(
+                () -> JavaCompilationErrorLocalize.exceptionUnhandled("", 0).getKey().get()
+            );
 
             @Override
-            public boolean descriptionCheck(@Nullable String description) {
-                return description != null && (pattern.matcher(description).matches() || pattern2.matcher(description).matches());
+            public boolean descriptionCheck(@Nonnull LocalizeValue description) {
+                return errorKey.get().equals(description.getKey().orElse(null));
             }
+
+            @SuppressWarnings("unchecked")
+            private final Class<PsiElement>[] CODE_BLOCK_PARENTS = new Class[] {
+                PsiMethod.class,
+                PsiLambdaExpression.class,
+                PsiMethodReferenceExpression.class,
+                PsiClassInitializer.class
+            };
 
             @Override
             public void processHook(@Nonnull PsiElement highlightedElement, @Nonnull HighlightInfo highlightInfo) {
-                PsiElement importantParent = PsiTreeUtil.getParentOfType(
-                    highlightedElement,
-                    PsiMethod.class,
-                    PsiLambdaExpression.class,
-                    PsiMethodReferenceExpression.class,
-                    PsiClassInitializer.class
-                );
+                PsiElement importantParent = PsiTreeUtil.getParentOfType(highlightedElement, CODE_BLOCK_PARENTS);
 
                 // applicable only for methods
                 if (importantParent instanceof PsiMethod method) {
-                    AddAnnotationFix fix = new AddAnnotationFix(LombokClassNames.SNEAKY_THROWS, method);
-                    highlightInfo.registerFix(fix, null, LocalizeValue.empty(), null, null);
+                    highlightInfo.registerFix(new AddAnnotationFix(LombokClassNames.SNEAKY_THROWS, method));
                 }
             }
         };
@@ -158,7 +151,7 @@ public class LombokHighlightErrorFilter implements HighlightInfoFilter {
             this.key = key;
         }
 
-        abstract public boolean descriptionCheck(@Nullable String description);
+        abstract public boolean descriptionCheck(@Nonnull LocalizeValue description);
 
         abstract public void processHook(@Nonnull PsiElement highlightedElement, @Nonnull HighlightInfo highlightInfo);
     }
@@ -169,11 +162,14 @@ public class LombokHighlightErrorFilter implements HighlightInfoFilter {
         //see com.intellij.java.lomboktest.LombokHighlightingTest.testGetterLazyVariableNotInitialized
         VARIABLE_MIGHT_NOT_BEEN_INITIALIZED(HighlightSeverity.ERROR, CodeInsightColors.ERRORS_ATTRIBUTES) {
             @Override
-            public boolean descriptionCheck(@Nullable String description, PsiElement highlightedElement) {
-                return JavaErrorBundle.message("variable.not.initialized", highlightedElement.getText()).equals(description);
+            @RequiredReadAction
+            public boolean descriptionCheck(@Nonnull LocalizeValue description, PsiElement highlightedElement) {
+                return JavaCompilationErrorLocalize.variableNotInitialized(highlightedElement.getText())
+                    .equals(description);
             }
 
             @Override
+            @RequiredReadAction
             public boolean accept(@Nonnull PsiElement highlightedElement) {
                 return !LazyGetterHandler.isLazyGetterHandled(highlightedElement);
             }
@@ -182,11 +178,13 @@ public class LombokHighlightErrorFilter implements HighlightInfoFilter {
         //see com.intellij.java.lomboktest.LombokHighlightingTest.testFieldNameConstantsExample
         CONSTANT_EXPRESSION_REQUIRED(HighlightSeverity.ERROR, CodeInsightColors.ERRORS_ATTRIBUTES) {
             @Override
-            public boolean descriptionCheck(@Nullable String description, PsiElement highlightedElement) {
-                return JavaErrorBundle.message("constant.expression.required").equals(description);
+            @RequiredReadAction
+            public boolean descriptionCheck(@Nonnull LocalizeValue description, PsiElement highlightedElement) {
+                return JavaCompilationErrorLocalize.switchLabelConstantExpected().equals(description);
             }
 
             @Override
+            @RequiredReadAction
             public boolean accept(@Nonnull PsiElement highlightedElement) {
                 return !FieldNameConstantsHandler.isFiledNameConstants(highlightedElement);
             }
@@ -195,15 +193,18 @@ public class LombokHighlightErrorFilter implements HighlightInfoFilter {
         // WARNINGS HANDLERS
         //see com.intellij.java.lomboktest.LombokHighlightingTest.testBuilderWithDefaultRedundantInitializer
         VARIABLE_INITIALIZER_IS_REDUNDANT(HighlightSeverity.WARNING, CodeInsightColors.NOT_USED_ELEMENT_ATTRIBUTES) {
-            private final Pattern pattern = Pattern.compile(
-        JavaBundle.message("inspection.unused.assignment.problem.descriptor2", "(.+)", "(.+)"));
+            LazyValue<LocalizeKey> errorKey = LazyValue.notNull(
+                () -> JavaInspectionsLocalize.inspectionUnusedAssignmentProblemDescriptor2("", "").getKey().get()
+            );
 
             @Override
-            public boolean descriptionCheck(@Nullable String description, PsiElement highlightedElement) {
-                return description != null && pattern.matcher(description).matches();
+            @RequiredReadAction
+            public boolean descriptionCheck(@Nonnull LocalizeValue description, PsiElement highlightedElement) {
+                return description != LocalizeValue.empty() && errorKey.get().equals(description.getKey().orElse(null));
             }
 
             @Override
+            @RequiredReadAction
             public boolean accept(@Nonnull PsiElement highlightedElement) {
                 return !BuilderHandler.isDefaultBuilderValue(highlightedElement);
             }
@@ -215,23 +216,25 @@ public class LombokHighlightErrorFilter implements HighlightInfoFilter {
             private final CommonProblemDescriptor descriptor = new CommonProblemDescriptor() {
                 @Nonnull
                 @Override
-                public String getDescriptionTemplate() {
-                    return JavaAnalysisLocalize.dataflowMessageNpeMethodInvocationSure().get();
+                public LocalizeValue getDescriptionTemplate() {
+                    return JavaAnalysisLocalize.dataflowMessageNpeMethodInvocationSure();
                 }
 
                 @Nonnull
                 @Override
                 public QuickFix[] getFixes() {
-                    return new QuickFix[0];
+                    return QuickFix.EMPTY_ARRAY;
                 }
             };
 
             @Override
-            public boolean descriptionCheck(@Nullable String description, PsiElement highlightedElement) {
-                return ProblemDescriptorUtil.renderDescriptionMessage(descriptor, highlightedElement).equals(description);
+            @RequiredReadAction
+            public boolean descriptionCheck(@Nonnull LocalizeValue description, PsiElement highlightedElement) {
+                return ProblemDescriptorUtil.renderDescriptionMessage(descriptor, highlightedElement).get().equals(description.get());
             }
 
             @Override
+            @RequiredReadAction
             public boolean accept(@Nonnull PsiElement highlightedElement) {
                 return !LazyGetterHandler.isLazyGetterHandled(highlightedElement)
                     || !LazyGetterHandler.isInitializedInConstructors(highlightedElement);
@@ -251,12 +254,14 @@ public class LombokHighlightErrorFilter implements HighlightInfoFilter {
          * @param highlightedElement the current highlighted element
          * @return true if the filter can handle current type of the highlight info with that kind of the description
          */
-        abstract public boolean descriptionCheck(@Nullable String description, PsiElement highlightedElement);
+        @RequiredReadAction
+        abstract public boolean descriptionCheck(@Nonnull LocalizeValue description, PsiElement highlightedElement);
 
         /**
          * @param highlightedElement the deepest element (it's the leaf element in PSI tree where the highlight was occurred)
          * @return false if the highlight should be suppressed
          */
+        @RequiredReadAction
         abstract public boolean accept(@Nonnull PsiElement highlightedElement);
     }
 }
