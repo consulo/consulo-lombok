@@ -8,13 +8,8 @@ import de.plushnikov.intellij.plugin.util.PsiAnnotationSearchUtil;
 import jakarta.annotation.Nonnull;
 
 public final class BuilderHandler {
-
-  public static boolean isDefaultBuilderValue(@Nonnull PsiElement highlightedElement) {
-    PsiField field = PsiTreeUtil.getParentOfType(highlightedElement, PsiField.class);
-    if (field == null) {
-      return false;
+    public static boolean isDefaultBuilderValue(@Nonnull PsiElement highlightedElement) {
+        PsiField field = PsiTreeUtil.getParentOfType(highlightedElement, PsiField.class);
+        return field != null && PsiAnnotationSearchUtil.isAnnotatedWith(field, LombokClassNames.BUILDER_DEFAULT);
     }
-
-    return PsiAnnotationSearchUtil.isAnnotatedWith(field, LombokClassNames.BUILDER_DEFAULT);
-  }
 }
