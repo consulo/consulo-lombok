@@ -200,7 +200,7 @@ public class LombokHighlightErrorFilter implements HighlightInfoFilter {
             @Override
             @RequiredReadAction
             public boolean descriptionCheck(@Nonnull LocalizeValue description, PsiElement highlightedElement) {
-                return description != LocalizeValue.empty() && errorKey.get().equals(description.getKey().orElse(null));
+                return description.isNotEmpty() && errorKey.get().equals(description.getKey().orElse(null));
             }
 
             @Override
