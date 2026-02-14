@@ -5,7 +5,6 @@
 
   psiClassPrefix="LombokConfig"
   psiImplClassSuffix="Impl"
-  version = "3"
   psiPackage="de.plushnikov.intellij.plugin.language.psi"
   psiImplPackage="de.plushnikov.intellij.plugin.language.psi.impl"
 

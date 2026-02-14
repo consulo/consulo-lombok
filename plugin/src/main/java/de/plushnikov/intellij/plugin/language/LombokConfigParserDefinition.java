@@ -15,6 +15,7 @@ import consulo.language.version.LanguageVersion;
 import de.plushnikov.intellij.plugin.language.parser.LombokConfigParser;
 import de.plushnikov.intellij.plugin.language.psi.LombokConfigFile;
 import de.plushnikov.intellij.plugin.language.psi.LombokConfigTypes;
+import de.plushnikov.intellij.plugin.language.psi.impl.LombokConfigTypesFactory;
 import jakarta.annotation.Nonnull;
 
 @ExtensionImpl
@@ -63,7 +64,7 @@ public class LombokConfigParserDefinition implements ParserDefinition {
   @Override
   @Nonnull
   public PsiElement createElement(ASTNode node) {
-    return LombokConfigTypes.Factory.createElement(node);
+    return LombokConfigTypesFactory.createElement(node);
   }
 
   @Nonnull
