@@ -13,7 +13,7 @@ import jakarta.annotation.Nonnull;
 public abstract class BaseLombokAction extends BaseGenerateAction {
     protected BaseLombokAction(CodeInsightActionHandler handler, @Nonnull LocalizeValue text, @Nonnull LocalizeValue description) {
         super(handler, text);
-        getTemplatePresentation().setDescriptionValue(description);
+        getTemplatePresentation().setDescription(description);
     }
 
     @Override
