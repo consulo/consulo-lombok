@@ -118,7 +118,7 @@ public abstract class AbstractDelombokAction extends AnAction implements UpdateI
     private void executeCommand(Project project, Runnable action) {
         CommandProcessor.getInstance().newCommand()
             .project(project)
-            .name(getTemplatePresentation().getDescriptionValue())
+            .name(getTemplatePresentation().getDescription())
             .inWriteAction()
             .run(action);
     }
