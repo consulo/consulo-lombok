@@ -43,6 +43,5 @@
 
     <modules>
         <module>plugin</module>
-        <module>lombok-pg</module>
     </modules>
 </project>
