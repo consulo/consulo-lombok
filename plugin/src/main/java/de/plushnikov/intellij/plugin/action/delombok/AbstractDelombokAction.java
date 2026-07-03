@@ -13,10 +13,7 @@ import consulo.language.psi.util.PsiTreeUtil;
 import consulo.localize.LocalizeValue;
 import consulo.project.Project;
 import consulo.ui.annotation.RequiredUIAccess;
-import consulo.ui.ex.action.AnAction;
-import consulo.ui.ex.action.AnActionEvent;
-import consulo.ui.ex.action.Presentation;
-import consulo.ui.ex.action.UpdateInBackground;
+import consulo.ui.ex.action.*;
 import consulo.undoRedo.CommandProcessor;
 import consulo.util.collection.ContainerUtil;
 import consulo.virtualFileSystem.VirtualFile;
@@ -29,7 +26,7 @@ import jakarta.annotation.Nullable;
 
 import java.util.Collection;
 
-public abstract class AbstractDelombokAction extends AnAction implements UpdateInBackground {
+public abstract class AbstractDelombokAction extends AnAction implements AnActionWithSyncUpdate {
     private DelombokHandler myHandler;
 
     protected AbstractDelombokAction(@Nonnull LocalizeValue text, @Nonnull LocalizeValue description) {

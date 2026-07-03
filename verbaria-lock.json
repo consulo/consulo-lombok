@@ -1,0 +1,23 @@
+{
+  "lockVersion" : 1,
+  "server" : "https://i.verbaria.org/",
+  "project" : "consulo-lombok",
+  "projectVersion" : "master",
+  "generatedAt" : "2026-06-03T08:21:19.538355559Z",
+  "documents" : {
+    "consulo.lombok.LombokLocalize" : {
+      "source" : {
+        "revision" : 1,
+        "sig" : "460f677af586c3707a691ff72264a795"
+      },
+      "translations" : {
+        "en-US" : {
+          "sig" : "d362cb5994e11365e917699e8440b4bd",
+          "state" : "Approved",
+          "total" : 191,
+          "translators" : [ "Valery Semenchuk <vistall.valeriy@gmail.com>" ]
+        }
+      }
+    }
+  }
+}
