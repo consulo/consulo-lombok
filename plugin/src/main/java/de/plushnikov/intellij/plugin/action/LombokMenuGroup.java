@@ -24,9 +24,12 @@ public class LombokMenuGroup extends DefaultActionGroup implements DumbAware, An
     @Override
     public Coroutine<?, ?> updateAsync(AnActionEvent e) {
         return ActionSafeReadLock.run(e, presentation -> {
+            // LombokLibraryUtil.hasLombokLibrary() is false for a default or a not initialized project without any lookup
             Project project = e.getData(Project.KEY);
-            boolean shouldShow =
-                e.getData(PsiFile.KEY) instanceof PsiJavaFile && project != null && LombokLibraryUtil.hasLombokLibrary(project);
+            presentation.setEnabledAndVisible(project != null && !project.isDefault() && project.isInitialized());
+        }, presentation -> {
+            Project project = e.getRequiredData(Project.KEY);
+            boolean shouldShow = e.getData(PsiFile.KEY) instanceof PsiJavaFile && LombokLibraryUtil.hasLombokLibrary(project);
             presentation.setEnabledAndVisible(shouldShow);
         }).toCoroutine();
     }
